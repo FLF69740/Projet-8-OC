@@ -1,15 +1,17 @@
 package com.openclassrooms.realestatemanager.Controller;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements MainFragment.ItemClickedListener {
 
 
     @Override
@@ -25,5 +27,15 @@ public class MainActivity extends BaseActivity {
     @Override
     protected int getFragmentLayout() {
         return R.id.frame_layout_main;
+    }
+
+    @Override
+    protected boolean isAChildActivity() {
+        return false;
+    }
+
+    @Override
+    public void itemClicked(View view) {
+        startActivity(new Intent(this, SecondActivity.class));
     }
 }

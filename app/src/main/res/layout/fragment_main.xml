@@ -9,6 +9,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="RECYCLER VIEW"
+        android:background="@color/colorAccent"/>
+
+    <Button
+        android:id="@+id/temporary_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"/>
 
 </FrameLayout>
