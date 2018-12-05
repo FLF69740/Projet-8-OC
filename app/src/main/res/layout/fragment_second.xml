@@ -7,6 +7,7 @@ tools:context=".Controller.SecondFragment">
 
 <!-- TODO: Update blank fragment layout -->
 <TextView
+    android:id="@+id/temp_textView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:text="Detail Appartment"

@@ -30,12 +30,28 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
     }
 
     @Override
+    protected Fragment secondInstance() {
+        return new SecondFragment();
+    }
+
+    @Override
+    protected int getSecondFragmentLayout() {
+        return R.id.frame_layout_second;
+    }
+
+    @Override
     protected boolean isAChildActivity() {
         return false;
     }
 
     @Override
     public void itemClicked(View view) {
-        startActivity(new Intent(this, SecondActivity.class));
+        SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
+        if (secondFragment != null && secondFragment.isVisible()){
+            secondFragment.changeText();
+        } else {
+            startActivity(new Intent(this, SecondActivity.class));
+        }
     }
+
 }

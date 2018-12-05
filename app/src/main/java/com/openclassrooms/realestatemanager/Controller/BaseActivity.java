@@ -12,12 +12,12 @@ import com.openclassrooms.realestatemanager.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private boolean tabletIHM;
-
     // abstract methods
     protected abstract int getContentView();
     protected abstract Fragment newInstance();
     protected abstract int getFragmentLayout();
+    protected abstract Fragment secondInstance();
+    protected abstract int getSecondFragmentLayout();
     protected abstract boolean isAChildActivity();
 
     @Override
@@ -34,14 +34,21 @@ public abstract class BaseActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(getFragmentLayout(),newInstance())
                     .commit();
-            tabletIHM = false;
+        }
+
+        if (savedInstanceState == null && findViewById(getSecondFragmentLayout())!= null){
+            getSupportFragmentManager().beginTransaction()
+                    .add(getSecondFragmentLayout(), secondInstance())
+                    .commit();
         }
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (newInstance() instanceof MainFragment) {
+        if (newInstance() instanceof MainFragment && findViewById(getSecondFragmentLayout()) != null) {
+            getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        } else if (newInstance() instanceof MainFragment && findViewById(getSecondFragmentLayout()) == null) {
             getMenuInflater().inflate(R.menu.menu_toolbar_main_single, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_toolbar_second_single, menu);
