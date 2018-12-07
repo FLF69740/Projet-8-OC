@@ -15,7 +15,7 @@
         android:fullBackupContent="@xml/backup_descriptor"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.openclassrooms.realestatemanager.Controller.MainActivity"
+        <activity android:name="com.openclassrooms.realestatemanager.appartmentlist.MainActivity"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,11 +25,11 @@
 
         <activity android:name="com.openclassrooms.realestatemanager.Controller.SecondActivity"
             android:label="@string/toolbar_appartment_description"
-            android:parentActivityName=".Controller.MainActivity"
+            android:parentActivityName=".appartmentlist.MainActivity"
             tools:ignore="InnerclassSeparator">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controller.MainActivity"/>
+                android:value=".appartmentlist.MainActivity"/>
         </activity>
 
     </application>

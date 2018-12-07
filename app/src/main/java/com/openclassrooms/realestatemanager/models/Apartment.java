@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 import java.util.List;
 
 @Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "mId", childColumns = "mUserId"))
-public class Item {
+public class Apartment {
 
     @PrimaryKey(autoGenerate = true) private long mId;
     private String mType;
@@ -16,17 +16,21 @@ public class Item {
     private String mDescription;
     private List<String> mUrlPicture;
     private String mAdress;
+    private String mTown;
+    private int mPostalCode;
     private List<String> mPoInterest;
     private Boolean mSold;
     private String mDateInscription;
     private String mDateSold;
     private long mUserId;
 
-    public Item(long id, String type, int price, String adress, String dateInscription, long userId) {
+    public Apartment(long id, String type, int price, String adress, int postalCode, String town, String dateInscription, long userId) {
         this.mId = id;
         this.mType = type;
         this.mPrice = price;
         this.mAdress = adress;
+        this.mPostalCode = postalCode;
+        this.mTown = town;
         this.mDateInscription = dateInscription;
         this.mUserId = userId;
     }
@@ -97,6 +101,22 @@ public class Item {
 
     public void setAdress(String adress) {
         mAdress = adress;
+    }
+
+    public String getTown() {
+        return mTown;
+    }
+
+    public void setTown(String town) {
+        mTown = town;
+    }
+
+    public int getPostalCode() {
+        return mPostalCode;
+    }
+
+    public void setPostalCode(int postalCode) {
+        mPostalCode = postalCode;
     }
 
     public List<String> getPoInterest() {

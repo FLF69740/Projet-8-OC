@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.Controller;
+package com.openclassrooms.realestatemanager.appartmentlist;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,9 +17,6 @@ import butterknife.OnClick;
 
 public class MainFragment extends Fragment {
 
-
-    @BindView(R.id.temporary_button)Button mButton;
-
     View mView;
 
     public MainFragment() {
@@ -34,7 +31,7 @@ public class MainFragment extends Fragment {
 
         return mView;
     }
-
+/*
     @OnClick(R.id.temporary_button) public void buttonClicked(){
         mCallback.itemClicked(this.mView);
     }
@@ -42,7 +39,7 @@ public class MainFragment extends Fragment {
     /**
      *  Callback
      */
-
+/*
     // interface for button clicked
     public interface ItemClickedListener{
         void itemClicked(View view);
@@ -60,5 +57,5 @@ public class MainFragment extends Fragment {
             throw new ClassCastException(e.toString() + " must implement ItemClickedListener");
         }
     }
-
+*/
 }

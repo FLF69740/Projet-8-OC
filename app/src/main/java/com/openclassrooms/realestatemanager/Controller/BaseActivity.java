@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.appartmentlist.MainFragment;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
