@@ -13,9 +13,9 @@ import butterknife.ButterKnife;
 
 public class ApartmentListViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.fragment_main_town) private TextView mTextViewTown;
-    @BindView(R.id.fragment_main_type) private TextView mTextViewType;
-    @BindView(R.id.fragment_main_price) private TextView mTextViewPrice;
+    @BindView(R.id.fragment_main_town) TextView mTextViewTown;
+    @BindView(R.id.fragment_main_type) TextView mTextViewType;
+    @BindView(R.id.fragment_main_price) TextView mTextViewPrice;
 
     public ApartmentListViewHolder(@NonNull View itemView) {
         super(itemView);
