@@ -8,24 +8,25 @@ import java.util.List;
 @Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "mId", childColumns = "mUserId"))
 public class Apartment {
 
+    private static final String EMPTY_CASE = "EMPTY";
+
     @PrimaryKey(autoGenerate = true) private long mId;
     private String mType;
     private int mPrice;
     private int mDimension;
     private int mRoomNumber;
     private String mDescription;
-    private List<String> mUrlPicture;
+    private String mUrlPicture;
     private String mAdress;
     private String mTown;
     private int mPostalCode;
-    private List<String> mPoInterest;
+    private String mPoInterest;
     private Boolean mSold;
     private String mDateInscription;
     private String mDateSold;
     private long mUserId;
 
-    public Apartment(long id, String type, int price, String adress, int postalCode, String town, String dateInscription, long userId) {
-        this.mId = id;
+    public Apartment(String type, int price, String adress, int postalCode, String town, String dateInscription, long userId) {
         this.mType = type;
         this.mPrice = price;
         this.mAdress = adress;
@@ -33,6 +34,13 @@ public class Apartment {
         this.mTown = town;
         this.mDateInscription = dateInscription;
         this.mUserId = userId;
+        this.mDimension = 0;
+        this.mRoomNumber = 0;
+        this.mDescription = EMPTY_CASE;
+        this.mUrlPicture = EMPTY_CASE;
+        this.mPoInterest = EMPTY_CASE;
+        this.mSold = false;
+        this.mDateSold = EMPTY_CASE;
     }
 
     /**
@@ -87,11 +95,11 @@ public class Apartment {
         mDescription = description;
     }
 
-    public List<String> getUrlPicture() {
+    public String getUrlPicture() {
         return mUrlPicture;
     }
 
-    public void setUrlPicture(List<String> urlPicture) {
+    public void setUrlPicture(String urlPicture) {
         mUrlPicture = urlPicture;
     }
 
@@ -119,11 +127,11 @@ public class Apartment {
         mPostalCode = postalCode;
     }
 
-    public List<String> getPoInterest() {
+    public String getPoInterest() {
         return mPoInterest;
     }
 
-    public void setPoInterest(List<String> poInterest) {
+    public void setPoInterest(String poInterest) {
         mPoInterest = poInterest;
     }
 

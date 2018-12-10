@@ -11,8 +11,7 @@ public class User {
     private String mUrlPicture;
     private String mUserDescription;
 
-    public User(Long id, String username, String urlPicture, String userDescription) {
-        this.mId = id;
+    public User(String username, String urlPicture, String userDescription) {
         this.mUsername = username;
         this.mUrlPicture = urlPicture;
         this.mUserDescription = userDescription;
