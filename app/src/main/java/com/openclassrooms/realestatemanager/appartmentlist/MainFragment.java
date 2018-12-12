@@ -8,8 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.Apartment;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,7 +21,10 @@ import butterknife.OnClick;
 
 public class MainFragment extends Fragment {
 
-    View mView;
+    private View mView;
+    private List<Apartment> mApartmentList;
+
+    @BindView(R.id.tempEdit)EditText mEditText;
 
     public MainFragment() {
         // Required empty public constructor
@@ -29,33 +36,13 @@ public class MainFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, mView);
 
+        mApartmentList = (List<Apartment>) getArguments().getSerializable("list");
+        if (mApartmentList != null && !mApartmentList.isEmpty()){
+            mEditText.setText(mApartmentList.get(mApartmentList.size()-1).toString());
+        }
+
         return mView;
     }
-/*
-    @OnClick(R.id.temporary_button) public void buttonClicked(){
-        mCallback.itemClicked(this.mView);
-    }
 
-    /**
-     *  Callback
-     */
-/*
-    // interface for button clicked
-    public interface ItemClickedListener{
-        void itemClicked(View view);
-    }
 
-    //callback for button clicked
-    private ItemClickedListener mCallback;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mCallback = (ItemClickedListener) getActivity();
-        } catch (ClassCastException e){
-            throw new ClassCastException(e.toString() + " must implement ItemClickedListener");
-        }
-    }
-*/
 }

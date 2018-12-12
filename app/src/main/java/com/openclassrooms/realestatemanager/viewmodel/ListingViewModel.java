@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.appartmentlist;
+package com.openclassrooms.realestatemanager.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
@@ -58,5 +58,10 @@ public class ListingViewModel extends ViewModel {
     //CREATE
     public void createApartment(Apartment apartment){
         mExecutor.execute(()->mApartmentDataSource.createApartment(apartment));
+    }
+
+    //UPDATE
+    public void updateApartment(Apartment apartment){
+        mExecutor.execute(()->mApartmentDataSource.updateApartment(apartment));
     }
 }
