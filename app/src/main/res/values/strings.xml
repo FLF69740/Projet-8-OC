@@ -1,10 +1,18 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- toolbar titles -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="toolbar_appartment_description">Apartment Listing</string>
+    <string name="toolbar_apartment_creation">Apartment Creation</string>
 
-    <!-- toolbar titles -->
+    <!-- creation fragment -->
+    <string name="fragment_creation_title">fill in the fields below :</string>
+    <string name="fragment_creation_type">type</string>
+    <string name="fragment_creation_adress">adress</string>
+    <string name="fragment_creation_postalcode">postal code</string>
+    <string name="fragment_creation_town">town</string>
+    <string name="fragment_creation_price">price</string>
+    <string name="fragment_creation_button">CREATE</string>
 
 </resources>

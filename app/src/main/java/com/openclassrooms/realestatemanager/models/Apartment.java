@@ -3,10 +3,13 @@ package com.openclassrooms.realestatemanager.models;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 @Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "mId", childColumns = "mUserId"))
-public class Apartment {
+public class Apartment implements Parcelable {
 
     private static final String EMPTY_CASE = "EMPTY";
 
@@ -41,6 +44,69 @@ public class Apartment {
         this.mPoInterest = EMPTY_CASE;
         this.mSold = false;
         this.mDateSold = EMPTY_CASE;
+    }
+
+    /**
+     *  PARCELABLE
+     */
+
+    protected Apartment(Parcel in) {
+        mId = in.readLong();
+        mType = in.readString();
+        mPrice = in.readInt();
+        mDimension = in.readInt();
+        mRoomNumber = in.readInt();
+        mDescription = in.readString();
+        mUrlPicture = in.readString();
+        mAdress = in.readString();
+        mTown = in.readString();
+        mPostalCode = in.readInt();
+        mPoInterest = in.readString();
+        byte tmpMSold = in.readByte();
+        mSold = tmpMSold == 0 ? null : tmpMSold == 1;
+        mDateInscription = in.readString();
+        mDateSold = in.readString();
+        mUserId = in.readLong();
+    }
+
+    public static final Creator<Apartment> CREATOR = new Creator<Apartment>() {
+        @Override
+        public Apartment createFromParcel(Parcel in) {
+            return new Apartment(in);
+        }
+
+        @Override
+        public Apartment[] newArray(int size) {
+            return new Apartment[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(mId);
+        dest.writeLong(mUserId);
+        dest.writeString(mType);
+        dest.writeString(mDescription);
+        dest.writeString(mUrlPicture);
+        dest.writeString(mAdress);
+        dest.writeString(mTown);
+        dest.writeString(mDateInscription);
+        dest.writeString(mDateSold);
+        dest.writeString(mPoInterest);
+        dest.writeInt(mPrice);
+        dest.writeInt(mDimension);
+        dest.writeInt(mRoomNumber);
+        dest.writeInt(mPostalCode);
+        dest.writeByte((byte) (mSold ? 1 : 0));
+    }
+
+    public static Parcelable.Creator<Apartment> getCreator(){
+        return CREATOR;
     }
 
     /**
@@ -165,5 +231,26 @@ public class Apartment {
 
     public void setUserId(long userId) {
         mUserId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "Apartment{" +
+                "mId=" + mId +
+                ", mType='" + mType + '\'' +
+                ", mPrice=" + mPrice +
+                ", mDimension=" + mDimension +
+                ", mRoomNumber=" + mRoomNumber +
+                ", mDescription='" + mDescription + '\'' +
+                ", mUrlPicture='" + mUrlPicture + '\'' +
+                ", mAdress='" + mAdress + '\'' +
+                ", mTown='" + mTown + '\'' +
+                ", mPostalCode=" + mPostalCode +
+                ", mPoInterest='" + mPoInterest + '\'' +
+                ", mSold=" + mSold +
+                ", mDateInscription='" + mDateInscription + '\'' +
+                ", mDateSold='" + mDateSold + '\'' +
+                ", mUserId=" + mUserId +
+                '}';
     }
 }

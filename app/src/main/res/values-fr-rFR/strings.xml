@@ -2,4 +2,12 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
     <string name="toolbar_appartment_description">Annonce Appartement</string>
+    <string name="toolbar_apartment_creation">Création Appartement</string>
+    <string name="fragment_creation_title">renseignez les champs ci-dessous :</string>
+    <string name="fragment_creation_type">type</string>
+    <string name="fragment_creation_adress">adresse</string>
+    <string name="fragment_creation_postalcode">code postal</string>
+    <string name="fragment_creation_town">ville</string>
+    <string name="fragment_creation_price">prix</string>
+    <string name="fragment_creation_button">CREER</string>
 </resources>
