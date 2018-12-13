@@ -38,4 +38,8 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListView
     public int getItemCount() {
         return this.mApartmentList.size();
     }
+
+    public Apartment getApartment(int position){
+        return mApartmentList.get(position);
+    }
 }

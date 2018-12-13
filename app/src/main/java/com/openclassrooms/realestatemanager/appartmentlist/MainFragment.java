@@ -4,27 +4,24 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Apartment;
-
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainFragment extends Fragment {
 
     private View mView;
     private List<Apartment> mApartmentList;
+    private ApartmentListAdapter mAdapter;
 
-    @BindView(R.id.tempEdit)EditText mEditText;
+    @BindView(R.id.recycler_view_listing)RecyclerView mRecyclerView;
 
     public MainFragment() {
         // Required empty public constructor
@@ -38,11 +35,51 @@ public class MainFragment extends Fragment {
 
         mApartmentList = (List<Apartment>) getArguments().getSerializable("list");
         if (mApartmentList != null && !mApartmentList.isEmpty()){
-            mEditText.setText(mApartmentList.get(mApartmentList.size()-1).toString());
+            configureRecyclerView();
+            configureOnClickRecyclerView();
         }
 
         return mView;
     }
 
+    /**
+     *  RECYCLERVIEW
+     */
+
+    private void configureRecyclerView(){
+        this.mAdapter = new ApartmentListAdapter(mApartmentList);
+        this.mRecyclerView.setAdapter(mAdapter);
+        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private void configureOnClickRecyclerView(){
+        RecyclerViewClickSupport.addTo(mRecyclerView, R.layout.fragment_main_recyclerview_item)
+                .setOnItemClickListener((recyclerView, position, v) -> {
+                    Apartment apartment = mAdapter.getApartment(position);
+                    mCallback.itemClicked(mView, apartment);
+                });
+    }
+
+    /**
+     *  CALLBACK
+     */
+
+    // interface for button clicked
+    public interface ItemClickedListener{
+        void itemClicked(View view, Apartment apartment);
+    }
+
+    //callback for button clicked
+    private ItemClickedListener mCallback;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (ItemClickedListener) getActivity();
+        } catch (ClassCastException e){
+            throw new ClassCastException(e.toString() + " must implement ItemClickedListener");
+        }
+    }
 
 }

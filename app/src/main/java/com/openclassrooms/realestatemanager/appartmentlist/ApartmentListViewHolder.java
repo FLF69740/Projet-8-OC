@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.appartmentlist;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.R;
@@ -16,6 +17,7 @@ public class ApartmentListViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.fragment_main_town) TextView mTextViewTown;
     @BindView(R.id.fragment_main_type) TextView mTextViewType;
     @BindView(R.id.fragment_main_price) TextView mTextViewPrice;
+    @BindView(R.id.fragment_main_picture) ImageView mImageViewPicture;
 
     public ApartmentListViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -25,7 +27,10 @@ public class ApartmentListViewHolder extends RecyclerView.ViewHolder {
     public void updateWithApartmentInformations(Apartment apartment){
         this.mTextViewType.setText(apartment.getType());
         this.mTextViewTown.setText(apartment.getTown());
-        this.mTextViewPrice.setText(apartment.getPrice());
+        this.mTextViewPrice.setText(String.valueOf(apartment.getPrice()));
+        if (apartment.getUrlPicture().equals("EMPTY")){
+            this.mImageViewPicture.setImageResource(R.drawable.image_realestate);
+        }
     }
 
 

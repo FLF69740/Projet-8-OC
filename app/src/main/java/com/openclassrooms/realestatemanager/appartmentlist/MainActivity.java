@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.Toast;
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.Controller.SecondFragment;
@@ -14,7 +15,7 @@ import com.openclassrooms.realestatemanager.models.Apartment;
 
 import java.io.Serializable;
 
-public class MainActivity extends BaseActivity
+public class MainActivity extends BaseActivity implements MainFragment.ItemClickedListener
 {
     @Override
     protected int getContentView() {
@@ -74,6 +75,8 @@ public class MainActivity extends BaseActivity
         }
     }
 
-
-
+    @Override
+    public void itemClicked(View view, Apartment apartment) {
+        
+    }
 }
