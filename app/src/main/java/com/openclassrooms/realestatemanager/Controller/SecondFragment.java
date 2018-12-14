@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.Controller;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +11,6 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import icepick.Icepick;
-import icepick.State;
 
 public class SecondFragment extends Fragment {
 
@@ -23,6 +20,15 @@ public class SecondFragment extends Fragment {
     private View mView;
 
     public SecondFragment() {}
+
+    public static SecondFragment newInstance(Apartment apartment){
+        SecondFragment secondFragment = new SecondFragment();
+        Bundle args = new Bundle(1);
+        args.putParcelable("apartment",apartment);
+        secondFragment.setArguments(args);
+
+        return secondFragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +43,12 @@ public class SecondFragment extends Fragment {
         }
 
         return mView;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("apartment", mApartment);
     }
 
     public void updateSimpleScreen(){

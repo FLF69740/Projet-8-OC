@@ -3,10 +3,8 @@ package com.openclassrooms.realestatemanager.Controller;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,10 +18,7 @@ import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.viewmodel.ListingViewModel;
-
 import java.util.List;
-
-import icepick.Icepick;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -33,13 +28,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected ListingViewModel mListingViewModel;
     protected List<Apartment> mApartmentList;
     protected Apartment mApartment;
+    protected String mAdapterPosition;
 
 
     // abstract methods
+    protected abstract Fragment getFirstFragment();
     protected abstract int getContentView();
-    protected abstract Fragment newInstance();
     protected abstract int getFragmentLayout();
-    protected abstract Fragment secondInstance();
+    protected abstract Fragment getSecondFragment();
     protected abstract int getSecondFragmentLayout();
     protected abstract boolean isAChildActivity();
 
@@ -50,52 +46,55 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         if (savedInstanceState != null){
             mApartment = savedInstanceState.getParcelable("apartment");
+            mAdapterPosition = savedInstanceState.getString("adapterPosition");
         }
 
         this.configureViewModel();
         this.getApartments(USER_ID);
 
-        this.configureFragment(savedInstanceState);
-        this.configureToolbar();
+        if (savedInstanceState == null) {
+            this.configureFragment();
+        }
 
+        this.configureToolbar();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("apartment", mApartment);
+        outState.putString("adapterPosition", mAdapterPosition);
     }
 
 
 
-    protected void configureFragment(Bundle savedInstanceState){
+    protected void configureFragment(){
 
-        if (savedInstanceState == null){
+        getSupportFragmentManager().beginTransaction()
+                .add(getFragmentLayout(), getFirstFragment())
+                .commit();
+
+        if (getFirstFragment() instanceof MainFragment && findViewById(getSecondFragmentLayout())!= null){
             getSupportFragmentManager().beginTransaction()
-                    .add(getFragmentLayout(),newInstance())
-                    .commit();
-        }
-        if (newInstance() instanceof MainFragment && findViewById(getSecondFragmentLayout())!= null){
-            getSupportFragmentManager().beginTransaction()
-                    .add(getSecondFragmentLayout(), secondInstance())
+                    .add(getSecondFragmentLayout(), getSecondFragment())
                     .commit();
         }
     }
 
     protected void replaceFragment(){
-        getSupportFragmentManager().beginTransaction().replace(getFragmentLayout(), newInstance()).commit();
-        if (newInstance() instanceof MainFragment && findViewById(getSecondFragmentLayout())!=null){
-            getSupportFragmentManager().beginTransaction().replace(getSecondFragmentLayout(), secondInstance()).commit();
+        getSupportFragmentManager().beginTransaction().replace(getFragmentLayout(), getFirstFragment()).commit();
+        if (getFirstFragment() instanceof MainFragment && findViewById(getSecondFragmentLayout())!=null){
+            getSupportFragmentManager().beginTransaction().replace(getSecondFragmentLayout(), getSecondFragment()).commit();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (newInstance() instanceof MainFragment && findViewById(getSecondFragmentLayout()) != null) {
+        if (getFirstFragment() instanceof MainFragment && findViewById(getSecondFragmentLayout()) != null) {
             getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-        } else if (newInstance() instanceof MainFragment && findViewById(getSecondFragmentLayout()) == null) {
+        } else if (getFirstFragment() instanceof MainFragment && findViewById(getSecondFragmentLayout()) == null) {
             getMenuInflater().inflate(R.menu.menu_toolbar_main_single, menu);
-        } else if (newInstance() instanceof SecondFragment){
+        } else if (getFirstFragment() instanceof SecondFragment){
             getMenuInflater().inflate(R.menu.menu_toolbar_second_single, menu);
         }
         return true;

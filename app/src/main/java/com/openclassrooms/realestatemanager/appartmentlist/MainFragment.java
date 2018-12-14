@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Apartment;
+import java.io.Serializable;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +29,15 @@ public class MainFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static MainFragment newInstance(List<Apartment> apartmentList, String position){
+        MainFragment mainFragment = new MainFragment();
+        Bundle args = new Bundle(2);
+        args.putSerializable("list", (Serializable) apartmentList);
+        args.putString("adapterPosition", position);
+        mainFragment.setArguments(args);
+
+        return mainFragment;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,8 +45,13 @@ public class MainFragment extends Fragment {
         ButterKnife.bind(this, mView);
 
         mApartmentList = (List<Apartment>) getArguments().getSerializable("list");
+        String stringAdapterPosition = getArguments().getString("adapterPosition");
         if (mApartmentList != null && !mApartmentList.isEmpty()){
-            mSelectedApartment = mApartmentList.size();
+            if (stringAdapterPosition != null) {
+                mSelectedApartment = Integer.valueOf(stringAdapterPosition);
+            } else {
+                mSelectedApartment = mApartmentList.size();
+            }
             configureRecyclerView();
             configureOnClickRecyclerView();
         }
@@ -49,7 +64,7 @@ public class MainFragment extends Fragment {
      */
 
     private void configureRecyclerView(){
-        this.mAdapter = new ApartmentListAdapter(mApartmentList, mSelectedApartment, getContext());
+        this.mAdapter = new ApartmentListAdapter(mApartmentList, mSelectedApartment);
         this.mRecyclerView.setAdapter(mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -58,10 +73,15 @@ public class MainFragment extends Fragment {
         RecyclerViewClickSupport.addTo(mRecyclerView, R.layout.fragment_main_recyclerview_item)
                 .setOnItemClickListener((recyclerView, position, v) -> {
                     Apartment apartment = mAdapter.getApartment(position);
-                    mCallback.itemClicked(mView, apartment);
-                    mAdapter.setSelectedApartment(position);
-                    mAdapter.notifyDataSetChanged();
+                    mCallback.itemClicked(mView, apartment, String.valueOf(position));
+                    setAdapterLocation(position);
                 });
+    }
+
+    private void setAdapterLocation(int position){
+        mSelectedApartment = position;
+        mAdapter.setSelectedApartment(mSelectedApartment);
+        mAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -70,7 +90,7 @@ public class MainFragment extends Fragment {
 
     // interface for button clicked
     public interface ItemClickedListener{
-        void itemClicked(View view, Apartment apartment);
+        void itemClicked(View view, Apartment apartment, String adapterPosition);
     }
 
     //callback for button clicked

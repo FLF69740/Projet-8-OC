@@ -15,16 +15,20 @@ public class CreateActivity extends BaseActivity implements CreateFragment.ItemC
     public static final String BUNDLE_APARTMENT_CREATION_PRICE = "BUNDLE_APARTMENT_CREATION_PRICE";
 
     @Override
-    protected int getContentView() {return R.layout.activity_create;}
+    protected Fragment getFirstFragment() {
+        return CreateFragment.newInstance();
+    }
 
     @Override
-    protected Fragment newInstance() {return new CreateFragment();}
+    protected int getContentView() {return R.layout.activity_create;}
 
     @Override
     protected int getFragmentLayout() {return R.id.frame_layout_create;}
 
     @Override
-    protected Fragment secondInstance() {return null;}
+    protected Fragment getSecondFragment() {
+        return null;
+    }
 
     @Override
     protected int getSecondFragmentLayout() {return 0;}

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Apartment;
+import com.openclassrooms.realestatemanager.models.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +35,10 @@ public class CreateFragment extends Fragment {
     Boolean isTypeNotEmpty = false, isAdressNotEmpty = false, isPostalCodeNotEmpty = false, isTownNotEmpty = false, isPriceNotEmpty = false;
 
     public CreateFragment() {}
+
+    public static CreateFragment newInstance(){
+        return new CreateFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

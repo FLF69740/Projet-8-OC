@@ -1,21 +1,12 @@
 package com.openclassrooms.realestatemanager.appartmentlist;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.os.Build;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Apartment;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -32,12 +23,7 @@ public class ApartmentListViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void updateWithApartmentInformations(Apartment apartment, boolean selectedApartment, Context context){
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
-        @ColorInt int color = typedValue.data;
-        String colorAccent = "#" + String.valueOf(color);
+    public void updateWithApartmentInformations(Apartment apartment, boolean selectedApartment){
 
         this.mTextViewType.setText(apartment.getType());
         this.mTextViewTown.setText(apartment.getTown());
@@ -46,14 +32,8 @@ public class ApartmentListViewHolder extends RecyclerView.ViewHolder {
             this.mImageViewPicture.setImageResource(R.drawable.image_realestate);
         }
 
-        if (selectedApartment){
-            mTextViewPrice.setTextColor(Color.parseColor("#FFFFFF"));
-            mBackground.setBackgroundColor(Color.parseColor(colorAccent));
-
-        } else {
-            mTextViewPrice.setTextColor(Color.parseColor(colorAccent));
-            mBackground.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        }
+        this.mBackground.setSelected(selectedApartment);
+        this.mTextViewPrice.setSelected(selectedApartment);
     }
 
 

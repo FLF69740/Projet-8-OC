@@ -2,12 +2,9 @@ package com.openclassrooms.realestatemanager.appartmentlist;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.View;
-import android.widget.Toast;
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.Controller.SecondActivity;
 import com.openclassrooms.realestatemanager.Controller.SecondFragment;
@@ -15,11 +12,6 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
 import com.openclassrooms.realestatemanager.models.Apartment;
-
-import java.io.Serializable;
-
-import icepick.Icepick;
-import icepick.State;
 
 public class MainActivity extends BaseActivity implements MainFragment.ItemClickedListener
 {
@@ -30,12 +22,8 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
     }
 
     @Override
-    protected Fragment newInstance() {
-        MainFragment mainFragment = new MainFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("list", (Serializable) mApartmentList);
-        mainFragment.setArguments(args);
-        return mainFragment;
+    protected Fragment getFirstFragment() {
+        return MainFragment.newInstance(mApartmentList, mAdapterPosition);
     }
 
     @Override
@@ -44,8 +32,8 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
     }
 
     @Override
-    protected Fragment secondInstance() {
-        return new SecondFragment();
+    protected Fragment getSecondFragment() {
+        return SecondFragment.newInstance(mApartment);
     }
 
     @Override
@@ -83,7 +71,8 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
     }
 
     @Override
-    public void itemClicked(View view, Apartment apartment) {
+    public void itemClicked(View view, Apartment apartment, String adapterPosition) {
+        mAdapterPosition = adapterPosition;
         mApartment = apartment;
         SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
         if (secondFragment != null && secondFragment.isVisible()){
