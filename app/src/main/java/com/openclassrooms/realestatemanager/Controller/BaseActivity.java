@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.Controller;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -22,6 +23,8 @@ import com.openclassrooms.realestatemanager.viewmodel.ListingViewModel;
 
 import java.util.List;
 
+import icepick.Icepick;
+
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
@@ -29,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected ListingViewModel mListingViewModel;
     protected List<Apartment> mApartmentList;
+    protected Apartment mApartment;
 
 
     // abstract methods
@@ -44,6 +48,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getContentView());
 
+        if (savedInstanceState != null){
+            mApartment = savedInstanceState.getParcelable("apartment");
+        }
+
         this.configureViewModel();
         this.getApartments(USER_ID);
 
@@ -52,7 +60,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("apartment", mApartment);
+    }
+
+
+
     protected void configureFragment(Bundle savedInstanceState){
+
         if (savedInstanceState == null){
             getSupportFragmentManager().beginTransaction()
                     .add(getFragmentLayout(),newInstance())

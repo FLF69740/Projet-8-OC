@@ -20,6 +20,7 @@ public class MainFragment extends Fragment {
     private View mView;
     private List<Apartment> mApartmentList;
     private ApartmentListAdapter mAdapter;
+    private int mSelectedApartment;
 
     @BindView(R.id.recycler_view_listing)RecyclerView mRecyclerView;
 
@@ -35,6 +36,7 @@ public class MainFragment extends Fragment {
 
         mApartmentList = (List<Apartment>) getArguments().getSerializable("list");
         if (mApartmentList != null && !mApartmentList.isEmpty()){
+            mSelectedApartment = mApartmentList.size();
             configureRecyclerView();
             configureOnClickRecyclerView();
         }
@@ -47,7 +49,7 @@ public class MainFragment extends Fragment {
      */
 
     private void configureRecyclerView(){
-        this.mAdapter = new ApartmentListAdapter(mApartmentList);
+        this.mAdapter = new ApartmentListAdapter(mApartmentList, mSelectedApartment, getContext());
         this.mRecyclerView.setAdapter(mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -57,6 +59,8 @@ public class MainFragment extends Fragment {
                 .setOnItemClickListener((recyclerView, position, v) -> {
                     Apartment apartment = mAdapter.getApartment(position);
                     mCallback.itemClicked(mView, apartment);
+                    mAdapter.setSelectedApartment(position);
+                    mAdapter.notifyDataSetChanged();
                 });
     }
 

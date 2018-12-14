@@ -11,7 +11,7 @@ import java.util.List;
 @Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "mId", childColumns = "mUserId"))
 public class Apartment implements Parcelable {
 
-    private static final String EMPTY_CASE = "EMPTY";
+    public static final String EMPTY_CASE = "EMPTY";
 
     @PrimaryKey(autoGenerate = true) private long mId;
     private String mType;
@@ -62,14 +62,43 @@ public class Apartment implements Parcelable {
         mTown = in.readString();
         mPostalCode = in.readInt();
         mPoInterest = in.readString();
-        byte tmpMSold = in.readByte();
-        mSold = tmpMSold == 0 ? null : tmpMSold == 1;
+        byte mSoldVal = in.readByte();
+        mSold = mSoldVal == 0x02 ? null : mSoldVal != 0x00;
         mDateInscription = in.readString();
         mDateSold = in.readString();
         mUserId = in.readLong();
     }
 
-    public static final Creator<Apartment> CREATOR = new Creator<Apartment>() {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(mId);
+        dest.writeString(mType);
+        dest.writeInt(mPrice);
+        dest.writeInt(mDimension);
+        dest.writeInt(mRoomNumber);
+        dest.writeString(mDescription);
+        dest.writeString(mUrlPicture);
+        dest.writeString(mAdress);
+        dest.writeString(mTown);
+        dest.writeInt(mPostalCode);
+        dest.writeString(mPoInterest);
+        if (mSold == null) {
+            dest.writeByte((byte) (0x02));
+        } else {
+            dest.writeByte((byte) (mSold ? 0x01 : 0x00));
+        }
+        dest.writeString(mDateInscription);
+        dest.writeString(mDateSold);
+        dest.writeLong(mUserId);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Apartment> CREATOR = new Parcelable.Creator<Apartment>() {
         @Override
         public Apartment createFromParcel(Parcel in) {
             return new Apartment(in);
@@ -80,34 +109,6 @@ public class Apartment implements Parcelable {
             return new Apartment[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(mId);
-        dest.writeLong(mUserId);
-        dest.writeString(mType);
-        dest.writeString(mDescription);
-        dest.writeString(mUrlPicture);
-        dest.writeString(mAdress);
-        dest.writeString(mTown);
-        dest.writeString(mDateInscription);
-        dest.writeString(mDateSold);
-        dest.writeString(mPoInterest);
-        dest.writeInt(mPrice);
-        dest.writeInt(mDimension);
-        dest.writeInt(mRoomNumber);
-        dest.writeInt(mPostalCode);
-        dest.writeByte((byte) (mSold ? 1 : 0));
-    }
-
-    public static Parcelable.Creator<Apartment> getCreator(){
-        return CREATOR;
-    }
 
     /**
      *  GETTER AND SETTER

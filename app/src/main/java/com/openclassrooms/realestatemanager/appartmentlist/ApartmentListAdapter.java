@@ -1,7 +1,9 @@
 package com.openclassrooms.realestatemanager.appartmentlist;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +17,13 @@ import java.util.List;
 public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListViewHolder> {
 
     private List<Apartment> mApartmentList;
+    private int mSelectedApartment;
+    private Context mContext;
 
-    public ApartmentListAdapter(List<Apartment> apartmentList) {
+    public ApartmentListAdapter(List<Apartment> apartmentList, int selectedApartment, Context context) {
         this.mApartmentList = apartmentList;
+        this.mSelectedApartment = selectedApartment;
+        this.mContext = context;
     }
 
     @NonNull
@@ -31,7 +37,8 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListView
 
     @Override
     public void onBindViewHolder(@NonNull ApartmentListViewHolder apartmentListViewHolder, int i) {
-        apartmentListViewHolder.updateWithApartmentInformations(this.mApartmentList.get(i));
+        Boolean selected = mSelectedApartment == i;
+        apartmentListViewHolder.updateWithApartmentInformations(this.mApartmentList.get(i), selected, mContext);
     }
 
     @Override
@@ -41,5 +48,9 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListView
 
     public Apartment getApartment(int position){
         return mApartmentList.get(position);
+    }
+
+    public void setSelectedApartment(int position){
+        mSelectedApartment = position;
     }
 }

@@ -3,11 +3,8 @@ package com.openclassrooms.realestatemanager.apartmentcreator;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.Toast;
-
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.models.Apartment;
 
 public class CreateActivity extends BaseActivity implements CreateFragment.ItemClickedListener {
 
