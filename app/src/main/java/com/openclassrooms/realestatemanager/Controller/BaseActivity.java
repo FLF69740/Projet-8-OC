@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
 import com.openclassrooms.realestatemanager.apartmentdetail.SecondFragment;
+import com.openclassrooms.realestatemanager.apartmentmodifier.ModifierActivity;
 import com.openclassrooms.realestatemanager.appartmentlist.MainFragment;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
@@ -25,7 +26,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     private static final String BUNDLE_KEY_ADAPTER_POSITION = "BUNDLE_KEY_ADAPTER_POSITION";
+
     protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
+    protected static final int MODIFIER_ACTIVITY_REQUEST_CODE = 20;
+
     protected static int USER_ID = 1;
     protected ListingViewModel mListingViewModel;
     protected List<Apartment> mApartmentList;
@@ -121,11 +125,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.menu_toolbar_modify:
-                Toast.makeText(this, "MODIFY", Toast.LENGTH_SHORT).show();
+                Intent intentModifier = new Intent(this, ModifierActivity.class);
+                startActivityForResult(intentModifier, MODIFIER_ACTIVITY_REQUEST_CODE);
                 return true;
             case R.id.menu_toolbar_add:
-                Intent intent = new Intent(this, CreateActivity.class);
-                startActivityForResult(intent, CREATE_ACTIVITY_REQUEST_CODE);
+                Intent intentCreate = new Intent(this, CreateActivity.class);
+                startActivityForResult(intentCreate, CREATE_ACTIVITY_REQUEST_CODE);
                 return true;
             case R.id.menu_toolbar_search:
                 Toast.makeText(this, "SEARCH", Toast.LENGTH_SHORT).show();

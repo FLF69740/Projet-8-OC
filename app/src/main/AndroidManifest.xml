@@ -48,6 +48,15 @@
                 android:value=".appartmentlist.MainActivity" />
         </activity>
 
+        <!-- MODIFIER ACTIVITY -->
+        <activity android:name=".apartmentmodifier.ModifierActivity"
+            android:label="@string/toolbar_apartment_modification"
+            android:parentActivityName=".appartmentlist.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".appartmentlist.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>
