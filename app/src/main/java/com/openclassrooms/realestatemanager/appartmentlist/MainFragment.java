@@ -18,6 +18,8 @@ import butterknife.ButterKnife;
 
 public class MainFragment extends Fragment {
 
+    private static final String BUNDLE_KEY_ADAPTER_POSITION = "BUNDLE_KEY_ADAPTER_POSITION";
+    private static final String BUNDLE_KEY_APARTMENT_LIST = "BUNDLE_KEY_APARTMENT_LIST";
     private View mView;
     private List<Apartment> mApartmentList;
     private ApartmentListAdapter mAdapter;
@@ -32,8 +34,8 @@ public class MainFragment extends Fragment {
     public static MainFragment newInstance(List<Apartment> apartmentList, String position){
         MainFragment mainFragment = new MainFragment();
         Bundle args = new Bundle(2);
-        args.putSerializable("list", (Serializable) apartmentList);
-        args.putString("adapterPosition", position);
+        args.putSerializable(BUNDLE_KEY_APARTMENT_LIST, (Serializable) apartmentList);
+        args.putString(BUNDLE_KEY_ADAPTER_POSITION, position);
         mainFragment.setArguments(args);
 
         return mainFragment;
@@ -44,8 +46,8 @@ public class MainFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, mView);
 
-        mApartmentList = (List<Apartment>) getArguments().getSerializable("list");
-        String stringAdapterPosition = getArguments().getString("adapterPosition");
+        mApartmentList = (List<Apartment>) getArguments().getSerializable(BUNDLE_KEY_APARTMENT_LIST);
+        String stringAdapterPosition = getArguments().getString(BUNDLE_KEY_ADAPTER_POSITION);
         if (mApartmentList != null && !mApartmentList.isEmpty()){
             if (stringAdapterPosition != null) {
                 mSelectedApartment = Integer.valueOf(stringAdapterPosition);

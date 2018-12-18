@@ -29,7 +29,7 @@
 
         <!-- SECOND ACTIVITY -->
         <activity
-            android:name=".Controller.SecondActivity"
+            android:name=".apartmentdetail.SecondActivity"
             android:label="@string/toolbar_appartment_description"
             android:parentActivityName=".appartmentlist.MainActivity"
             tools:ignore="InnerclassSeparator">

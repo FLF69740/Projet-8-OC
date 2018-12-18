@@ -14,22 +14,13 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:id="@+id/left_line_border"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:src="@color/colorPrimaryDark" />
-
-            <ImageView
-                android:id="@+id/high_background"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:src="@color/colorPrimary"
-                app:layout_constraintBottom_toTopOf="@+id/description_title"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@color/colorPrimary"/>
 
             <ImageView
                 android:id="@+id/photo_presentation"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="1dp"
                 app:layout_constraintDimensionRatio="w,1:1"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_left"
                 app:layout_constraintStart_toStartOf="@id/left_line_border"
@@ -41,14 +32,13 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="TYPE"
                 android:textSize="16sp"
-                android:gravity="right"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+                app:layout_constraintEnd_toStartOf="@+id/sold_information"
                 app:layout_constraintStart_toStartOf="@+id/guideline_left"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="right"/>
 
             <TextView
                 android:id="@+id/sold_information"
@@ -60,54 +50,69 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:fontFamily="@font/roboto_bold"
                 android:text="SOLD"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline_right"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+                app:layout_constraintStart_toEndOf="@+id/type_information"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/description_title"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:fontFamily="@font/roboto_bold"
                 android:paddingStart="16dp"
                 android:paddingEnd="10dp"
                 android:text="@string/apartment_description"
                 android:textSize="17sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/photo_presentation" />
 
             <TextView
                 android:id="@+id/description_body"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/roboto_light"
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
-                android:fontFamily="@font/roboto_light"
                 android:text="My text"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description_title" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_right"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:src="@mipmap/baseline_settings_overscan_black_24"
                 app:layout_constraintBottom_toTopOf="@+id/imageView2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description_body" />
+                app:layout_constraintStart_toStartOf="@+id/guideline_right"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/surface_information"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_middle"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="@+id/imageView" />
 
@@ -115,12 +120,12 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:src="@mipmap/baseline_home_black_24"
                 app:layout_constraintBottom_toTopOf="@+id/imageView4"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_right"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <TextView
@@ -128,8 +133,9 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_middle"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
@@ -137,12 +143,11 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:src="@mipmap/baseline_contacts_black_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/description_title"
+                app:layout_constraintStart_toStartOf="@+id/guideline_right"
                 app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
             <TextView
@@ -150,8 +155,9 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView4"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_middle"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView4"
                 app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
@@ -159,19 +165,19 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:src="@mipmap/baseline_store_mall_directory_black_24"
                 app:layout_constraintBottom_toTopOf="@+id/imageView5"
-                app:layout_constraintStart_toStartOf="@+id/guideline_middle"
-                app:layout_constraintTop_toBottomOf="@+id/description_body" />
+                app:layout_constraintStart_toStartOf="@+id/guideline_right"
+                app:layout_constraintTop_toTopOf="@+id/description_title" />
 
             <TextView
                 android:id="@+id/point_interest_information"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/localisation_information"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -182,12 +188,12 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:id="@+id/imageView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="24dp"
                 android:src="@mipmap/baseline_place_black_24"
-                app:layout_constraintBottom_toTopOf="@+id/imageView4"
-                app:layout_constraintStart_toStartOf="@+id/guideline_middle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_right"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
             <TextView
@@ -195,6 +201,7 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -206,21 +213,14 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.36" />
+                app:layout_constraintGuide_percent="0.25" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/guideline_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.7" />
-
-            <android.support.constraint.Guideline
-                android:id="@+id/guideline_middle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
+                app:layout_constraintGuide_percent="0.66" />
 
         </android.support.constraint.ConstraintLayout>
 

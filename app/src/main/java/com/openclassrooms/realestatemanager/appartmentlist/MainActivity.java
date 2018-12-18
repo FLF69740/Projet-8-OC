@@ -6,8 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
-import com.openclassrooms.realestatemanager.Controller.SecondActivity;
-import com.openclassrooms.realestatemanager.Controller.SecondFragment;
+import com.openclassrooms.realestatemanager.apartmentdetail.SecondActivity;
+import com.openclassrooms.realestatemanager.apartmentdetail.SecondFragment;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
@@ -15,6 +15,8 @@ import com.openclassrooms.realestatemanager.models.Apartment;
 
 public class MainActivity extends BaseActivity implements MainFragment.ItemClickedListener
 {
+
+    private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
 
     @Override
     protected int getContentView() {
@@ -79,7 +81,7 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
             secondFragment.updateDoubleScreen(mApartment);
         } else {
             Intent intent = new Intent(this, SecondActivity.class);
-            intent.putExtra("apartment", apartment);
+            intent.putExtra(BUNDLE_KEY_APARTMENT, apartment);
             startActivity(intent);
         }
     }

@@ -15,4 +15,15 @@
     <string name="fragment_creation_price">price</string>
     <string name="fragment_creation_button">CREATE</string>
 
+    <!-- Apartment detail -->
+    <string name="apartment_description">Descritpion :</string>
+    <string name="apartment_for_sale">For sale</string>
+    <string name="apartment_sold">Sold</string>
+    <string name="apartment_room">room(s)</string>
+    <string name="METER" translatable="false">METER</string>
+    <string name="FEET" translatable="false">FEET</string>
+
+    <!-- ANIMATION -->
+
+
 </resources>

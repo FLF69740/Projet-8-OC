@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
+import com.openclassrooms.realestatemanager.apartmentdetail.SecondFragment;
 import com.openclassrooms.realestatemanager.appartmentlist.MainFragment;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
@@ -22,9 +23,10 @@ import java.util.List;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
+    private static final String BUNDLE_KEY_ADAPTER_POSITION = "BUNDLE_KEY_ADAPTER_POSITION";
     protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
     protected static int USER_ID = 1;
-
     protected ListingViewModel mListingViewModel;
     protected List<Apartment> mApartmentList;
     protected Apartment mApartment;
@@ -45,8 +47,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getContentView());
 
         if (savedInstanceState != null){
-            mApartment = savedInstanceState.getParcelable("apartment");
-            mAdapterPosition = savedInstanceState.getString("adapterPosition");
+            mApartment = savedInstanceState.getParcelable(BUNDLE_KEY_APARTMENT);
+            mAdapterPosition = savedInstanceState.getString(BUNDLE_KEY_ADAPTER_POSITION);
         }
 
         this.configureViewModel();
@@ -62,8 +64,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("apartment", mApartment);
-        outState.putString("adapterPosition", mAdapterPosition);
+        outState.putParcelable(BUNDLE_KEY_APARTMENT, mApartment);
+        outState.putString(BUNDLE_KEY_ADAPTER_POSITION, mAdapterPosition);
     }
 
 

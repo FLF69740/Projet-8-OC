@@ -28,7 +28,7 @@ public class ApartmentListViewHolder extends RecyclerView.ViewHolder {
         this.mTextViewType.setText(apartment.getType());
         this.mTextViewTown.setText(apartment.getTown());
         this.mTextViewPrice.setText(String.valueOf(apartment.getPrice()));
-        if (apartment.getUrlPicture().equals("EMPTY")){
+        if (apartment.getUrlPicture().equals(Apartment.EMPTY_CASE)){
             this.mImageViewPicture.setImageResource(R.drawable.image_realestate);
         }
 

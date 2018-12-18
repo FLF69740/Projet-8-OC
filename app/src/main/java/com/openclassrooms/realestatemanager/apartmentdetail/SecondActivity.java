@@ -1,16 +1,18 @@
-package com.openclassrooms.realestatemanager.Controller;
+package com.openclassrooms.realestatemanager.apartmentdetail;
 
 import android.support.v4.app.Fragment;
+
+import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Apartment;
 
 public class SecondActivity extends BaseActivity {
 
-    public static final String EXTRA_APARTMENT_LINK = "EXTRA_APARTMENT_LINK";
+    private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
 
     @Override
     protected Fragment getFirstFragment() {
-        Apartment apartment = getIntent().getParcelableExtra("apartment");
+        Apartment apartment = getIntent().getParcelableExtra(BUNDLE_KEY_APARTMENT);
 
         return SecondFragment.newInstance(apartment);
     }

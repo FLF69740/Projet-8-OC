@@ -10,4 +10,8 @@
     <string name="fragment_creation_town">ville</string>
     <string name="fragment_creation_price">prix</string>
     <string name="fragment_creation_button">CREER</string>
+    <string name="apartment_for_sale">A vendre</string>
+    <string name="apartment_sold">Vendu</string>
+    <string name="apartment_description">Description :</string>
+    <string name="apartment_room">pièce(s)</string>
 </resources>
