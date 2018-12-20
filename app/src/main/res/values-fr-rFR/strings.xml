@@ -15,4 +15,20 @@
     <string name="apartment_description">Description :</string>
     <string name="apartment_room">pièce(s)</string>
     <string name="toolbar_apartment_modification">Modification Appartement</string>
+    <string name="apartment_title_type">TYPE :</string>
+    <string name="apartment_title_square">SURFACE :</string>
+    <string name="apartment_title_room">PIECES :</string>
+    <string name="apartment_title_po">POINTS D\'INTERET</string>
+    <string name="apartment_title_adress">ADRESSE</string>
+    <string name="apartment_title_postal_code">CODE POSTAL :</string>
+    <string name="apartment_title_town">VILLE :</string>
+    <string name="apartment_title_price">PRIX :</string>
+    <string name="apartment_title_picture">IMAGES</string>
+    <string name="apartment_title_street">RUE :</string>
+    <string name="apartment_title_contact">VENDU :</string>
+    <string name="apartment_title_description">DESCRIPTION :</string>
+    <string name="fragment_modification_manager_title">RESPONSABLE :</string>
+    <string name="fragment_modification_button_title">MODIFIER</string>
+    <string name="fragment_modification_recycler_no_picture">[+] image</string>
+    <string name="fragment_modification_recycler_no_po">[+] point d\'intérêt</string>
 </resources>

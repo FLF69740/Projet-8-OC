@@ -7,7 +7,7 @@ import com.openclassrooms.realestatemanager.models.Apartment;
 
 public class ModifierActivity extends BaseActivity {
 
-    private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
+    public static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
 
     @Override
     protected Fragment getFirstFragment() {

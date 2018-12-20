@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.apartmentdetail;
 
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
+
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Apartment;
@@ -12,6 +14,7 @@ public class SecondActivity extends BaseActivity {
     @Override
     protected Fragment getFirstFragment() {
         Apartment apartment = getIntent().getParcelableExtra(BUNDLE_KEY_APARTMENT);
+        mApartment = apartment;
         return SecondFragment.newInstance(apartment);
     }
 

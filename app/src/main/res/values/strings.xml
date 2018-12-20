@@ -10,21 +10,40 @@
     <!-- creation fragment -->
     <string name="fragment_creation_title">fill in the fields below :</string>
     <string name="fragment_creation_type">type</string>
-    <string name="fragment_creation_adress">adress</string>
+    <string name="fragment_creation_adress">address</string>
     <string name="fragment_creation_postalcode">postal code</string>
     <string name="fragment_creation_town">town</string>
     <string name="fragment_creation_price">price</string>
     <string name="fragment_creation_button">CREATE</string>
 
     <!-- Apartment detail -->
-    <string name="apartment_description">Descritpion :</string>
+    <string name="apartment_description">Description :</string>
     <string name="apartment_for_sale">For sale</string>
     <string name="apartment_sold">Sold</string>
     <string name="apartment_room">room(s)</string>
     <string name="METER" translatable="false">METER</string>
     <string name="FEET" translatable="false">FEET</string>
 
-    <!-- ANIMATION -->
+    <!-- Apartment modifier -->
+    <string name="fragment_modification_manager_title">MANAGER :</string>
+    <string name="fragment_modification_button_title">CHANGE</string>
+    <string name="fragment_modification_recycler_no_po">[+] point of interest</string>
+    <string name="fragment_modification_recycler_no_picture">[+] picture</string>
+
+    <!-- TRANSFORMER APARTMENT ITEM -->
+    <string name="apartment_title_type">TYPE :</string>
+    <string name="apartment_title_description">DESCRIPTION :</string>
+    <string name="apartment_title_square">SQUARE :</string>
+    <string name="apartment_title_room">ROOMS :</string>
+    <string name="apartment_title_po">POINTS OF INTEREST</string>
+    <string name="apartment_title_po_single" translatable="false"> * </string>
+    <string name="apartment_title_adress">ADDRESS</string>
+    <string name="apartment_title_street">STREET :</string>
+    <string name="apartment_title_postal_code">POSTAL CODE :</string>
+    <string name="apartment_title_town">TOWN :</string>
+    <string name="apartment_title_price">PRICE :</string>
+    <string name="apartment_title_picture">PICTURES</string>
+    <string name="apartment_title_contact">SOLD :</string>
 
 
 </resources>

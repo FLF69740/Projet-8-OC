@@ -73,8 +73,8 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
 
     @Override
     public void itemClicked(View view, Apartment apartment, String adapterPosition) {
-        mAdapterPosition = adapterPosition;
         mApartment = apartment;
+        mAdapterPosition = adapterPosition;
         SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
         if (secondFragment != null && secondFragment.isVisible()){
             secondFragment.updateDoubleScreen(mApartment);

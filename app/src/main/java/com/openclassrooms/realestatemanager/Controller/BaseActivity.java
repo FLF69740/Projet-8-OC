@@ -126,6 +126,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menu_toolbar_modify:
                 Intent intentModifier = new Intent(this, ModifierActivity.class);
+                intentModifier.putExtra(ModifierActivity.BUNDLE_KEY_APARTMENT, mApartment);
                 startActivityForResult(intentModifier, MODIFIER_ACTIVITY_REQUEST_CODE);
                 return true;
             case R.id.menu_toolbar_add:
