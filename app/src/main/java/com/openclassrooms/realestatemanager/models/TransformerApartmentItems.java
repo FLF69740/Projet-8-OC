@@ -11,7 +11,7 @@ public class TransformerApartmentItems {
 
     private List<Item> mItemList;
 
-    private static final String NO_PICTURE = "NO_PICTURE";
+    public static final String NO_PICTURE = "NO_PICTURE";
     private static final String ENTITY_SEPARATOR = "/+/";
     private static final String PICTURE_SEP_TI_URL = "/-/";
 

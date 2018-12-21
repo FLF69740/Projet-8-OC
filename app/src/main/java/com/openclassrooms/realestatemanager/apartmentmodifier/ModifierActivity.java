@@ -1,11 +1,17 @@
 package com.openclassrooms.realestatemanager.apartmentmodifier;
 
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.Toast;
+
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Apartment;
+import com.openclassrooms.realestatemanager.models.Item;
 
-public class ModifierActivity extends BaseActivity {
+import java.util.List;
+
+public class ModifierActivity extends BaseActivity implements ModifierFragment.ItemModifierClickedListener {
 
     public static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
 
@@ -38,5 +44,10 @@ public class ModifierActivity extends BaseActivity {
     @Override
     protected boolean isAChildActivity() {
         return true;
+    }
+
+    @Override
+    public void itemClicked(View view, List<Item> itemList) {
+        Toast.makeText(this, itemList.get(0).getInformation(), Toast.LENGTH_LONG).show();
     }
 }

@@ -22,7 +22,6 @@ public class ItemsViewHolder extends RecyclerView.ViewHolder {
     private View mItemView;
 
     @BindView(R.id.picture_title)ImageView mImageViewPicture;
-    @BindView(R.id.clear_button_item)ImageView mClearButton;
     @BindView(R.id.textView_title)TextView mTitle;
     @BindView(R.id.editText_information)TextView mInformation;
     @BindView(R.id.section_separator)ImageView mSectionSeparator;
@@ -43,7 +42,6 @@ public class ItemsViewHolder extends RecyclerView.ViewHolder {
         // It's not a picture
         if (!item.getAPicture()){
             mImageViewPicture.setVisibility(View.INVISIBLE);
-            mClearButton.setVisibility(View.GONE);
 
             // it's a title
             if (item.getATitle()){
@@ -53,8 +51,6 @@ public class ItemsViewHolder extends RecyclerView.ViewHolder {
                 // it's not a title and not a picture
                 mImageViewPicture.setVisibility(View.GONE);
             }
-        } else if (item.getAPicture() && item.getInformation().equals(itemView.getContext().getString(R.string.fragment_modification_recycler_no_picture))){
-            mClearButton.setVisibility(View.GONE);
         } else {
             Glide.with(this.mItemView).load(item.getUrlPicture()).apply(RequestOptions.centerCropTransform()).into(this.mImageViewPicture);
         }

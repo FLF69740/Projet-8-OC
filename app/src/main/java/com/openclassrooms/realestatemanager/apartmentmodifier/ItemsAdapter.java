@@ -40,7 +40,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
         return this.mItemList.size();
     }
 
-    public Item getItem(int position){
-        return mItemList.get(position);
+    public List<Item> getItemList(){
+        return mItemList;
+    }
+
+    public void setItemList(List<Item> itemList){
+        this.mItemList = itemList;
     }
 }
