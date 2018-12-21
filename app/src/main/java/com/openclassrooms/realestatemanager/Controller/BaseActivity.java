@@ -168,8 +168,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     // Update an apartment
-    protected void updateApartment(int userId){
-        //----------------------SOON-----------------------//
+    protected void updateApartment(Apartment apartment){
+        this.mListingViewModel.updateApartment(apartment);
     }
 
     /**

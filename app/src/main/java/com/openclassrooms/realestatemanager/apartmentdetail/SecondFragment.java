@@ -25,6 +25,7 @@ public class SecondFragment extends Fragment {
     @BindView(R.id.localisation_information)TextView mLocalisationInformation;
     @BindView(R.id.type_information)TextView mTypeInformation;
     @BindView(R.id.sold_information)TextView mSoldInformation;
+    @BindView(R.id.date_inscription)TextView mTextViewDateInscription;
 
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     private Apartment mApartment;
@@ -71,6 +72,7 @@ public class SecondFragment extends Fragment {
         if (mApartment.getUrlPicture().equals(Apartment.EMPTY_CASE)){
             mPhotoPresentation.setImageResource(R.drawable.image_realestate);
         }
+        mTextViewDateInscription.setText(mApartment.getDateInscription());
         mDescriptionBody.setText(mApartment.getDescription());
         mSurfaceInformation.setText(Utils.getDimension(mApartment.getDimension(), this.mView.getContext().getString(R.string.METER), this.mView));
         mNumberOfRoomsInformation.setText(Utils.getRooms(mApartment.getRoomNumber(), this.mView));

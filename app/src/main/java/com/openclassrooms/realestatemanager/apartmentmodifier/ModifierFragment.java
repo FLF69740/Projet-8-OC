@@ -52,6 +52,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
     private ItemsAdapter mAdapter;
     private Apartment mApartment;
     private Uri mUriPicture;
+    private String mDateInscription;
 
     @BindView(R.id.recycler_view_modifier)RecyclerView mRecyclerView;
     @BindView(R.id.radioGroup)RadioGroup mRadioGroupButton;
@@ -84,6 +85,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         ButterKnife.bind(this, mView);
 
         mApartment = getArguments().getParcelable(BUNDLE_KEY_APARTMENT);
+        mDateInscription = mApartment.getDateInscription();
         this.configureRecyclerView();
         this.configureOnClickRecyclerView();
         mRadioGroupButton.setOnCheckedChangeListener(this);
@@ -106,7 +108,8 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
      */
 
     private void configureRecyclerView(){
-        TransformerApartmentItems transformerApartmentItems = new TransformerApartmentItems(mApartment, mView.getContext());
+        TransformerApartmentItems transformerApartmentItems = new TransformerApartmentItems();
+        transformerApartmentItems.createItemList(mApartment, mView.getContext());
         mItemList = new ArrayList<>(transformerApartmentItems.getListItems());
         this.mAdapter = new ItemsAdapter(transformerApartmentItems.getListItems());
         this.mRecyclerView.setAdapter(mAdapter);
@@ -268,7 +271,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
 
     // interface for button clicked
     public interface ItemModifierClickedListener{
-        void itemClicked(View view, List<Item> itemList);
+        void itemClicked(View view, List<Item> itemList, String dateInscription, long id, long userId);
     }
 
     //callback for button clicked
@@ -286,6 +289,6 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
 
     @OnClick(R.id.change_button)
     public void changeButtonClick(){
-        mCallback.itemClicked(mView, mItemList);
+        mCallback.itemClicked(mView, mItemList, mDateInscription, mApartment.getId(), mApartment.getUserId());
     }
 }

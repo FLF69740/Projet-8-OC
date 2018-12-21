@@ -31,4 +31,5 @@
     <string name="fragment_modification_button_title">MODIFIER</string>
     <string name="fragment_modification_recycler_no_picture">[+] image</string>
     <string name="fragment_modification_recycler_no_po">[+] point d\'intérêt</string>
+    <string name="apartment_inscription">date d\'inscription :</string>
 </resources>

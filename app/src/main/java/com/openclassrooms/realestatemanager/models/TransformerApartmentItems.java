@@ -10,17 +10,22 @@ import java.util.List;
 public class TransformerApartmentItems {
 
     private List<Item> mItemList;
+    private Apartment mApartment;
 
     public static final String NO_PICTURE = "NO_PICTURE";
     private static final String ENTITY_SEPARATOR = "/+/";
     private static final String PICTURE_SEP_TI_URL = "/-/";
 
-    public TransformerApartmentItems(Apartment apartment, Context context) {
+    public TransformerApartmentItems() {
         mItemList = new ArrayList<>();
-        createItemList(apartment, context);
+        mApartment = new Apartment(Apartment.EMPTY_CASE, 0, Apartment.EMPTY_CASE, 0, Apartment.EMPTY_CASE, Apartment.EMPTY_CASE, 0);
     }
 
-    private void createItemList(Apartment apartment, Context context){
+    /**
+     *  APARTMENT TO LIST ITEMS
+     */
+
+    public void createItemList(Apartment apartment, Context context){
         mItemList.add(new Item(apartment.getType(), context.getString(R.string.apartment_title_type), NO_PICTURE, false, false));
         mItemList.add(new Item(String.valueOf(apartment.getPrice()), context.getString(R.string.apartment_title_price), NO_PICTURE, false, false));
         mItemList.add(new Item(apartment.getDescription(), context.getString(R.string.apartment_description), NO_PICTURE, false, false));
@@ -49,14 +54,64 @@ public class TransformerApartmentItems {
             }
         }
         mItemList.add(new Item(context.getString(R.string.fragment_modification_recycler_no_picture), "", NO_PICTURE, false, true));
-
-
-
     }
-
-
 
     public List<Item> getListItems(){
         return mItemList;
     }
+
+    /**
+     *  LIST ITEMS TO APARTMENT
+     */
+
+    public void createApartment(List<Item> itemList, Context context){
+        for (int i = 0 ; i < itemList.size() ; i++){
+            if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_type))){
+                mApartment.setType(itemList.get(i).getInformation());
+            } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_price))) {
+                mApartment.setPrice(Integer.valueOf(itemList.get(i).getInformation()));
+            } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_description))) {
+                mApartment.setDescription(itemList.get(i).getInformation());
+            } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_square))) {
+                mApartment.setDimension(Integer.valueOf(itemList.get(i).getInformation()));
+            } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_room))) {
+                mApartment.setRoomNumber(Integer.valueOf(itemList.get(i).getInformation()));
+            } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_street))) {
+                mApartment.setAdress(itemList.get(i).getInformation());
+            } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_postal_code))) {
+                mApartment.setPostalCode(Integer.valueOf(itemList.get(i).getInformation()));
+            } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_town))) {
+                mApartment.setTown(itemList.get(i).getInformation());
+            } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_po_single)) &&
+                    !itemList.get(i).getInformation().equals(context.getString(R.string.fragment_modification_recycler_no_po))) {
+
+                String iterationPO = mApartment.getPoInterest();
+                if (iterationPO.equals(Apartment.EMPTY_CASE)){
+                    iterationPO = itemList.get(i).getInformation();
+                } else {
+                    iterationPO += ENTITY_SEPARATOR + itemList.get(i).getInformation();
+                }
+
+                mApartment.setPoInterest(iterationPO);
+
+            }  else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_description)) &&
+                    !itemList.get(i).getInformation().equals(context.getString(R.string.fragment_modification_recycler_no_picture))) {
+
+                String iterationPicture = mApartment.getUrlPicture();
+                if (iterationPicture.equals(Apartment.EMPTY_CASE)){
+                    iterationPicture = itemList.get(i).getInformation() + PICTURE_SEP_TI_URL + itemList.get(i).getUrlPicture();
+                } else {
+                    iterationPicture += ENTITY_SEPARATOR + itemList.get(i).getInformation() + PICTURE_SEP_TI_URL + itemList.get(i).getUrlPicture();
+                }
+
+                mApartment.setUrlPicture(iterationPicture);
+            }
+        }
+    }
+
+    public Apartment getApartment(){
+        return mApartment;
+    }
+
+
 }

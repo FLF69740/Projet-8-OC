@@ -55,6 +55,32 @@ tools:context=".apartmentdetail.SecondFragment">
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_light"
+                android:text="@string/apartment_inscription"
+                android:textSize="10sp"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/photo_presentation" />
+
+            <TextView
+                android:id="@+id/date_inscription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/roboto_light"
+                android:text="DATE"
+                android:textSize="10sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+            <TextView
                 android:id="@+id/description_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -67,7 +93,7 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:textSize="17sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_right"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/photo_presentation" />
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
             <TextView
                 android:id="@+id/description_body"
@@ -166,11 +192,12 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:src="@mipmap/baseline_store_mall_directory_black_24"
                 app:layout_constraintBottom_toTopOf="@+id/imageView5"
                 app:layout_constraintStart_toStartOf="@+id/guideline_right"
-                app:layout_constraintTop_toTopOf="@+id/description_title" />
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
             <TextView
                 android:id="@+id/point_interest_information"

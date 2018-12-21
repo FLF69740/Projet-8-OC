@@ -23,6 +23,7 @@
     <string name="apartment_room">room(s)</string>
     <string name="METER" translatable="false">METER</string>
     <string name="FEET" translatable="false">FEET</string>
+    <string name="apartment_inscription">Date inscription :</string>
 
     <!-- Apartment modifier -->
     <string name="fragment_modification_manager_title">MANAGER :</string>
