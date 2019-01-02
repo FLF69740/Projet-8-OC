@@ -21,18 +21,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.appartmentlist.MainFragment;
 import com.openclassrooms.realestatemanager.appartmentlist.RecyclerViewClickSupport;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.Item;
 import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -95,8 +94,6 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
     }
 
     //PERMISSION
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -124,14 +121,16 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
                 });
     }
 
-    private void updateAdapter(List<Item> itemList, Boolean isNewItem, Boolean isNewPicture, Boolean isRemove, String stringNewPicture, int position){
+    // Actualisation of list items
+    private void updateAdapter(List<Item> itemList, Boolean isNewItem, Boolean isNewPicture, Boolean isRemove, int position){
         if (isRemove){
+            BitmapStorage.deleteImage(getContext(), mApartment.getId() + TransformerApartmentItems.PICTURE_TITLE_CHARACTERE + itemList.get(position).getInformation());
             itemList.remove(position);
         } else if (isNewItem){
             itemList.add(position+1, new Item(mView.getContext().getString(R.string.fragment_modification_recycler_no_po), mView.getContext().getString(R.string.apartment_title_po_single),
                     TransformerApartmentItems.NO_PICTURE, false, false));
         } else if (isNewPicture){
-            itemList.add(position+1, new Item(mView.getContext().getString(R.string.fragment_modification_recycler_no_picture), "",
+            itemList.add(position+1, new Item(mView.getContext().getString(R.string.fragment_modification_recycler_no_picture), mView.getContext().getString(R.string.apartment_title_picture_single),
                     TransformerApartmentItems.NO_PICTURE, false, true));
         }
         mItemList = itemList;
@@ -184,37 +183,58 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
             } else {
                 if (listItem.get(position).getUrlPicture().equals(TransformerApartmentItems.NO_PICTURE)) {
                     mPhotoButtonModify.setImageResource(R.mipmap.baseline_insert_photo_black_24);
+                    mPhotoButtonModify.setEnabled(true);
                 } else {
-                    mPhotoButtonModify.setImageURI(Uri.parse(listItem.get(position).getUrlPicture()));
+                    if (listItem.get(position).getUrlPicture().contains(TransformerApartmentItems.PICTURE_TITLE_CHARACTERE)) {
+                        if (BitmapStorage.isFileExist(Objects.requireNonNull(getContext()), listItem.get(position).getUrlPicture())) {
+                            this.mPhotoButtonModify.setImageBitmap(BitmapStorage.loadImage(getContext(), listItem.get(position).getUrlPicture()));
+                            mPhotoButtonModify.setEnabled(false);
+                        }
+                    }else {
+                        Glide.with(this.mView).load(listItem.get(position).getUrlPicture()).apply(RequestOptions.centerCropTransform()).into(this.mPhotoButtonModify);
+                    }
+                    //}else {
+                    //    mPhotoButtonModify.setImageResource(R.mipmap.baseline_insert_photo_black_24);
+                    //    mPhotoButtonModify.setEnabled(true);
+                    //}
                 }
             }
 
             // DONE CLICK
             mValidationButtonModify.setOnClickListener(v -> {
-                Boolean isNewPO = false, isNewPicture = false;
-                String stringNewPicture = TransformerApartmentItems.NO_PICTURE;
-                // for new Point of Interest
-                if (listItem.get(position).getInformation().equals(mView.getContext().getString(R.string.fragment_modification_recycler_no_po))){
-                    isNewPO = true;
-                }
-                if (listItem.get(position).getInformation().equals(mView.getContext().getString(R.string.fragment_modification_recycler_no_picture))){
-                    isNewPicture = true;
-                    stringNewPicture = mUriPicture.toString();
-                }
-
                 if (!mEditTextModify.getText().toString().equals("")) {
-                    listItem.get(position).setInformation(mEditTextModify.getText().toString());
-                    if (isNewPicture){
-                        listItem.get(position).setUrlPicture(stringNewPicture);
+                    Boolean isNewPO = false, isNewPicture = false, isPictureSelfIteration = false;
+                    String stringNewPicture = TransformerApartmentItems.NO_PICTURE;
+                    // for new Point of Interest
+                    if (listItem.get(position).getInformation().equals(mView.getContext().getString(R.string.fragment_modification_recycler_no_po))) {
+                        isNewPO = true;
                     }
-                    this.updateAdapter(listItem, isNewPO, isNewPicture, false, stringNewPicture, position);
+                    if (listItem.get(position).getTitle().equals(mView.getContext().getString(R.string.apartment_title_picture_single)) && mPhotoButtonModify.isEnabled()) {
+                        isNewPicture = true;
+                        stringNewPicture = mUriPicture.toString();
+                        if (!listItem.get(position).getInformation().equals(mView.getContext().getString(R.string.fragment_modification_recycler_no_picture))){
+                            isPictureSelfIteration = true;
+                        }
+                    }
+
+                    if (!mEditTextModify.getText().toString().equals("")) {
+                        listItem.get(position).setInformation(mEditTextModify.getText().toString());
+                        // Set Picture
+                        if (isNewPicture) {
+                            listItem.get(position).setUrlPicture(stringNewPicture);
+                            if (isPictureSelfIteration){
+                                isNewPicture = false;
+                            }
+                        }
+                        this.updateAdapter(listItem, isNewPO, isNewPicture, false, position);
+                    }
                 }
                 panelChoiceVisibility(true);
             });
 
             // CLEAR CLICK
             mClearButtonModify.setOnClickListener(v -> {
-                this.updateAdapter(listItem, false, false, true, null, position);
+                this.updateAdapter(listItem, false, false, true, position);
                 panelChoiceVisibility(true);
             });
 

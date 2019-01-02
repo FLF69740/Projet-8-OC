@@ -1,7 +1,10 @@
 package com.openclassrooms.realestatemanager.models;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 
+import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
 
 import java.util.ArrayList;
@@ -13,8 +16,9 @@ public class TransformerApartmentItems {
     private Apartment mApartment;
 
     public static final String NO_PICTURE = "NO_PICTURE";
-    private static final String ENTITY_SEPARATOR = "/+/";
-    private static final String PICTURE_SEP_TI_URL = "/-/";
+    public static final String ENTITY_SEPARATOR = "/!!/";
+    public static final String PICTURE_SEP_TI_URL = "/-/";
+    public static final String PICTURE_TITLE_CHARACTERE = "__";
 
     public TransformerApartmentItems() {
         mItemList = new ArrayList<>();
@@ -50,10 +54,10 @@ public class TransformerApartmentItems {
             String[] parts = apartment.getUrlPicture().split(ENTITY_SEPARATOR);
             for (String part : parts){
                 String[] subParts = part.split(PICTURE_SEP_TI_URL);
-                mItemList.add(new Item(subParts[0], "", subParts[1], false, true));
+                mItemList.add(new Item(subParts[0], context.getString(R.string.apartment_title_picture_single), subParts[1], false, true));
             }
         }
-        mItemList.add(new Item(context.getString(R.string.fragment_modification_recycler_no_picture), "", NO_PICTURE, false, true));
+        mItemList.add(new Item(context.getString(R.string.fragment_modification_recycler_no_picture), context.getString(R.string.apartment_title_picture_single), NO_PICTURE, false, true));
     }
 
     public List<Item> getListItems(){
@@ -64,7 +68,9 @@ public class TransformerApartmentItems {
      *  LIST ITEMS TO APARTMENT
      */
 
-    public void createApartment(List<Item> itemList, Context context){
+    public void createApartment(List<Item> itemList, Context context, long id, long userId){
+        mApartment.setUserId(userId);
+        mApartment.setId(id);
         for (int i = 0 ; i < itemList.size() ; i++){
             if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_type))){
                 mApartment.setType(itemList.get(i).getInformation());
@@ -94,24 +100,29 @@ public class TransformerApartmentItems {
 
                 mApartment.setPoInterest(iterationPO);
 
-            }  else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_description)) &&
+            }  else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_picture_single)) &&
                     !itemList.get(i).getInformation().equals(context.getString(R.string.fragment_modification_recycler_no_picture))) {
+
+                String fileName = String.valueOf(mApartment.getId()) + PICTURE_TITLE_CHARACTERE + itemList.get(i).getInformation();
+                if (!BitmapStorage.isFileExist(context, fileName)) {
+                    BitmapStorage.saveImage(context, fileName, Uri.parse(itemList.get(i).getUrlPicture()));
+                    BitmapStorage.showImageInformations(context, fileName);
+                }
 
                 String iterationPicture = mApartment.getUrlPicture();
                 if (iterationPicture.equals(Apartment.EMPTY_CASE)){
-                    iterationPicture = itemList.get(i).getInformation() + PICTURE_SEP_TI_URL + itemList.get(i).getUrlPicture();
+                    iterationPicture = itemList.get(i).getInformation() + PICTURE_SEP_TI_URL + fileName;
                 } else {
-                    iterationPicture += ENTITY_SEPARATOR + itemList.get(i).getInformation() + PICTURE_SEP_TI_URL + itemList.get(i).getUrlPicture();
+                    iterationPicture += ENTITY_SEPARATOR + itemList.get(i).getInformation() + PICTURE_SEP_TI_URL + fileName;
                 }
-
                 mApartment.setUrlPicture(iterationPicture);
             }
         }
+        Log.i("TAG", "resume : " + mApartment.getUrlPicture());
     }
 
     public Apartment getApartment(){
         return mApartment;
     }
-
 
 }

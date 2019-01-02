@@ -10,9 +10,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.Item;
+import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +54,15 @@ public class ItemsViewHolder extends RecyclerView.ViewHolder {
                 mImageViewPicture.setVisibility(View.GONE);
             }
         } else {
-            Glide.with(this.mItemView).load(item.getUrlPicture()).apply(RequestOptions.centerCropTransform()).into(this.mImageViewPicture);
+            if (item.getUrlPicture().contains(TransformerApartmentItems.PICTURE_TITLE_CHARACTERE)) {
+                if (BitmapStorage.isFileExist(mItemView.getContext(), item.getUrlPicture())) {
+                    this.mImageViewPicture.setImageBitmap(BitmapStorage.loadImage(mItemView.getContext(), item.getUrlPicture()));
+                } else {
+                    this.mImageViewPicture.setImageResource(R.drawable.image_realestate);
+                }
+            }else {
+                Glide.with(this.mItemView).load(item.getUrlPicture()).apply(RequestOptions.centerCropTransform()).into(this.mImageViewPicture);
+            }
         }
 
 

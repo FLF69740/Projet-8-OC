@@ -53,6 +53,17 @@ public class SecondActivity extends BaseActivity {
             Apartment apartment = data.getParcelableExtra(ModifierActivity.BUNDLE_APARTMENT_UPDATE);
             Toast.makeText(this, apartment.getDescription(), Toast.LENGTH_LONG).show();
             updateApartment(apartment);
+
+            mApartment = apartment;
+            SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
+            if (secondFragment != null && secondFragment.isVisible()) {
+                secondFragment.updateDoubleScreen(mApartment);
+            }else {
+                Intent intent = new Intent(this, SecondActivity.class);
+                intent.putExtra(BUNDLE_KEY_APARTMENT, apartment);
+                startActivity(intent);
+            }
         }
     }
+
 }

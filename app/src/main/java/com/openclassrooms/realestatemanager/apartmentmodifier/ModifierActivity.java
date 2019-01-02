@@ -52,10 +52,8 @@ public class ModifierActivity extends BaseActivity implements ModifierFragment.I
     @Override
     public void itemClicked(View view, List<Item> itemList, String dateInscription, long id, long userId) {
         TransformerApartmentItems transformerApartmentItems = new TransformerApartmentItems();
-        transformerApartmentItems.createApartment(itemList, view.getContext());
+        transformerApartmentItems.createApartment(itemList, view.getContext(), id, userId);
         Apartment apartment = transformerApartmentItems.getApartment();
-        apartment.setId(id);
-        apartment.setUserId(userId);
         apartment.setDateInscription(dateInscription);
         Intent intent = new Intent();
         intent.putExtra(BUNDLE_APARTMENT_UPDATE, apartment);

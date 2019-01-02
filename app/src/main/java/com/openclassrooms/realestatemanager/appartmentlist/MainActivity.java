@@ -75,9 +75,14 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
 
         if (MODIFIER_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode){
             Apartment apartment = data.getParcelableExtra(ModifierActivity.BUNDLE_APARTMENT_UPDATE);
-            Toast.makeText(this, apartment.getDescription(), Toast.LENGTH_LONG).show();
             updateApartment(apartment);
+            mApartment = apartment;
+            SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
+            if (secondFragment != null && secondFragment.isVisible()) {
+                secondFragment.updateDoubleScreen(mApartment);
+            }
         }
+
     }
 
     @Override

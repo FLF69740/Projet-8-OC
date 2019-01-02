@@ -105,6 +105,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return true;
     }
+/*
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (MODIFIER_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode){
+            Apartment apartment = data.getParcelableExtra(ModifierActivity.BUNDLE_APARTMENT_UPDATE);
+            mApartment = apartment;
+            Toast.makeText(this, apartment.getDescription(), Toast.LENGTH_LONG).show();
+            updateApartment(apartment);
+   //         replaceFragment();
+        }
+    }*/
 
     /**
      *  TOOLBAR

@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.apartmentdetail;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -8,11 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Apartment;
+import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
+
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+
+
 
 public class SecondFragment extends Fragment {
 
@@ -69,19 +79,42 @@ public class SecondFragment extends Fragment {
     }
 
     public void configureScreen(){
-        if (mApartment.getUrlPicture().equals(Apartment.EMPTY_CASE)){
-            mPhotoPresentation.setImageResource(R.drawable.image_realestate);
+        if (BitmapStorage.isFileExist(Objects.requireNonNull(getContext()), Utils.getFirstPhotoName(mApartment))) {
+            this.mPhotoPresentation.setImageBitmap(BitmapStorage.loadImage(getContext(), Utils.getFirstPhotoName(mApartment)));
+        } else {
+            this.mPhotoPresentation.setImageResource(R.drawable.image_realestate);
         }
+
         mTextViewDateInscription.setText(mApartment.getDateInscription());
         mDescriptionBody.setText(mApartment.getDescription());
         mSurfaceInformation.setText(Utils.getDimension(mApartment.getDimension(), this.mView.getContext().getString(R.string.METER), this.mView));
         mNumberOfRoomsInformation.setText(Utils.getRooms(mApartment.getRoomNumber(), this.mView));
-        mPointOfInterestInformation.setText(mApartment.getPoInterest());
+        mPointOfInterestInformation.setText(getPOString(mApartment.getPoInterest()));
         mLocalisationInformation.setText(Utils.getFullAdress(mApartment.getAdress(), String.valueOf(mApartment.getPostalCode()), mApartment.getTown()));
         mContactInformation.setText(String.valueOf(mApartment.getUserId()));
         mTypeInformation.setText(mApartment.getType());
         mSoldInformation.setText(Utils.getStringSold(mApartment.getSold(), this.mView));
         mSoldInformation.setTextColor(Utils.getColorSold(mApartment.getSold(), this.mView));
+    }
+
+    // points of interest string construction
+    private String getPOString(String string){
+        string = "- " + string;
+        if (string.contains(TransformerApartmentItems.ENTITY_SEPARATOR)){
+            string = string.replace(TransformerApartmentItems.ENTITY_SEPARATOR, "\n- ");
+        }
+        return string;
+    }
+
+    // Image uri string upload
+    private String getStringUri(String string){
+        if (string.contains(TransformerApartmentItems.ENTITY_SEPARATOR)){
+            String[] subPart = string.split(TransformerApartmentItems.ENTITY_SEPARATOR);
+            string = subPart[0];
+        }
+        String[] uriPart = string.split(TransformerApartmentItems.PICTURE_SEP_TI_URL);
+        string = uriPart[1];
+        return string;
     }
 
 }

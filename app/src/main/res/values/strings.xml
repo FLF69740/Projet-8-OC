@@ -37,7 +37,8 @@
     <string name="apartment_title_square">SQUARE :</string>
     <string name="apartment_title_room">ROOMS :</string>
     <string name="apartment_title_po">POINTS OF INTEREST</string>
-    <string name="apartment_title_po_single" translatable="false"> * </string>
+    <string name="apartment_title_po_single" translatable="false"> */ </string>
+    <string name="apartment_title_picture_single" translatable="false"> -> </string>
     <string name="apartment_title_adress">ADDRESS</string>
     <string name="apartment_title_street">STREET :</string>
     <string name="apartment_title_postal_code">POSTAL CODE :</string>
