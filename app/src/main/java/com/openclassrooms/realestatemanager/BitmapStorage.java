@@ -5,15 +5,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
-
+import com.openclassrooms.realestatemanager.models.Apartment;
+import com.openclassrooms.realestatemanager.models.Item;
+import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.List;
 
 public class BitmapStorage {
 
-    public static void saveImage(Context context, String imageName, Uri uri){
+    public static final String CAMERA_CAPTURE = "TEMP_CAMERA_CAPTURE_";
+
+    public static void saveImageInternalStorage(Context context, String imageName, Uri uri){
         Bitmap bitmap = null;
         try {
             InputStream inputStream = context.getContentResolver().openInputStream(uri);
@@ -65,6 +70,71 @@ public class BitmapStorage {
         }else {
             Log.i("TAG", "bitmap didn't exist");
         }
+    }
+
+    //Get an Uri with a Bitmap object
+    public static Uri getImageUri(Context context, Bitmap bitmap){
+        String imageName = BitmapStorage.findCameraCaptureName(context);
+        FileOutputStream fileOutputStream;
+        try {
+            fileOutputStream = context.openFileOutput(imageName, Context.MODE_PRIVATE);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
+            fileOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        BitmapStorage.showImageInformations(context, imageName);
+
+        return Uri.fromFile(new File(context.getFilesDir() + "/" + imageName));
+    }
+
+    // define a free name for a new camera capture file
+    private static String findCameraCaptureName(Context context){
+        int number = 0;
+        String result = CAMERA_CAPTURE + number;
+
+        while (BitmapStorage.isFileExist(context, result)){
+            number++;
+            result = CAMERA_CAPTURE + number;
+        }
+
+        return result;
+    }
+
+    //delete TEMP_CAMERA_CAPTURE
+    public static void deleteTempCameraCapture(Context context){
+        int number = 0;
+        String name = CAMERA_CAPTURE + number;
+
+        while (BitmapStorage.isFileExist(context, name)){
+            File file = context.getFileStreamPath(name);
+            file.delete();
+            Log.i("TAG", name +" deleted");
+            number++;
+            name = CAMERA_CAPTURE + number;
+        }
+    }
+
+    //first photo name return
+    public static String getFirstPhotoName(Apartment apartment){
+        String result = apartment.getUrlPicture();
+        if (result.contains(TransformerApartmentItems.ENTITY_SEPARATOR)) {
+            String[] list = result.split(TransformerApartmentItems.ENTITY_SEPARATOR);
+            result = list[0];
+        }
+        String[] divider = result.split(TransformerApartmentItems.PICTURE_SEP_TI_URL);
+        return divider[1];
+    }
+
+    //check photo name list existence
+    public static Boolean isPhotoNameExist(List<Item> itemList, String name){
+        Boolean result = false;
+        for (int i = 0; i < itemList.size(); i++){
+            if (itemList.get(i).getInformation().equals(name)){
+                result = true;
+            }
+        }
+        return result;
     }
 
 }

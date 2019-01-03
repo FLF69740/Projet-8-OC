@@ -79,8 +79,8 @@ public class SecondFragment extends Fragment {
     }
 
     public void configureScreen(){
-        if (BitmapStorage.isFileExist(Objects.requireNonNull(getContext()), Utils.getFirstPhotoName(mApartment))) {
-            this.mPhotoPresentation.setImageBitmap(BitmapStorage.loadImage(getContext(), Utils.getFirstPhotoName(mApartment)));
+        if (BitmapStorage.isFileExist(Objects.requireNonNull(getContext()), BitmapStorage.getFirstPhotoName(mApartment))) {
+            this.mPhotoPresentation.setImageBitmap(BitmapStorage.loadImage(getContext(), BitmapStorage.getFirstPhotoName(mApartment)));
         } else {
             this.mPhotoPresentation.setImageResource(R.drawable.image_realestate);
         }

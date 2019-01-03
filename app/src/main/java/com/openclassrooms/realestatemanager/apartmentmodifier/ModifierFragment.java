@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.apartmentmodifier;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -45,6 +46,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
     private static final String IMAGE_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE;
     private static final int RC_IMAGE_PERMS = 101;
     private static final int RC_CHOOSE_PHOTO = 102;
+    private static final int RC_CAMERA_CAPTURE = 103;
 
     private View mView;
     private List<Item> mItemList;
@@ -58,6 +60,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
     @BindView(R.id.bottom_background_change)ImageView mBottomBackgroundChange;
     @BindView(R.id.change_button)Button mButtonChange;
     @BindView(R.id.bottom_background_modify)ImageView mBottomBackgroundModify;
+    @BindView(R.id.camera_button_modify)ImageView mCameraButtonModify;
     @BindView(R.id.photo_button_modify)ImageView mPhotoButtonModify;
     @BindView(R.id.textView_title_modify)TextView mTextViewModify;
     @BindView(R.id.editText_information_modify)EditText mEditTextModify;
@@ -69,14 +72,10 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         Bundle args = new Bundle(1);
         args.putParcelable(BUNDLE_KEY_APARTMENT,apartment);
         modifierFragment.setArguments(args);
-
         return modifierFragment;
     }
 
-    public ModifierFragment() {
-        // Required empty public constructor
-    }
-
+    public ModifierFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -132,6 +131,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         } else if (isNewPicture){
             itemList.add(position+1, new Item(mView.getContext().getString(R.string.fragment_modification_recycler_no_picture), mView.getContext().getString(R.string.apartment_title_picture_single),
                     TransformerApartmentItems.NO_PICTURE, false, true));
+            mUriPicture = Uri.parse("");
         }
         mItemList = itemList;
         mAdapter.setItemList(mItemList);
@@ -176,6 +176,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
             // For NO PICTURE CASE
             if (!listItem.get(position).getAPicture()){
                 mPhotoButtonModify.setVisibility(View.INVISIBLE);
+                mCameraButtonModify.setVisibility(View.GONE);
                 // For hidden clear button (when it's not point of interest or picture
                 if (!listItem.get(position).getTitle().equals(mView.getContext().getString(R.string.apartment_title_po_single))){
                     mClearButtonModify.setVisibility(View.INVISIBLE);
@@ -184,19 +185,19 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
                 if (listItem.get(position).getUrlPicture().equals(TransformerApartmentItems.NO_PICTURE)) {
                     mPhotoButtonModify.setImageResource(R.mipmap.baseline_insert_photo_black_24);
                     mPhotoButtonModify.setEnabled(true);
+                    mCameraButtonModify.setEnabled(true);
+                    mEditTextModify.setEnabled(true);
                 } else {
                     if (listItem.get(position).getUrlPicture().contains(TransformerApartmentItems.PICTURE_TITLE_CHARACTERE)) {
                         if (BitmapStorage.isFileExist(Objects.requireNonNull(getContext()), listItem.get(position).getUrlPicture())) {
                             this.mPhotoButtonModify.setImageBitmap(BitmapStorage.loadImage(getContext(), listItem.get(position).getUrlPicture()));
                             mPhotoButtonModify.setEnabled(false);
+                            mCameraButtonModify.setVisibility(View.GONE);
+                            mEditTextModify.setEnabled(false);
                         }
                     }else {
                         Glide.with(this.mView).load(listItem.get(position).getUrlPicture()).apply(RequestOptions.centerCropTransform()).into(this.mPhotoButtonModify);
                     }
-                    //}else {
-                    //    mPhotoButtonModify.setImageResource(R.mipmap.baseline_insert_photo_black_24);
-                    //    mPhotoButtonModify.setEnabled(true);
-                    //}
                 }
             }
 
@@ -210,23 +211,40 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
                         isNewPO = true;
                     }
                     if (listItem.get(position).getTitle().equals(mView.getContext().getString(R.string.apartment_title_picture_single)) && mPhotoButtonModify.isEnabled()) {
-                        isNewPicture = true;
-                        stringNewPicture = mUriPicture.toString();
-                        if (!listItem.get(position).getInformation().equals(mView.getContext().getString(R.string.fragment_modification_recycler_no_picture))){
-                            isPictureSelfIteration = true;
+                        if (mUriPicture != null) {
+                            if (!mUriPicture.toString().equals("")) {
+                                isNewPicture = true;
+                                stringNewPicture = mUriPicture.toString();
+                                if (!listItem.get(position).getInformation().equals(mView.getContext().getString(R.string.fragment_modification_recycler_no_picture))) {
+                                    isPictureSelfIteration = true;
+                                }
+                            } else {
+                                mEditTextModify.setText("");
+                            }
+                        } else {
+                            mEditTextModify.setText("");
                         }
                     }
 
                     if (!mEditTextModify.getText().toString().equals("")) {
-                        listItem.get(position).setInformation(mEditTextModify.getText().toString());
-                        // Set Picture
-                        if (isNewPicture) {
+                        if (!isNewPicture) {
+                            listItem.get(position).setInformation(mEditTextModify.getText().toString());
+                        }
+                        // Set Picture condition
+                        if (!BitmapStorage.isPhotoNameExist(listItem, mEditTextModify.getText().toString())) {
+                            listItem.get(position).setInformation(mEditTextModify.getText().toString());
                             listItem.get(position).setUrlPicture(stringNewPicture);
                             if (isPictureSelfIteration){
                                 isNewPicture = false;
                             }
+                        } else {
+                            isNewPicture = false;
+                            mUriPicture = Uri.parse("");
                         }
-                        this.updateAdapter(listItem, isNewPO, isNewPicture, false, position);
+
+                        if (isNewPicture) {
+                            this.updateAdapter(listItem, isNewPO, isNewPicture, false, position);
+                        }
                     }
                 }
                 panelChoiceVisibility(true);
@@ -253,10 +271,21 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         mButtonChange.setVisibility(a);
         mBottomBackgroundModify.setVisibility(b);
         mPhotoButtonModify.setVisibility(b);
+        mCameraButtonModify.setVisibility(b);
         mTextViewModify.setVisibility(b);
         mEditTextModify.setVisibility(b);
         mValidationButtonModify.setVisibility(b);
         mClearButtonModify.setVisibility(b);
+    }
+
+    /**
+     *  CHOOSE CAMERA CAPTURE
+     */
+
+    @OnClick(R.id.camera_button_modify)
+    public void onClickCaptureCamera(){
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, RC_CAMERA_CAPTURE);
     }
 
     /**
@@ -281,6 +310,13 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
             if (resultCode == RESULT_OK){
                 this.mUriPicture = data.getData();
                 Glide.with(this).load(this.mUriPicture).apply(RequestOptions.centerCropTransform()).into(mPhotoButtonModify);
+            }
+        } else if (requestCode == RC_CAMERA_CAPTURE){
+            if (resultCode == RESULT_OK){
+                Bundle extra = data.getExtras();
+                Bitmap bitmap = (Bitmap) extra.get("data");
+                mUriPicture = BitmapStorage.getImageUri(getContext(), bitmap);
+                Glide.with(this).load(mUriPicture).apply(RequestOptions.centerCropTransform()).into(mPhotoButtonModify);
             }
         }
     }

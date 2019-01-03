@@ -6,11 +6,13 @@ import android.net.wifi.WifiManager;
 import android.view.View;
 
 import com.openclassrooms.realestatemanager.models.Apartment;
+import com.openclassrooms.realestatemanager.models.Item;
 import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -84,17 +86,6 @@ public class Utils {
         } else {
             return Color.parseColor("green");
         }
-    }
-
-    //first photo name return
-    public static String getFirstPhotoName(Apartment apartment){
-        String result = apartment.getUrlPicture();
-        if (result.contains(TransformerApartmentItems.ENTITY_SEPARATOR)) {
-            String[] list = result.split(TransformerApartmentItems.ENTITY_SEPARATOR);
-            result = list[0];
-        }
-        String[] divider = result.split(TransformerApartmentItems.PICTURE_SEP_TI_URL);
-        return divider[1];
     }
 
     /**

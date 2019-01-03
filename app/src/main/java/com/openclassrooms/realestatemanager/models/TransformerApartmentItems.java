@@ -105,7 +105,7 @@ public class TransformerApartmentItems {
 
                 String fileName = String.valueOf(mApartment.getId()) + PICTURE_TITLE_CHARACTERE + itemList.get(i).getInformation();
                 if (!BitmapStorage.isFileExist(context, fileName)) {
-                    BitmapStorage.saveImage(context, fileName, Uri.parse(itemList.get(i).getUrlPicture()));
+                    BitmapStorage.saveImageInternalStorage(context, fileName, Uri.parse(itemList.get(i).getUrlPicture()));
                     BitmapStorage.showImageInformations(context, fileName);
                 }
 
@@ -118,6 +118,7 @@ public class TransformerApartmentItems {
                 mApartment.setUrlPicture(iterationPicture);
             }
         }
+        BitmapStorage.deleteTempCameraCapture(context);
         Log.i("TAG", "resume : " + mApartment.getUrlPicture());
     }
 

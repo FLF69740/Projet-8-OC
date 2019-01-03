@@ -35,8 +35,8 @@ public class ApartmentListViewHolder extends RecyclerView.ViewHolder {
         this.mTextViewTown.setText(apartment.getTown());
         this.mTextViewPrice.setText(String.valueOf(apartment.getPrice()));
 
-        if (BitmapStorage.isFileExist(mItemView.getContext(), Utils.getFirstPhotoName(apartment))) {
-            this.mImageViewPicture.setImageBitmap(BitmapStorage.loadImage(mItemView.getContext(), Utils.getFirstPhotoName(apartment)));
+        if (BitmapStorage.isFileExist(mItemView.getContext(), BitmapStorage.getFirstPhotoName(apartment))) {
+            this.mImageViewPicture.setImageBitmap(BitmapStorage.loadImage(mItemView.getContext(), BitmapStorage.getFirstPhotoName(apartment)));
         } else {
             this.mImageViewPicture.setImageResource(R.drawable.image_realestate);
         }
