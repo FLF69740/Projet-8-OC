@@ -7,6 +7,10 @@
     <string name="toolbar_apartment_creation">Apartment Creation</string>
     <string name="toolbar_apartment_modification">Apartment Modification</string>
 
+    <!-- photo viewpager -->
+    <string name="photo_title_viewpager" translatable="false">PHOTO TITLE</string>
+    <string name="photo_close_viewpager" translatable="false">X</string>
+
     <!-- creation fragment -->
     <string name="fragment_creation_title">fill in the fields below :</string>
     <string name="fragment_creation_type">type</string>

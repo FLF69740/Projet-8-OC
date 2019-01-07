@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.apartmentdetail;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 
 
@@ -39,6 +41,8 @@ public class SecondFragment extends Fragment {
     @BindView(R.id.dateSold)TextView mTextViewDateSold;
 
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
+    public static final String BUNDLE_KEY_LIST_PHOTO = "BUNDLE_KEY_LIST_PHOTO";
+
     private Apartment mApartment;
     private View mView;
 
@@ -108,5 +112,12 @@ public class SecondFragment extends Fragment {
             string = string.replace(TransformerApartmentItems.ENTITY_SEPARATOR, "\n- ");
         }
         return string;
+    }
+
+    @OnClick(R.id.photo_presentation)
+    public void ShowViewPagerPhoto(){
+        Intent intent = new Intent(getActivity(), ViewPagerPhotoActivity.class);
+        intent.putExtra(BUNDLE_KEY_LIST_PHOTO, mApartment.getUrlPicture());
+        startActivity(intent);
     }
 }
