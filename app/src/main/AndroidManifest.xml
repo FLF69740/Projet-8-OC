@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.openclassrooms.realestatemanager">
 
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -52,14 +54,15 @@
         </activity>
 
         <!-- MODIFIER ACTIVITY -->
-        <activity android:name=".apartmentmodifier.ModifierActivity"
+        <activity
+            android:name=".apartmentmodifier.ModifierActivity"
             android:label="@string/toolbar_apartment_modification"
             android:parentActivityName=".appartmentlist.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
         </activity>
-
+        <activity android:name=".apartmentmodifier.PhotoModifierActivity"></activity>
     </application>
 
 </manifest>

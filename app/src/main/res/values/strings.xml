@@ -23,13 +23,19 @@
     <string name="apartment_room">room(s)</string>
     <string name="METER" translatable="false">METER</string>
     <string name="FEET" translatable="false">FEET</string>
-    <string name="apartment_inscription">Date inscription :</string>
+    <string name="apartment_inscription">Inscription :</string>
+    <string name="apartment_title_date_sold">Date sold :</string>
+    <string name="apartment_date_sold" translatable="false"> - </string>
 
     <!-- Apartment modifier -->
     <string name="fragment_modification_manager_title">MANAGER :</string>
     <string name="fragment_modification_button_title">CHANGE</string>
     <string name="fragment_modification_recycler_no_po">[+] point of interest</string>
     <string name="fragment_modification_recycler_no_picture">[+] picture</string>
+    <string name="activity_photo_modifier_validate">VALIDATE</string>
+    <string name="activity_photo_modifier_cancel">CANCEL</string>
+    <string name="activity_photo_modifier_advertising_photo_name">This title for this photo already exists</string>
+    <string name="activity_photo_modifier_advertising_empty_edittext">Photo must have a title</string>
 
     <!-- TRANSFORMER APARTMENT ITEM -->
     <string name="apartment_title_type">TYPE :</string>

@@ -21,7 +21,7 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:src="@color/colorPrimary"
-                app:layout_constraintBottom_toTopOf="@+id/description_title"
+                app:layout_constraintBottom_toBottomOf="@+id/titleDateSold"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -30,6 +30,7 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintDimensionRatio="w,1:1"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_left"
                 app:layout_constraintStart_toStartOf="@id/left_line_border"
@@ -72,7 +73,7 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/roboto_light"
                 android:text="DATE"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toTopOf="@+id/description_title"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -83,11 +84,37 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/roboto_light"
                 android:text="@string/apartment_inscription"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="@+id/date_inscription"
                 app:layout_constraintEnd_toStartOf="@+id/date_inscription"
                 app:layout_constraintTop_toTopOf="@+id/date_inscription" />
+
+            <TextView
+                android:id="@+id/titleDateSold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_light"
+                android:text="@string/apartment_title_date_sold"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/photo_presentation" />
+
+            <TextView
+                android:id="@+id/dateSold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/roboto_light"
+                android:text="@string/apartment_date_sold"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/titleDateSold"
+                app:layout_constraintStart_toEndOf="@+id/titleDateSold"
+                app:layout_constraintTop_toTopOf="@+id/titleDateSold" />
 
             <TextView
                 android:id="@+id/description_title"
@@ -101,7 +128,7 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/photo_presentation" />
+                app:layout_constraintTop_toBottomOf="@+id/dateSold" />
 
             <TextView
                 android:id="@+id/description_body"

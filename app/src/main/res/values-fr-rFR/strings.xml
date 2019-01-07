@@ -31,5 +31,10 @@
     <string name="fragment_modification_button_title">MODIFIER</string>
     <string name="fragment_modification_recycler_no_picture">[+] image</string>
     <string name="fragment_modification_recycler_no_po">[+] point d\'intérêt</string>
-    <string name="apartment_inscription">date d\'inscription :</string>
+    <string name="apartment_inscription">Inscription :</string>
+    <string name="apartment_title_date_sold">Date de vente :</string>
+    <string name="activity_photo_modifier_validate">VALIDER</string>
+    <string name="activity_photo_modifier_cancel">ANNULER</string>
+    <string name="activity_photo_modifier_advertising_photo_name">Ce titre pour cette photo existe déjà</string>
+    <string name="activity_photo_modifier_advertising_empty_edittext">La photo doit avoir un titre</string>
 </resources>

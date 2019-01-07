@@ -50,11 +50,17 @@ public class ModifierActivity extends BaseActivity implements ModifierFragment.I
     }
 
     @Override
-    public void itemClicked(View view, List<Item> itemList, String dateInscription, long id, long userId) {
+    public void itemClicked(View view, List<Item> itemList, String dateInscription, long id, long userId, Boolean isSold, String dateSold) {
         TransformerApartmentItems transformerApartmentItems = new TransformerApartmentItems();
         transformerApartmentItems.createApartment(itemList, view.getContext(), id, userId);
         Apartment apartment = transformerApartmentItems.getApartment();
         apartment.setDateInscription(dateInscription);
+        if (isSold){
+            apartment.setDateSold(dateSold);
+        }else {
+            apartment.setDateSold(Apartment.EMPTY_CASE);
+        }
+        apartment.setSold(isSold);
         Intent intent = new Intent();
         intent.putExtra(BUNDLE_APARTMENT_UPDATE, apartment);
         setResult(RESULT_OK, intent);

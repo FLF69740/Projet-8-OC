@@ -104,11 +104,6 @@ public class TransformerApartmentItems {
                     !itemList.get(i).getInformation().equals(context.getString(R.string.fragment_modification_recycler_no_picture))) {
 
                 String fileName = String.valueOf(mApartment.getId()) + PICTURE_TITLE_CHARACTERE + itemList.get(i).getInformation();
-                if (!BitmapStorage.isFileExist(context, fileName)) {
-                    BitmapStorage.saveImageInternalStorage(context, fileName, Uri.parse(itemList.get(i).getUrlPicture()));
-                    BitmapStorage.showImageInformations(context, fileName);
-                }
-
                 String iterationPicture = mApartment.getUrlPicture();
                 if (iterationPicture.equals(Apartment.EMPTY_CASE)){
                     iterationPicture = itemList.get(i).getInformation() + PICTURE_SEP_TI_URL + fileName;

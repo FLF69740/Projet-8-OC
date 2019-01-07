@@ -36,6 +36,7 @@ public class SecondFragment extends Fragment {
     @BindView(R.id.type_information)TextView mTypeInformation;
     @BindView(R.id.sold_information)TextView mSoldInformation;
     @BindView(R.id.date_inscription)TextView mTextViewDateInscription;
+    @BindView(R.id.dateSold)TextView mTextViewDateSold;
 
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     private Apartment mApartment;
@@ -95,6 +96,9 @@ public class SecondFragment extends Fragment {
         mTypeInformation.setText(mApartment.getType());
         mSoldInformation.setText(Utils.getStringSold(mApartment.getSold(), this.mView));
         mSoldInformation.setTextColor(Utils.getColorSold(mApartment.getSold(), this.mView));
+        if (!mApartment.getDateSold().equals(Apartment.EMPTY_CASE)) {
+            mTextViewDateSold.setText(mApartment.getDateSold());
+        }
     }
 
     // points of interest string construction
@@ -105,16 +109,4 @@ public class SecondFragment extends Fragment {
         }
         return string;
     }
-
-    // Image uri string upload
-    private String getStringUri(String string){
-        if (string.contains(TransformerApartmentItems.ENTITY_SEPARATOR)){
-            String[] subPart = string.split(TransformerApartmentItems.ENTITY_SEPARATOR);
-            string = subPart[0];
-        }
-        String[] uriPart = string.split(TransformerApartmentItems.PICTURE_SEP_TI_URL);
-        string = uriPart[1];
-        return string;
-    }
-
 }

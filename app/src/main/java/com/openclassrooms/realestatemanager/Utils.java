@@ -4,15 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.wifi.WifiManager;
 import android.view.View;
-
-import com.openclassrooms.realestatemanager.models.Apartment;
-import com.openclassrooms.realestatemanager.models.Item;
-import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -38,6 +32,24 @@ public class Utils {
     public static String getTodayDate(){
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(new Date());
+    }
+
+    //Get day of month
+    public static int getDayOfMonth(String date){
+        String[] divider = date.split("/");
+        return Integer.valueOf(divider[0]);
+    }
+
+    //Get day of month
+    public static int getMonth(String date){
+        String[] divider = date.split("/");
+        return Integer.valueOf(divider[1]);
+    }
+
+    //Get day of month
+    public static int getYear(String date){
+        String[] divider = date.split("/");
+        return Integer.valueOf(divider[2]);
     }
 
     /**
