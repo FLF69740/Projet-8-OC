@@ -35,6 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected List<Apartment> mApartmentList;
     protected Apartment mApartment;
     protected String mAdapterPosition;
+    protected Toolbar toolbar;
 
 
     // abstract methods
@@ -123,7 +124,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
 
     private void configureToolbar(){
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (isAChildActivity()){
             ActionBar actionBar = getSupportActionBar();

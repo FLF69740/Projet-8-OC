@@ -107,6 +107,8 @@ public class SecondFragment extends Fragment {
         mSoldInformation.setTextColor(Utils.getColorSold(mApartment.getSold(), this.mView));
         if (!mApartment.getDateSold().equals(Apartment.EMPTY_CASE)) {
             mTextViewDateSold.setText(mApartment.getDateSold());
+        } else {
+            mTextViewDateSold.setText("-");
         }
     }
 

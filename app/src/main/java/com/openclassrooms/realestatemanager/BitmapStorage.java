@@ -121,6 +121,8 @@ public class BitmapStorage {
         if (result.contains(TransformerApartmentItems.ENTITY_SEPARATOR)) {
             String[] list = result.split(TransformerApartmentItems.ENTITY_SEPARATOR);
             result = list[0];
+        } else if (result.equals(Apartment.EMPTY_CASE)){
+            result = Apartment.EMPTY_CASE + TransformerApartmentItems.PICTURE_SEP_TI_URL + Apartment.EMPTY_CASE;
         }
         String[] divider = result.split(TransformerApartmentItems.PICTURE_SEP_TI_URL);
         return divider[1];
@@ -129,10 +131,10 @@ public class BitmapStorage {
     //get number of photo for a collection
     public static int getPhotoNumber(Apartment apartment){
         String result = apartment.getUrlPicture();
-        int number = 0;
+        int number = 1;
         if (result.contains(TransformerApartmentItems.ENTITY_SEPARATOR)) {
             String[] list = result.split(TransformerApartmentItems.ENTITY_SEPARATOR);
-            number += list.length;
+            number += list.length -1;
         }
         return number;
     }

@@ -37,4 +37,10 @@
     <string name="activity_photo_modifier_cancel">ANNULER</string>
     <string name="activity_photo_modifier_advertising_photo_name">Ce titre pour cette photo existe déjà</string>
     <string name="activity_photo_modifier_advertising_empty_edittext">La photo doit avoir un titre</string>
+    <string name="nav_header_userName">NOM UTILISATEUR</string>
+    <string name="nav_drawer_item_loan">Simulateur de prêt</string>
+    <string name="nav_drawer_item_units">Unités</string>
+    <string name="nav_drawer_item_profile">Gestionnaire profil</string>
+    <string name="nav_drawer_item_help">Aide</string>
+    <string name="nav_drawer_item_about">A propos</string>
 </resources>
