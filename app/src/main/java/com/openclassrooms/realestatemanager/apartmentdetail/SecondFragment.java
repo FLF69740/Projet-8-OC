@@ -1,7 +1,9 @@
 package com.openclassrooms.realestatemanager.apartmentdetail;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -39,6 +41,7 @@ public class SecondFragment extends Fragment {
     @BindView(R.id.sold_information)TextView mSoldInformation;
     @BindView(R.id.date_inscription)TextView mTextViewDateInscription;
     @BindView(R.id.dateSold)TextView mTextViewDateSold;
+    @BindView(R.id.photo_number_indicator)TextView mPhotoNumberIndicator;
 
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     public static final String BUNDLE_KEY_LIST_PHOTO = "BUNDLE_KEY_LIST_PHOTO";
@@ -86,8 +89,10 @@ public class SecondFragment extends Fragment {
     public void configureScreen(){
         if (BitmapStorage.isFileExist(Objects.requireNonNull(getContext()), BitmapStorage.getFirstPhotoName(mApartment))) {
             this.mPhotoPresentation.setImageBitmap(BitmapStorage.loadImage(getContext(), BitmapStorage.getFirstPhotoName(mApartment)));
+            this.mPhotoNumberIndicator.setText(String.valueOf(BitmapStorage.getPhotoNumber(mApartment)));
         } else {
             this.mPhotoPresentation.setImageResource(R.drawable.image_realestate);
+            this.mPhotoNumberIndicator.setVisibility(View.INVISIBLE);
         }
 
         mTextViewDateInscription.setText(mApartment.getDateInscription());
@@ -118,6 +123,13 @@ public class SecondFragment extends Fragment {
     public void ShowViewPagerPhoto(){
         Intent intent = new Intent(getActivity(), ViewPagerPhotoActivity.class);
         intent.putExtra(BUNDLE_KEY_LIST_PHOTO, mApartment.getUrlPicture());
-        startActivity(intent);
+     //   startActivity(intent);
+        // Start Animation
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), mPhotoPresentation, getString(R.string.animation_second_fragment_to_viewpager));
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 }

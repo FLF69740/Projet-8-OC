@@ -78,6 +78,7 @@
             android:layout_marginBottom="8dp"
             android:hint="@string/fragment_creation_town"
             android:textSize="12sp"
+            android:inputType="textCapCharacters"
             app:layout_constraintBottom_toTopOf="@+id/fragment_creation_price_editText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.wifi.WifiManager;
+import android.text.InputType;
 import android.view.View;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -97,6 +98,20 @@ public class Utils {
             return Color.parseColor("red");
         } else {
             return Color.parseColor("green");
+        }
+    }
+
+    // return the state of an EditText depending of entry type
+    public static int getInputType(Context context, String type){
+        if (type.equals(context.getString(R.string.apartment_title_price)) ||
+                type.equals(context.getString(R.string.apartment_title_square)) ||
+                type.equals(context.getString(R.string.apartment_title_room)) ||
+                type.equals(context.getString(R.string.apartment_title_postal_code))){
+            return InputType.TYPE_CLASS_NUMBER;
+        }else if (type.equals(context.getString(R.string.apartment_title_town))){
+            return InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS;
+        }else{
+            return InputType.TYPE_CLASS_TEXT;
         }
     }
 

@@ -33,10 +33,22 @@ tools:context=".apartmentdetail.SecondFragment">
                 android:scaleType="centerCrop"
                 android:clickable="true"
                 android:focusable="true"
+                android:transitionName="@string/animation_second_fragment_to_viewpager"
                 app:layout_constraintDimensionRatio="w,1:1"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_left"
                 app:layout_constraintStart_toStartOf="@id/left_line_border"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/photo_number_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:fontFamily="@font/roboto_bold"
+                android:textSize="16sp"
+                android:padding="5dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_left"
+                app:layout_constraintTop_toTopOf="@+id/photo_presentation" />
 
             <TextView
                 android:id="@+id/type_information"

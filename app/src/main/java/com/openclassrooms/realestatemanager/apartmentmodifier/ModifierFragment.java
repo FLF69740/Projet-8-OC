@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +54,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
     private Boolean mIsSold;
     private Calendar mCalendar = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+    private Boolean mLaunchCalendarAutoriation;
 
     @BindView(R.id.recycler_view_modifier)RecyclerView mRecyclerView;
     @BindView(R.id.radioGroup)RadioGroup mRadioGroupButton;
@@ -85,6 +85,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         mView = inflater.inflate(R.layout.fragment_modifier, container, false);
         ButterKnife.bind(this, mView);
 
+        mLaunchCalendarAutoriation = false;
         mApartment = getArguments().getParcelable(BUNDLE_KEY_APARTMENT);
         mDateInscription = mApartment.getDateInscription();
         mIsSold = mApartment.getSold();
@@ -99,11 +100,12 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
             mCalendar.set(Calendar.DAY_OF_MONTH, Utils.getDayOfMonth(mApartment.getDateSold()));
             mCalendar.set(Calendar.MONTH, Utils.getMonth(mApartment.getDateSold())-1);
             mCalendar.set(Calendar.YEAR, Utils.getYear(mApartment.getDateSold()));
-            mDateSold.setText(sdf.format(mCalendar.getTime()));
         } else {
             mCalendar = Calendar.getInstance();
         }
+        mDateSold.setText(sdf.format(mCalendar.getTime()));
         this.panelChoiceVisibility(true);
+        mLaunchCalendarAutoriation = true;
 
         return mView;
     }
@@ -157,7 +159,11 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         RadioButton radioButton = mView.findViewById(checkedId);
         switch (radioButton.getId()){
             case R.id.radio_button_for_sale: mIsSold = false; showDateSoldTextView(false); break;
-            case R.id.radio_button_sold: mIsSold = true; showDateSoldTextView(true); break;
+            case R.id.radio_button_sold: mIsSold = true; showDateSoldTextView(true);
+                if (mLaunchCalendarAutoriation) {
+                    new DatePickerDialog(getContext(), dateSold, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                }
+                break;
         }
     }
 
@@ -228,7 +234,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
                 this.modifierBarManagerParameters(View.GONE, true, listItem.get(position).getInformation(), View.INVISIBLE);
             }
             mTextViewModify.setText(listItem.get(position).getTitle());
-            mEditTextModify.setInputType(getInputType(listItem.get(position).getTitle()));
+            mEditTextModify.setInputType(Utils.getInputType(getContext(), listItem.get(position).getTitle()));
         }
         this.validationClick(listItem, position);
         this.clearClick(listItem, position);
@@ -264,20 +270,6 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         mEditTextModify.setEnabled(isEditTextEnabled);
         mEditTextModify.setText(editTextString);
         mClearButtonModify.setVisibility(stateClearButton);
-    }
-
-    // return the state of EditText depending of entry type
-    private int getInputType(String type){
-        if (type.equals(mView.getContext().getString(R.string.apartment_title_price)) ||
-                type.equals(mView.getContext().getString(R.string.apartment_title_square)) ||
-                type.equals(mView.getContext().getString(R.string.apartment_title_room)) ||
-                type.equals(mView.getContext().getString(R.string.apartment_title_postal_code))){
-            return InputType.TYPE_CLASS_NUMBER;
-        }else if (type.equals(mView.getContext().getString(R.string.apartment_title_town))){
-            return InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS;
-        }else{
-            return InputType.TYPE_CLASS_TEXT;
-        }
     }
 
     private void panelChoiceVisibility(Boolean change){

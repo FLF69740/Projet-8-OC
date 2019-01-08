@@ -126,6 +126,17 @@ public class BitmapStorage {
         return divider[1];
     }
 
+    //get number of photo for a collection
+    public static int getPhotoNumber(Apartment apartment){
+        String result = apartment.getUrlPicture();
+        int number = 0;
+        if (result.contains(TransformerApartmentItems.ENTITY_SEPARATOR)) {
+            String[] list = result.split(TransformerApartmentItems.ENTITY_SEPARATOR);
+            number += list.length;
+        }
+        return number;
+    }
+
     //check photo name list existence
     public static Boolean isPhotoNameExist(List<Item> itemList, String name){
         Boolean result = false;
