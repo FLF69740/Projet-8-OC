@@ -138,16 +138,4 @@ public class BitmapStorage {
         }
         return number;
     }
-
-    //check photo name list existence
-    public static Boolean isPhotoNameExist(List<Item> itemList, String name){
-        Boolean result = false;
-        for (int i = 0; i < itemList.size(); i++){
-            if (itemList.get(i).getInformation().equals(name)){
-                result = true;
-            }
-        }
-        return result;
-    }
-
 }

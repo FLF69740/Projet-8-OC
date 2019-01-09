@@ -2,9 +2,11 @@ package com.openclassrooms.realestatemanager.models;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 @Entity
-public class User {
+public class User implements Parcelable {
 
     @PrimaryKey(autoGenerate = true) private Long mId;
     private String mUsername;
@@ -52,4 +54,39 @@ public class User {
     public void setUserDescription(String userDescription) {
         mUserDescription = userDescription;
     }
+
+    /**
+     *  Parcel
+     */
+
+    protected User(Parcel in) {
+        mUsername = in.readString();
+        mUrlPicture = in.readString();
+        mUserDescription = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mUsername);
+        dest.writeString(mUrlPicture);
+        dest.writeString(mUserDescription);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

@@ -5,6 +5,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.openclassrooms.realestatemanager.models.User;
 
@@ -15,5 +16,7 @@ public interface UserDao {
 
     @Query("SELECT * FROM User WHERE mId = :userId")
     LiveData<User> getUser(long userId);
+
+    @Update int updateUser(User user);
 
 }

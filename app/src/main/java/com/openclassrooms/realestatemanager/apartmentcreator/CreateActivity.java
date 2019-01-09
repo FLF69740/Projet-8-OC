@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.User;
 
 public class CreateActivity extends BaseActivity implements CreateFragment.ItemClickedListener {
 
@@ -35,6 +36,11 @@ public class CreateActivity extends BaseActivity implements CreateFragment.ItemC
 
     @Override
     protected boolean isAChildActivity() {return true;}
+
+    @Override
+    protected void userUpdate(User user) {
+
+    }
 
     @Override
     public void itemClicked(View view, String type, String adress, int postalCode, String town, int price) {

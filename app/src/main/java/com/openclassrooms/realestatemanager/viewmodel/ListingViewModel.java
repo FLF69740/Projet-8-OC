@@ -29,7 +29,7 @@ public class ListingViewModel extends ViewModel {
         if (this.mCurrentUser != null){
             return;
         }
-        mCurrentUser = mUserDataSource.getUser(userId);
+        this.getUser(userId);
     }
 
     /**
@@ -38,12 +38,18 @@ public class ListingViewModel extends ViewModel {
 
     //GET
     public LiveData<User> getUser(long userId){
-        return this.mCurrentUser;
+     //   return this.mCurrentUser;
+        return mUserDataSource.getUser(userId);
     }
 
     //CREATE
     public void createUser(User user){
         mExecutor.execute(()-> mUserDataSource.createUser(user));
+    }
+
+    //UPDATE
+    public void updateUser(User user){
+        mExecutor.execute(()-> mUserDataSource.updateUser(user));
     }
 
     /**

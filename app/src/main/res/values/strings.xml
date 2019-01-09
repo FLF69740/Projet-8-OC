@@ -52,6 +52,7 @@
     <string name="activity_photo_modifier_cancel">CANCEL</string>
     <string name="activity_photo_modifier_advertising_photo_name">This title for this photo already exists</string>
     <string name="activity_photo_modifier_advertising_empty_edittext">Photo must have a title</string>
+    <string name="activity_user_modifier_title">LIST OF USERS</string>
 
     <!-- TRANSFORMER APARTMENT ITEM -->
     <string name="apartment_title_type">TYPE :</string>

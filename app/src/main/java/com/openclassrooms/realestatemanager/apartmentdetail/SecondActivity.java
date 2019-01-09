@@ -9,16 +9,20 @@ import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.apartmentmodifier.ModifierActivity;
 import com.openclassrooms.realestatemanager.models.Apartment;
+import com.openclassrooms.realestatemanager.models.User;
 
 public class SecondActivity extends BaseActivity {
 
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
+    private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
 
     @Override
     protected Fragment getFirstFragment() {
         Apartment apartment = getIntent().getParcelableExtra(BUNDLE_KEY_APARTMENT);
+        User user = getIntent().getParcelableExtra(BUNDLE_KEY_USER);
         mApartment = apartment;
-        return SecondFragment.newInstance(apartment);
+        mUser = user;
+        return SecondFragment.newInstance(apartment, user);
     }
 
     @Override
@@ -47,6 +51,11 @@ public class SecondActivity extends BaseActivity {
     }
 
     @Override
+    protected void userUpdate(User user) {
+        mUser = user;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (MODIFIER_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode){
@@ -57,7 +66,7 @@ public class SecondActivity extends BaseActivity {
             mApartment = apartment;
             SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
             if (secondFragment != null && secondFragment.isVisible()) {
-                secondFragment.updateDoubleScreen(mApartment);
+                secondFragment.updateDoubleScreen(mApartment, mUser);
             }else {
                 Intent intent = new Intent(this, SecondActivity.class);
                 intent.putExtra(BUNDLE_KEY_APARTMENT, apartment);

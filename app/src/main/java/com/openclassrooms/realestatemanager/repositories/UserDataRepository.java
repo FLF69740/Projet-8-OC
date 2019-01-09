@@ -22,4 +22,9 @@ public class UserDataRepository {
     public void createUser(User user){
         mUserDao.createUser(user);
     }
+
+    // UPDATE USER
+    public void updateUser(User user){
+        mUserDao.updateUser(user);
+    }
 }

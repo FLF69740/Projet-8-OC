@@ -62,8 +62,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
         </activity>
+
         <activity android:name=".apartmentmodifier.PhotoModifierActivity" />
-        <activity android:name=".apartmentdetail.ViewPagerPhotoActivity"></activity>
+        <activity android:name=".apartmentdetail.ViewPagerPhotoActivity" />
+
+        <activity android:name=".apartmentmodifier.ModifierUserActivity"
+            android:label="@string/activity_user_modifier_title"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+        </activity>
+
     </application>
 
 </manifest>

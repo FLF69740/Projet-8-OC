@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.appartmentlist;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.apartmentdetail.SecondActivity;
 import com.openclassrooms.realestatemanager.apartmentdetail.SecondFragment;
@@ -18,11 +25,21 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
 import com.openclassrooms.realestatemanager.apartmentmodifier.ModifierActivity;
 import com.openclassrooms.realestatemanager.models.Apartment;
+import com.openclassrooms.realestatemanager.models.User;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainFragment.ItemClickedListener, NavigationView.OnNavigationItemSelectedListener
 {
 
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
+    private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
+
+    TextView mNavUserName;
+    ImageView mNavUserPhoto;
+
+    @BindView(R.id.activity_main_nav_view)NavigationView mNavigationView;
 
     @Override
     protected int getContentView() {
@@ -41,7 +58,7 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
 
     @Override
     protected Fragment getSecondFragment() {
-        return SecondFragment.newInstance(mApartment);
+        return SecondFragment.newInstance(mApartment, mUser);
     }
 
     @Override
@@ -57,8 +74,18 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
         this.configureDrawerLayout();
         this.configureNavigationView();
+
+    }
+
+    @Override
+    protected void userUpdate(User user) {
+        mUser = user;
+        mNavUserName.setText(user.getUsername());
+        BitmapStorage.showImageInformations(this, user.getUrlPicture());
+        mNavUserPhoto.setImageResource(R.drawable.bk_photo);
     }
 
     /**
@@ -83,7 +110,7 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
             mApartment = apartment;
             SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
             if (secondFragment != null && secondFragment.isVisible()) {
-                secondFragment.updateDoubleScreen(mApartment);
+                secondFragment.updateDoubleScreen(mApartment, mUser);
             }
         }
     }
@@ -94,10 +121,11 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
         mAdapterPosition = adapterPosition;
         SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
         if (secondFragment != null && secondFragment.isVisible()){
-            secondFragment.updateDoubleScreen(mApartment);
+            secondFragment.updateDoubleScreen(mApartment, mUser);
         } else {
             Intent intent = new Intent(this, SecondActivity.class);
             intent.putExtra(BUNDLE_KEY_APARTMENT, apartment);
+            intent.putExtra(BUNDLE_KEY_USER, mUser);
             startActivity(intent);
         }
     }
@@ -114,6 +142,9 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
     private void configureNavigationView(){
         NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mViewHeader = mNavigationView.getHeaderView(0);
+        mNavUserName = mViewHeader.findViewById(R.id.nav_userName);
+        mNavUserPhoto = mViewHeader.findViewById(R.id.nav_userPhoto);
     }
 
     @Override

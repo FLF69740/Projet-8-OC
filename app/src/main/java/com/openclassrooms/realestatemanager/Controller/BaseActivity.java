@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
@@ -19,6 +20,7 @@ import com.openclassrooms.realestatemanager.appartmentlist.MainFragment;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Apartment;
+import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.viewmodel.ListingViewModel;
 import java.util.List;
 
@@ -26,14 +28,19 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     private static final String BUNDLE_KEY_ADAPTER_POSITION = "BUNDLE_KEY_ADAPTER_POSITION";
+    private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
 
     protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
     protected static final int MODIFIER_ACTIVITY_REQUEST_CODE = 20;
 
     protected static int USER_ID = 1;
+    protected static final String BUNDLE_KEY_PREF_INT_USER = "BUNDLE_KEY_PREF_INT_USER";
+    protected View mViewHeader;
     protected ListingViewModel mListingViewModel;
     protected List<Apartment> mApartmentList;
     protected Apartment mApartment;
+    protected User mUser;
+    protected int mUserId;
     protected String mAdapterPosition;
     protected Toolbar toolbar;
 
@@ -54,10 +61,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (savedInstanceState != null){
             mApartment = savedInstanceState.getParcelable(BUNDLE_KEY_APARTMENT);
             mAdapterPosition = savedInstanceState.getString(BUNDLE_KEY_ADAPTER_POSITION);
-        }
+            mUser = savedInstanceState.getParcelable(BUNDLE_KEY_USER);
+            mUserId = savedInstanceState.getInt(BUNDLE_KEY_PREF_INT_USER);
+        } else {
 
+            mUserId = getPreferences(MODE_PRIVATE).getInt(BUNDLE_KEY_PREF_INT_USER, USER_ID);
+        }
         this.configureViewModel();
-        this.getApartments(USER_ID);
+        this.getApartments(mUserId);
 
         if (savedInstanceState == null) {
             this.configureFragment();
@@ -71,6 +82,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putParcelable(BUNDLE_KEY_APARTMENT, mApartment);
         outState.putString(BUNDLE_KEY_ADAPTER_POSITION, mAdapterPosition);
+        outState.putParcelable(BUNDLE_KEY_USER, mUser);
+        outState.putInt(BUNDLE_KEY_PREF_INT_USER, mUserId);
     }
 
 
@@ -106,18 +119,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return true;
     }
-/*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (MODIFIER_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode){
-            Apartment apartment = data.getParcelableExtra(ModifierActivity.BUNDLE_APARTMENT_UPDATE);
-            mApartment = apartment;
-            Toast.makeText(this, apartment.getDescription(), Toast.LENGTH_LONG).show();
-            updateApartment(apartment);
-   //         replaceFragment();
-        }
-    }*/
 
     /**
      *  TOOLBAR
@@ -140,6 +141,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             case R.id.menu_toolbar_modify:
                 Intent intentModifier = new Intent(this, ModifierActivity.class);
                 intentModifier.putExtra(ModifierActivity.BUNDLE_KEY_APARTMENT, mApartment);
+                intentModifier.putExtra(ModifierActivity.BUNDLE_KEY_USER, mUser);
                 startActivityForResult(intentModifier, MODIFIER_ACTIVITY_REQUEST_CODE);
                 return true;
             case R.id.menu_toolbar_add:
@@ -162,12 +164,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void configureViewModel(){
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.mListingViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListingViewModel.class);
-        this.mListingViewModel.init(USER_ID);
+        this.mListingViewModel.init(mUserId);
+        this.getUser(mUserId);
     }
 
     // Configure current user
-    protected void getCurrentUser(int userId){
-        //----------------------SOON-----------------------//
+    protected void getUser(int userId){
+        this.mListingViewModel.getUser(userId).observe(this, this::updateActifUser);
     }
 
     // Configure apartments list for a user
@@ -189,10 +192,18 @@ public abstract class BaseActivity extends AppCompatActivity {
      *  UI
      */
 
+    // update the list of apartments
     protected void updateApartmentsList(List<Apartment> apartments){
         this.mApartmentList = apartments;
         replaceFragment();
     }
 
+    // update the name of user
+    protected void updateActifUser(User user){
+        this.mUser = user;
+        userUpdate(user);
+    }
+
+    protected abstract void userUpdate(User user);
 
 }

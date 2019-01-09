@@ -7,15 +7,21 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.ContentValues;
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.database.dao.ApartmentDao;
 import com.openclassrooms.realestatemanager.database.dao.UserDao;
 import com.openclassrooms.realestatemanager.models.Apartment;
+import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
 import com.openclassrooms.realestatemanager.models.User;
 
 @Database(entities = {Apartment.class, User.class}, version = 1, exportSchema = false)
 public abstract class RealEstateManagerDatabase extends RoomDatabase {
+
+    private static final String DEFAULT_USER_URL = "DEFAULT_USER_URL";
+    private static final String DEFAULT_USER_NAME = "Black Kisama";
 
     // SINGLETON
     private static volatile RealEstateManagerDatabase INSTANCE;
@@ -47,8 +53,8 @@ public abstract class RealEstateManagerDatabase extends RoomDatabase {
 
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("mId", 1);
-                contentValues.put("mUsername", "Black Kisama");
-                contentValues.put("mUrlPicture", "http://www.leo-asso.com/uploads/equipes/logos/tournoi-leo-10-urban-laser-vichy-logo-black-kisama.jpg");
+                contentValues.put("mUsername", DEFAULT_USER_NAME);
+                contentValues.put("mUrlPicture", DEFAULT_USER_URL);
                 contentValues.put("mUserDescription", "Big Boss de la société, employé de l'année cinq ans consécutifs");
 
                 db.insert("User", OnConflictStrategy.IGNORE, contentValues);

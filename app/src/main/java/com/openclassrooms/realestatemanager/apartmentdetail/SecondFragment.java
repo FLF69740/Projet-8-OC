@@ -18,6 +18,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
+import com.openclassrooms.realestatemanager.models.User;
 
 import java.util.Objects;
 
@@ -43,18 +44,21 @@ public class SecondFragment extends Fragment {
     @BindView(R.id.dateSold)TextView mTextViewDateSold;
     @BindView(R.id.photo_number_indicator)TextView mPhotoNumberIndicator;
 
+    private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     public static final String BUNDLE_KEY_LIST_PHOTO = "BUNDLE_KEY_LIST_PHOTO";
 
     private Apartment mApartment;
+    private User mUser;
     private View mView;
 
     public SecondFragment() {}
 
-    public static SecondFragment newInstance(Apartment apartment){
+    public static SecondFragment newInstance(Apartment apartment, User user){
         SecondFragment secondFragment = new SecondFragment();
         Bundle args = new Bundle(1);
         args.putParcelable(BUNDLE_KEY_APARTMENT,apartment);
+        args.putParcelable(BUNDLE_KEY_USER, user);
         secondFragment.setArguments(args);
 
         return secondFragment;
@@ -67,6 +71,7 @@ public class SecondFragment extends Fragment {
 
         if (getArguments() != null) {
             mApartment = getArguments().getParcelable(BUNDLE_KEY_APARTMENT);
+            mUser = getArguments().getParcelable(BUNDLE_KEY_USER);
             if (mApartment != null) {
                 configureScreen();
             }
@@ -79,10 +84,12 @@ public class SecondFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(BUNDLE_KEY_APARTMENT, mApartment);
+        outState.putParcelable(BUNDLE_KEY_USER, mUser);
     }
 
-    public void updateDoubleScreen(Apartment apartment){
+    public void updateDoubleScreen(Apartment apartment, User user){
         mApartment = apartment;
+        mUser = user;
         configureScreen();
     }
 
@@ -101,7 +108,7 @@ public class SecondFragment extends Fragment {
         mNumberOfRoomsInformation.setText(Utils.getRooms(mApartment.getRoomNumber(), this.mView));
         mPointOfInterestInformation.setText(getPOString(mApartment.getPoInterest()));
         mLocalisationInformation.setText(Utils.getFullAdress(mApartment.getAdress(), String.valueOf(mApartment.getPostalCode()), mApartment.getTown()));
-        mContactInformation.setText(String.valueOf(mApartment.getUserId()));
+        mContactInformation.setText(mUser.getUsername());
         mTypeInformation.setText(mApartment.getType());
         mSoldInformation.setText(Utils.getStringSold(mApartment.getSold(), this.mView));
         mSoldInformation.setTextColor(Utils.getColorSold(mApartment.getSold(), this.mView));

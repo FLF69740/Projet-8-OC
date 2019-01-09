@@ -10,18 +10,21 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.Item;
 import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
+import com.openclassrooms.realestatemanager.models.User;
 
 import java.util.List;
 
 public class ModifierActivity extends BaseActivity implements ModifierFragment.ItemModifierClickedListener {
 
+    public static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
     public static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     public static final String BUNDLE_APARTMENT_UPDATE = "BUNDLE_APARTMENT_UPDATE";
 
     @Override
     protected Fragment getFirstFragment() {
         Apartment apartment = getIntent().getParcelableExtra(BUNDLE_KEY_APARTMENT);
-        return ModifierFragment.newInstance(apartment);
+        User user = getIntent().getParcelableExtra(BUNDLE_KEY_USER);
+        return ModifierFragment.newInstance(apartment, user);
     }
 
     @Override
@@ -47,6 +50,11 @@ public class ModifierActivity extends BaseActivity implements ModifierFragment.I
     @Override
     protected boolean isAChildActivity() {
         return true;
+    }
+
+    @Override
+    protected void userUpdate(User user) {
+
     }
 
     @Override

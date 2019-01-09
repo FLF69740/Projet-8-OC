@@ -26,6 +26,8 @@ import com.openclassrooms.realestatemanager.appartmentlist.RecyclerViewClickSupp
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.Item;
 import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
+import com.openclassrooms.realestatemanager.models.User;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,15 +42,18 @@ import static android.app.Activity.RESULT_OK;
 
 public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
 
+    private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     public static final String BUNDLE_ITEM_LIST = "BUNDLE_ITEM_LIST";
     public static final String BUNDLE_APARTMENT_ID = "BUNDLE_APARTMENT_ID";
     private static final int RC_PHOTO_UPLOAD = 10;
+    private static final int RC_MANAGER_UPLOAD = 20;
 
     private View mView;
     private List<Item> mItemList;
     private ItemsAdapter mAdapter;
     private Apartment mApartment;
+    private User mUser;
     private Uri mUriPicture;
     private String mDateInscription;
     private Boolean mIsSold;
@@ -69,11 +74,13 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
     @BindView(R.id.radio_button_sold)RadioButton mRadioButtonSold;
     @BindView(R.id.fragment_modifier_dateSold)TextView mDateSold;
     @BindView(R.id.fragment_modifier_title_dateSold)TextView mTitleDateSold;
+    @BindView(R.id.manager_id)TextView mTextViewNameManager;
 
-    public static ModifierFragment newInstance(Apartment apartment){
+    public static ModifierFragment newInstance(Apartment apartment, User user){
         ModifierFragment modifierFragment = new ModifierFragment();
         Bundle args = new Bundle(1);
         args.putParcelable(BUNDLE_KEY_APARTMENT,apartment);
+        args.putParcelable(BUNDLE_KEY_USER, user);
         modifierFragment.setArguments(args);
         return modifierFragment;
     }
@@ -87,6 +94,8 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
 
         mLaunchCalendarAutoriation = false;
         mApartment = getArguments().getParcelable(BUNDLE_KEY_APARTMENT);
+        mUser = getArguments().getParcelable(BUNDLE_KEY_USER);
+        mTextViewNameManager.setText(mUser.getUsername());
         mDateInscription = mApartment.getDateInscription();
         mIsSold = mApartment.getSold();
         this.configureRecyclerView();
@@ -195,6 +204,15 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
     /**
      *  UI CHANGE
      */
+
+    public static final String MANAGER_NAME = "MANAGER_NAME";
+
+    @OnClick(R.id.manager_id)
+    public void chooseManager(){
+        Intent intent = new Intent(getActivity(), ModifierUserActivity.class);
+        intent.putExtra(MANAGER_NAME, mUser.getUsername());
+        startActivityForResult(intent, RC_MANAGER_UPLOAD);
+    }
 
     private void loadModifierBarManager(List<Item> listItem, int position){
         if (!listItem.get(position).getATitle()) {
