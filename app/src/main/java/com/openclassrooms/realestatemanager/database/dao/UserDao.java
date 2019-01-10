@@ -9,8 +9,13 @@ import android.arch.persistence.room.Update;
 
 import com.openclassrooms.realestatemanager.models.User;
 
+import java.util.List;
+
 @Dao
 public interface UserDao {
+
+    @Query("SELECT * FROM User")
+    LiveData<List<User>> getUsers();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE) void createUser(User user);
 

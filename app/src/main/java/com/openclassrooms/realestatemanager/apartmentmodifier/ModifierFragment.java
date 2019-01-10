@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
@@ -319,6 +321,11 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
                 this.createOrChangeItem(mItemList,false, true, false, mItemList.size()-1);
             } else if (resultCode == RESULT_CANCELED){
                 Log.i("TAG", "Code uri : canceled");
+            }
+        }
+        if (requestCode == RC_MANAGER_UPLOAD){
+            if (resultCode == RESULT_OK){
+                Toast.makeText(getContext(), data.getStringExtra(ModifierUserActivity.BUNDLE_CHANGE_USER_NAME), Toast.LENGTH_LONG).show();
             }
         }
     }

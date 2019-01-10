@@ -5,12 +5,19 @@ import android.arch.lifecycle.LiveData;
 import com.openclassrooms.realestatemanager.database.dao.UserDao;
 import com.openclassrooms.realestatemanager.models.User;
 
+import java.util.List;
+
 public class UserDataRepository {
 
     private final UserDao mUserDao;
 
     public UserDataRepository(UserDao userDao){
         this.mUserDao = userDao;
+    }
+
+    // GET USERS
+    public LiveData<List<User>> getUsers(){
+        return this.mUserDao.getUsers();
     }
 
     // GET USER

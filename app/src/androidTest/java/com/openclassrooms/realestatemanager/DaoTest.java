@@ -66,6 +66,18 @@ public class DaoTest {
     }
 
     @Test
+    public void getListOfUsers() throws Exception{
+        this.mDatabase.mUserDao().createUser(USER_DEMO);
+        this.mDatabase.mUserDao().createUser(USER_DEMO_SECOND);
+
+        List<User> userList = LiveDataTestUtil.getValue(this.mDatabase.mUserDao().getUsers());
+
+        assertEquals(userList.size(),2);
+        assertEquals(userList.get(0).getUsername(), "Jane");
+        assertEquals(userList.get(1).getUsername(),"John");
+    }
+
+    @Test
     public void insertAndUpdateUser() throws Exception{
         this.mDatabase.mUserDao().createUser(USER_DEMO);
 
