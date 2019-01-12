@@ -51,11 +51,6 @@ public class SecondActivity extends BaseActivity {
     }
 
     @Override
-    protected void userUpdate(User user) {
-        mUser = user;
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (MODIFIER_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode){

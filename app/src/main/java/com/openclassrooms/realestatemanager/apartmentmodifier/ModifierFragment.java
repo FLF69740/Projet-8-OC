@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.BitmapStorage;
+import com.openclassrooms.realestatemanager.photomanager.PhotoModifierActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.appartmentlist.RecyclerViewClickSupport;

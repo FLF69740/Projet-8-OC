@@ -38,11 +38,6 @@ public class CreateActivity extends BaseActivity implements CreateFragment.ItemC
     protected boolean isAChildActivity() {return true;}
 
     @Override
-    protected void userUpdate(User user) {
-
-    }
-
-    @Override
     public void itemClicked(View view, String type, String adress, int postalCode, String town, int price) {
         Intent intent = new Intent();
         intent.putExtra(BUNDLE_APARTMENT_CREATION_TYPE, type);

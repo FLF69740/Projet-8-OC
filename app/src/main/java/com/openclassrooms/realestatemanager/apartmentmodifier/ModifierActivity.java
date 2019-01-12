@@ -53,11 +53,6 @@ public class ModifierActivity extends BaseActivity implements ModifierFragment.I
     }
 
     @Override
-    protected void userUpdate(User user) {
-
-    }
-
-    @Override
     public void itemClicked(View view, List<Item> itemList, String dateInscription, long id, long userId, Boolean isSold, String dateSold) {
         TransformerApartmentItems transformerApartmentItems = new TransformerApartmentItems();
         transformerApartmentItems.createApartment(itemList, view.getContext(), id, userId);

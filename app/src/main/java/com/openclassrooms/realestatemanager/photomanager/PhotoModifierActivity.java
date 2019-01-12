@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.apartmentmodifier;
+package com.openclassrooms.realestatemanager.photomanager;
 
 import android.Manifest;
 import android.content.Intent;
@@ -8,8 +8,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.models.Item;
+import com.openclassrooms.realestatemanager.apartmentmodifier.ModifierFragment;
 import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
 
 import java.util.List;

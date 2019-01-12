@@ -86,6 +86,12 @@ public class MainFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }
 
+    public void refresh(List<Apartment> apartmentList) {
+        mApartmentList = apartmentList;
+        configureRecyclerView();
+        configureOnClickRecyclerView();
+    }
+
     /**
      *  CALLBACK
      */

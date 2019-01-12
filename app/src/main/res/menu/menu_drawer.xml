@@ -5,17 +5,21 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/drawer_item_loanSimulation"
+            android:id="@+id/drawer_item_apartment_manager"
             android:icon="@mipmap/baseline_account_balance_black_24"
+            android:title="@string/nav_drawer_item_apartment" />
+        <item
+            android:id="@+id/drawer_item_profileManager"
+            android:icon="@mipmap/baseline_group_black_24"
+            android:title="@string/nav_drawer_item_profile" />
+        <item
+            android:id="@+id/drawer_item_loanSimulation"
+            android:icon="@mipmap/baseline_monetization_on_black_24"
             android:title="@string/nav_drawer_item_loan" />
         <item
             android:id="@+id/drawer_item_units"
             android:icon="@mipmap/baseline_data_usage_black_24"
             android:title="@string/nav_drawer_item_units" />
-        <item
-            android:id="@+id/drawer_item_profileManager"
-            android:icon="@mipmap/baseline_group_black_24"
-            android:title="@string/nav_drawer_item_profile" />
         <item
             android:id="@+id/drawer_item_help"
             android:icon="@mipmap/baseline_help_outline_black_24"

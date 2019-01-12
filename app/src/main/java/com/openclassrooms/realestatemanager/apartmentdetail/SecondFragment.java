@@ -20,6 +20,7 @@ import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
 import com.openclassrooms.realestatemanager.models.User;
 
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -53,6 +54,10 @@ public class SecondFragment extends Fragment {
     private View mView;
 
     public SecondFragment() {}
+
+    public static SecondFragment newInstance(){
+        return new SecondFragment();
+    }
 
     public static SecondFragment newInstance(Apartment apartment, User user){
         SecondFragment secondFragment = new SecondFragment();
@@ -140,5 +145,11 @@ public class SecondFragment extends Fragment {
         } else {
             startActivity(intent);
         }
+    }
+
+    public void refresh(Apartment apartment, User user) {
+        mApartment = apartment;
+        mUser = user;
+        configureScreen();
     }
 }

@@ -3,6 +3,11 @@
 
     <string name="animation_second_fragment_to_viewpager" translatable="false">AnimationSecondToViewpager</string>
 
+    <!-- Profile manager -->
+    <string name="user_profile_title">User Profile</string>
+    <string name="user_profile_detail_description">DESCRIPTION :</string>
+    <string name="user_profile_detail_active_profile">SELECT :</string>
+
     <!-- Used in NavigationDrawer -->
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
@@ -10,6 +15,7 @@
     <string name="nav_drawer_item_loan">Loan simulation</string>
     <string name="nav_drawer_item_units">Units</string>
     <string name="nav_drawer_item_profile">Profile manager</string>
+    <string name="nav_drawer_item_apartment">Apartment manager</string>
     <string name="nav_drawer_item_help">Help</string>
     <string name="nav_drawer_item_about">About</string>
 

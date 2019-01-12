@@ -43,6 +43,8 @@
                 android:value=".appartmentlist.MainActivity" />
         </activity>
 
+        <activity android:name=".apartmentdetail.ViewPagerPhotoActivity" />
+
         <!-- CREATION ACTIVITY -->
         <activity
             android:name=".apartmentcreator.CreateActivity"
@@ -63,13 +65,33 @@
                 android:value=".appartmentlist.MainActivity" />
         </activity>
 
-        <activity android:name=".apartmentmodifier.PhotoModifierActivity" />
-        <activity android:name=".apartmentdetail.ViewPagerPhotoActivity" />
-
-        <activity android:name=".apartmentmodifier.ModifierUserActivity"
+        <activity
+            android:name=".apartmentmodifier.ModifierUserActivity"
             android:label="@string/activity_user_modifier_title"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
+        <!-- PROFILE MANAGER ACTIVITIES -->
+        <activity android:name=".photomanager.PhotoModifierActivity" />
+
+        <!-- PROFILE MANAGER ACTIVITIES -->
+        <activity
+            android:name=".profilemanager.ProfileManagerActivity"
+            android:label="@string/activity_user_modifier_title"
+            android:parentActivityName=".appartmentlist.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".appartmentlist.MainActivity" />
         </activity>
+
+        <activity
+            android:name=".profilemanager.ProfileManagerDetailActivity"
+            android:label="@string/user_profile_title"
+            android:parentActivityName=".profilemanager.ProfileManagerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".appartmentlist.MainActivity" />
+        </activity>
+
 
     </application>
 

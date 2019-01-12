@@ -7,12 +7,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -26,20 +28,16 @@ import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
 import com.openclassrooms.realestatemanager.apartmentmodifier.ModifierActivity;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.User;
+import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements MainFragment.ItemClickedListener, NavigationView.OnNavigationItemSelectedListener
+public class MainActivity extends BaseActivity implements MainFragment.ItemClickedListener
 {
 
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
-
-    TextView mNavUserName;
-    ImageView mNavUserPhoto;
-
-    @BindView(R.id.activity_main_nav_view)NavigationView mNavigationView;
 
     @Override
     protected int getContentView() {
@@ -58,7 +56,7 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
 
     @Override
     protected Fragment getSecondFragment() {
-        return SecondFragment.newInstance(mApartment, mUser);
+        return new SecondFragment();
     }
 
     @Override
@@ -75,17 +73,7 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        this.configureDrawerLayout();
-        this.configureNavigationView();
 
-    }
-
-    @Override
-    protected void userUpdate(User user) {
-        mUser = user;
-        mNavUserName.setText(user.getUsername());
-        BitmapStorage.showImageInformations(this, user.getUrlPicture());
-        mNavUserPhoto.setImageResource(R.drawable.bk_photo);
     }
 
     /**
@@ -128,27 +116,5 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
             intent.putExtra(BUNDLE_KEY_USER, mUser);
             startActivity(intent);
         }
-    }
-
-    //Configure Drawer Layout
-    private void configureDrawerLayout(){
-        DrawerLayout drawerLayout = findViewById(R.id.activity_main_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-    }
-
-    //Configure NavigationView
-    private void configureNavigationView(){
-        NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        mViewHeader = mNavigationView.getHeaderView(0);
-        mNavUserName = mViewHeader.findViewById(R.id.nav_userName);
-        mNavUserPhoto = mViewHeader.findViewById(R.id.nav_userPhoto);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        return false;
     }
 }

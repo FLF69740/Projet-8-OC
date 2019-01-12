@@ -44,4 +44,8 @@
     <string name="nav_drawer_item_help">Aide</string>
     <string name="nav_drawer_item_about">A propos</string>
     <string name="activity_user_modifier_title">LISTE DES UTILISATEURS</string>
+    <string name="user_profile_title">Profile utilisateur</string>
+    <string name="nav_drawer_item_apartment">Gestionnaire Appartement</string>
+    <string name="user_profile_detail_description">DESCRIPTION :</string>
+    <string name="user_profile_detail_active_profile">SELECTION</string>
 </resources>
