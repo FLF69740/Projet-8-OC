@@ -55,13 +55,9 @@ public class SecondFragment extends Fragment {
 
     public SecondFragment() {}
 
-    public static SecondFragment newInstance(){
-        return new SecondFragment();
-    }
-
     public static SecondFragment newInstance(Apartment apartment, User user){
         SecondFragment secondFragment = new SecondFragment();
-        Bundle args = new Bundle(1);
+        Bundle args = new Bundle(2);
         args.putParcelable(BUNDLE_KEY_APARTMENT,apartment);
         args.putParcelable(BUNDLE_KEY_USER, user);
         secondFragment.setArguments(args);
@@ -73,15 +69,11 @@ public class SecondFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_second, container, false);
         ButterKnife.bind(this, mView);
-
         if (getArguments() != null) {
-            mApartment = getArguments().getParcelable(BUNDLE_KEY_APARTMENT);
-            mUser = getArguments().getParcelable(BUNDLE_KEY_USER);
-            if (mApartment != null) {
-                configureScreen();
+            if (getArguments().getParcelable(BUNDLE_KEY_APARTMENT) != null && getArguments().getParcelable(BUNDLE_KEY_USER) != null){
+                updateFragmentScreen(getArguments().getParcelable(BUNDLE_KEY_APARTMENT), getArguments().getParcelable(BUNDLE_KEY_USER));
             }
         }
-
         return mView;
     }
 
@@ -92,13 +84,9 @@ public class SecondFragment extends Fragment {
         outState.putParcelable(BUNDLE_KEY_USER, mUser);
     }
 
-    public void updateDoubleScreen(Apartment apartment, User user){
+    public void updateFragmentScreen(Apartment apartment, User user){
         mApartment = apartment;
         mUser = user;
-        configureScreen();
-    }
-
-    public void configureScreen(){
         if (BitmapStorage.isFileExist(Objects.requireNonNull(getContext()), BitmapStorage.getFirstPhotoName(mApartment))) {
             this.mPhotoPresentation.setImageBitmap(BitmapStorage.loadImage(getContext(), BitmapStorage.getFirstPhotoName(mApartment)));
             this.mPhotoNumberIndicator.setText(String.valueOf(BitmapStorage.getPhotoNumber(mApartment)));
@@ -145,11 +133,5 @@ public class SecondFragment extends Fragment {
         } else {
             startActivity(intent);
         }
-    }
-
-    public void refresh(Apartment apartment, User user) {
-        mApartment = apartment;
-        mUser = user;
-        configureScreen();
     }
 }

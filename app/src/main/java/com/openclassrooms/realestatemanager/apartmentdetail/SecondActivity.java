@@ -61,7 +61,7 @@ public class SecondActivity extends BaseActivity {
             mApartment = apartment;
             SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
             if (secondFragment != null && secondFragment.isVisible()) {
-                secondFragment.updateDoubleScreen(mApartment, mUser);
+                secondFragment.updateFragmentScreen(mApartment, mUser);
             }else {
                 Intent intent = new Intent(this, SecondActivity.class);
                 intent.putExtra(BUNDLE_KEY_APARTMENT, apartment);

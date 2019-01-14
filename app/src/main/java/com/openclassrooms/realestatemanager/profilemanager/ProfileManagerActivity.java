@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.profilemanager;
 
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
@@ -11,9 +13,12 @@ import com.openclassrooms.realestatemanager.models.User;
 
 public class ProfileManagerActivity extends BaseActivity implements ProfileManagerFragment.ItemUserClickedListener {
 
+    public static final String BUNDLE_PROFILE_USER = "BUNDLE_PROFILE_USER";
+
     @Override
     protected Fragment getFirstFragment() {
-        return ProfileManagerFragment.newInstance();
+        int activeUser = getIntent().getIntExtra(BUNDLE_KEY_PREF_INT_USER, 0);
+        return ProfileManagerFragment.newInstance(activeUser);
     }
 
     @Override
@@ -47,8 +52,36 @@ public class ProfileManagerActivity extends BaseActivity implements ProfileManag
         this.getUsers();
     }
 
+    /**
+     *  RECYCLERVIEW CLICK
+     */
+
     @Override
     public void itemUserClicked(View view, User user, String adapterPosition) {
-        Toast.makeText(this, user.getUsername(), Toast.LENGTH_SHORT).show();
+        ProfileManagerDetailFragment profileManagerDetailFragment = (ProfileManagerDetailFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
+        if (profileManagerDetailFragment != null && profileManagerDetailFragment.isVisible()){
+            profileManagerDetailFragment.updateFragmentScreen(user);
+        } else {
+            Intent intent = new Intent(this, ProfileManagerDetailActivity.class);
+            intent.putExtra(BUNDLE_PROFILE_USER, user);
+            startActivity(intent);
+        }
+    }
+
+    /**
+     *  AFTER CREATE NEW USER
+     */
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (CREATE_USER_REQUEST_CODE == requestCode && RESULT_OK == resultCode){
+            if (data != null) {
+                String username = data.getStringExtra(UserCreationActivity.BUNDLE_NEW_USER_NAME);
+
+                User user = new User(username, User.EMPTY_CASE, User.EMPTY_CASE);
+
+                createUser(user);
+            }
+        }
     }
 }

@@ -36,22 +36,32 @@ public class ProfileManagerFragment extends Fragment {
     private List<User> mUserList;
     private User mUser;
     private UsersListAdapter mAdapter;
-    private int mSelectedUser;
+    private int mSelectedUser, mActiveUser;
 
     @BindView(R.id.recycler_view_users)RecyclerView mRecyclerView;
+
+    private static final String BUNDLE_KEY_ACTIVE_USER = "BUNDLE_KEY_ACTIVE_USER";
 
     public ProfileManagerFragment() {
         // Required empty public constructor
     }
 
-    public static ProfileManagerFragment newInstance(){
-        return new ProfileManagerFragment();
+    public static ProfileManagerFragment newInstance(int selectedUser){
+        ProfileManagerFragment profileManagerFragment = new ProfileManagerFragment();
+        Bundle args = new Bundle(1);
+        args.putInt(BUNDLE_KEY_ACTIVE_USER, selectedUser);
+        profileManagerFragment.setArguments(args);
+
+        return profileManagerFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_profile_manager, container, false);
         ButterKnife.bind(this, mView);
+        if (getArguments() != null){
+            mActiveUser = getArguments().getInt(BUNDLE_KEY_ACTIVE_USER) - 1;
+        }
         return mView;
     }
 
@@ -60,7 +70,7 @@ public class ProfileManagerFragment extends Fragment {
      */
 
     private void configureRecyclerView(){
-        this.mAdapter = new UsersListAdapter(mUserList, mSelectedUser);
+        this.mAdapter = new UsersListAdapter(mUserList, mSelectedUser, mActiveUser);
         this.mRecyclerView.setAdapter(mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

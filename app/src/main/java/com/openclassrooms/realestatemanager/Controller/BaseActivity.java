@@ -32,13 +32,12 @@ import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerActivity;
+import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerDetailFragment;
 import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerFragment;
+import com.openclassrooms.realestatemanager.profilemanager.UserCreationActivity;
 import com.openclassrooms.realestatemanager.viewmodel.ListingViewModel;
 
-import java.io.Serializable;
 import java.util.List;
-
-import butterknife.BindView;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -48,6 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
     protected static final int MODIFIER_ACTIVITY_REQUEST_CODE = 20;
+    protected static final int CREATE_USER_REQUEST_CODE = 30;
 
     protected static int USER_ID = 1;
     protected static final String BUNDLE_KEY_PREF_INT_USER = "BUNDLE_KEY_PREF_INT_USER";
@@ -84,7 +84,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             mUser = savedInstanceState.getParcelable(BUNDLE_KEY_USER);
             mUserId = savedInstanceState.getInt(BUNDLE_KEY_PREF_INT_USER);
         } else {
-
             mUserId = getPreferences(MODE_PRIVATE).getInt(BUNDLE_KEY_PREF_INT_USER, USER_ID);
         }
         this.configureViewModel();
@@ -141,7 +140,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         int id = menuItem.getItemId();
 
         switch (id){
-            case R.id.drawer_item_profileManager: startActivity(new Intent(this, ProfileManagerActivity.class)); break;
+            case R.id.drawer_item_profileManager:
+                Intent intent = new Intent(this, ProfileManagerActivity.class);
+                intent.putExtra(BUNDLE_KEY_PREF_INT_USER, mUserId);
+                startActivity(intent);
+                break;
             case R.id.drawer_item_apartment_manager: startActivity(new Intent(this, MainActivity.class)); break;
         }
 
@@ -184,6 +187,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             case R.id.menu_toolbar_search:
                 Toast.makeText(this, "SEARCH", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.menu_toolbar_add_profile:
+                Intent intentNewUser = new Intent(this, UserCreationActivity.class);
+                startActivityForResult(intentNewUser, CREATE_USER_REQUEST_CODE);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -219,10 +226,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
 
         // SECOND FRAGMENT LAYOUT UPDATE
-        if (getFirstFragment() instanceof MainFragment && findViewById(getSecondFragmentLayout()) != null){
+        if ((getFirstFragment() instanceof MainFragment || getFirstFragment() instanceof  ProfileManagerFragment)&& findViewById(getSecondFragmentLayout()) != null){
             // SecondFragment UPDATE
             if (getSecondFragment() instanceof  SecondFragment && this.mApartmentList != null && !this.mApartmentList.isEmpty() && this.mUser != null){
-                ((SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).refresh(mApartmentList.get(0), mUser);
+                ((SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(mApartmentList.get(0), mUser);
+            }
+            // ProfileFragmentDetail UPDATE
+            else if (getSecondFragment() instanceof ProfileManagerDetailFragment && mUser != null){
+                ((ProfileManagerDetailFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(mUser);
             }
         }
     }
@@ -235,6 +246,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             getMenuInflater().inflate(R.menu.menu_toolbar_main_single, menu);
         } else if (getFirstFragment() instanceof SecondFragment){
             getMenuInflater().inflate(R.menu.menu_toolbar_second_single, menu);
+        } else if (getFirstFragment() instanceof ProfileManagerFragment){
+            getMenuInflater().inflate(R.menu.menu_profile, menu);
         }
         return true;
     }
@@ -254,6 +267,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     // Configure current user
     protected void getUser(int userId){
         this.mListingViewModel.getUser(userId).observe(this, this::updateActiveUser);
+    }
+
+    // create an User
+    protected void createUser(User user){
+        this.mListingViewModel.createUser(user);
     }
 
     // Configure list of users

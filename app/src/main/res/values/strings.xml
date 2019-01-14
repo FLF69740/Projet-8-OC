@@ -6,7 +6,9 @@
     <!-- Profile manager -->
     <string name="user_profile_title">User Profile</string>
     <string name="user_profile_detail_description">DESCRIPTION :</string>
-    <string name="user_profile_detail_active_profile">SELECT :</string>
+    <string name="user_profile_detail_active_profile">SELECT</string>
+    <string name="user_profile_new_user">New User…</string>
+    <string name="user_profile_new_user_dialog">Please enter the name of this new user :</string>
 
     <!-- Used in NavigationDrawer -->
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>

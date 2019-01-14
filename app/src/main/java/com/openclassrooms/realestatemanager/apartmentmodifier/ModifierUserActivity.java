@@ -102,6 +102,5 @@ public class ModifierUserActivity extends AppCompatActivity implements RadioGrou
             }
         }
 
-        Toast.makeText(getApplicationContext(), "Box NAME " + mActiveTag + " : " + mStringStartSelectedUser, Toast.LENGTH_LONG).show();
     }
 }

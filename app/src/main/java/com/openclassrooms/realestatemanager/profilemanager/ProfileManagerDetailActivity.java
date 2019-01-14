@@ -12,7 +12,8 @@ public class ProfileManagerDetailActivity extends BaseActivity {
 
     @Override
     protected Fragment getFirstFragment() {
-        return new ProfileManagerDetailFragment();
+        User user = getIntent().getParcelableExtra(ProfileManagerActivity.BUNDLE_PROFILE_USER);
+        return ProfileManagerDetailFragment.newInstance(user);
     }
 
     @Override
@@ -40,9 +41,6 @@ public class ProfileManagerDetailActivity extends BaseActivity {
         return true;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_manager_detail);
-    }
+
+
 }

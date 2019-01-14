@@ -5,9 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.Item;
 import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
+import com.openclassrooms.realestatemanager.models.User;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,6 +23,7 @@ public class BitmapStorage {
 
     public static final String CAMERA_CAPTURE = "TEMP_CAMERA_CAPTURE_";
 
+    // save Image into internal memory
     public static void saveImageInternalStorage(Context context, String imageName, Uri uri){
         Bitmap bitmap = null;
         try {
@@ -36,6 +42,7 @@ public class BitmapStorage {
         }
     }
 
+    // load Image from internal memory
     public static Bitmap loadImage(Context context, String imageName){
         Bitmap bitmap = null;
         FileInputStream fileInputStream;

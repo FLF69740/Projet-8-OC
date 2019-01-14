@@ -20,8 +20,8 @@ import com.openclassrooms.realestatemanager.models.User;
 @Database(entities = {Apartment.class, User.class}, version = 1, exportSchema = false)
 public abstract class RealEstateManagerDatabase extends RoomDatabase {
 
-    private static final String DEFAULT_USER_URL = "DEFAULT_USER_URL";
-    private static final String DEFAULT_USER_NAME = "Black Kisama";
+    private static final String DEFAULT_USER_URL = User.EMPTY_CASE;
+    private static final String DEFAULT_USER_NAME = "Gilles";
 
     // SINGLETON
     private static volatile RealEstateManagerDatabase INSTANCE;

@@ -8,6 +8,8 @@ import android.os.Parcelable;
 @Entity
 public class User implements Parcelable {
 
+    public static final String EMPTY_CASE = "EMPTY_CASE";
+
     @PrimaryKey(autoGenerate = true) private Long mId;
     private String mUsername;
     private String mUrlPicture;

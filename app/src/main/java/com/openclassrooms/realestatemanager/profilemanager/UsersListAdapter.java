@@ -16,10 +16,12 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListViewHolder> 
 
     private List<User> mUserList;
     private int mSelectedUser;
+    private int mActiveUser;
 
-    public UsersListAdapter(List<User> userList, int selectedUser){
+    public UsersListAdapter(List<User> userList, int selectedUser, int activeUser){
         this.mUserList = userList;
         this.mSelectedUser = selectedUser;
+        this.mActiveUser = activeUser;
     }
 
     @NonNull
@@ -34,7 +36,7 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull UsersListViewHolder usersListViewHolder, int i) {
         Boolean selected = mSelectedUser == i;
-        usersListViewHolder.updateWithUserInformations(this.mUserList.get(i), selected);
+        usersListViewHolder.updateWithUserInformations(this.mUserList.get(i), selected, mActiveUser, i);
     }
 
     @Override

@@ -28,18 +28,22 @@ public class UsersListViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, mItemView);
     }
 
-    public void updateWithUserInformations(User user, boolean selectedUser){
+    public void updateWithUserInformations(User user, boolean selectedUser, int activeUser, int position){
 
         this.mTextViewName.setText(user.getUsername());
 
-        if (BitmapStorage.isFileExist(mItemView.getContext(), user.getUsername() + "__PIC")) {
-            this.mImageViewPicture.setImageBitmap(BitmapStorage.loadImage(mItemView.getContext(), user.getUsername() + "__PICTURE"));
+        if (!user.getUrlPicture().equals(User.EMPTY_CASE) && BitmapStorage.isFileExist(mItemView.getContext(), user.getUrlPicture())) {
+            this.mImageViewPicture.setImageBitmap(BitmapStorage.loadImage(mItemView.getContext(), user.getUrlPicture()));
         } else {
             this.mImageViewPicture.setImageResource(R.drawable.bk_photo);
         }
 
         this.mBackground.setSelected(selectedUser);
-        this.mImageViewActiveIndicator.setVisibility(View.VISIBLE);
+        if (activeUser == position) {
+            this.mImageViewActiveIndicator.setVisibility(View.VISIBLE);
+        } else {
+            this.mImageViewActiveIndicator.setVisibility(View.INVISIBLE);
+        }
 
     }
 
