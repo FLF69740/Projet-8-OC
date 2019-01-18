@@ -10,7 +10,7 @@ import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.User;
 
-public class ProfileManagerDetailActivity extends BaseActivity{// implements ProfileManagerDetailFragment.ActiveUserClickedListener {
+public class ProfileManagerDetailActivity extends BaseActivity implements ProfileManagerDetailFragment.ActiveUserClickedListener {
 
     @Override
     protected Fragment getFirstFragment() {
@@ -44,10 +44,11 @@ public class ProfileManagerDetailActivity extends BaseActivity{// implements Pro
         return true;
     }
 
-/*
+
     @Override
     public void activeUserClicked(View view, long userId) {
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        sharedPreferences.edit().putLong(BUNDLE_KEY_PREF_INT_USER, userId).apply();
-    }*/
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_ID, MODE_PRIVATE);
+        sharedPreferences.edit().putLong(BUNDLE_KEY_ACTIVE_USER, userId).apply();
+        this.updateFragment();
+    }
 }

@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
             int postalCode = data.getIntExtra(CreateActivity.BUNDLE_APARTMENT_CREATION_PC,10000);
             String town = data.getStringExtra(CreateActivity.BUNDLE_APARTMENT_CREATION_TOWN);
             int price = data.getIntExtra(CreateActivity.BUNDLE_APARTMENT_CREATION_PRICE, 1);
-            Apartment apartment = new Apartment(type, price, adress, postalCode, town, Utils.getTodayDate(), 1);
+            Apartment apartment = new Apartment(type, price, adress, postalCode, town, Utils.getTodayDate(), mUserId);
 
             createApartment(apartment);
         }

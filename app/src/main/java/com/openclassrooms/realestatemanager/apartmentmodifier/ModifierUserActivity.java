@@ -59,9 +59,6 @@ public class ModifierUserActivity extends AppCompatActivity implements RadioGrou
             mStringUserList.add(i, users.get(i).getUsername());
         }
 
-        mStringUserList.add(1, "Yellow");
-        mStringUserList.add(2, "Love");
-
         for (int i = 0 ; i < mStringUserList.size(); i++) {
             mRadioGroup.addView(new RadioButton(ModifierUserActivity.this),i);
             ((RadioButton) mRadioGroup.getChildAt(i)).setText(mStringUserList.get(i));

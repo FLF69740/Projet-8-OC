@@ -98,13 +98,13 @@ public class ProfileManagerDetailFragment extends Fragment {
 
     @OnClick(R.id.manager_detail_button_active_profile)
     public void loadActiveUser(){
-     //   mCallback.activeUserClicked(this.mView, this.mUser.getId());
+        mCallback.activeUserClicked(this.mView, this.mUser.getId());
     }
 
     /**
      *  CALLBACK
      */
-/*
+
     // interface for button clicked
     public interface ActiveUserClickedListener{
         void activeUserClicked(View view, long userId);
@@ -119,9 +119,9 @@ public class ProfileManagerDetailFragment extends Fragment {
         try {
             mCallback = (ActiveUserClickedListener) getActivity();
         } catch (ClassCastException e){
-            throw new ClassCastException(e.toString() + " must implement ItemUserClickedListener");
+            throw new ClassCastException(e.toString() + " must implement ItemUserClickedListener\n" + getActivity().toString());
         }
     }
-*/
+
 
 }

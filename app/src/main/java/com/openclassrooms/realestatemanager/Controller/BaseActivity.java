@@ -46,16 +46,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     private static final String BUNDLE_KEY_ADAPTER_POSITION = "BUNDLE_KEY_ADAPTER_POSITION";
     protected static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
-    public static final String BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY = "BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY";
-    public static final String BUNDLE_USERID_TO_PROFILEMANAGER_ACTIVITY = "BUNDLE_USERID_TO_PROFILEMANAGER_ACTIVITY";
+    protected static final String BUNDLE_KEY_OUTSTATE_INT_USER = "BUNDLE_KEY_OUTSTATE_INT_USER";
 
+    public static final String BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY = "BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY";
+    public static final String BUNDLE_KEY_ACTIVE_USER = "BUNDLE_KEY_ACTIVE_USER";
+    public static final String SHARED_ID = "SHARED_ID";
 
     protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
     protected static final int CREATE_USER_REQUEST_CODE = 30;
 
     protected static long DEFAULT_USER_ID = 1;
-    protected static final String BUNDLE_KEY_PREF_INT_USER = "BUNDLE_KEY_PREF_INT_USER";
-    protected static final String BUNDLE_KEY_OUTSTATE_INT_USER = "BUNDLE_KEY_OUTSTATE_INT_USER";
     protected View mViewHeader;
     protected ListingViewModel mListingViewModel;
     protected List<Apartment> mApartmentList;
@@ -89,7 +89,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             mUser = savedInstanceState.getParcelable(BUNDLE_KEY_USER);
             mUserId = savedInstanceState.getLong(BUNDLE_KEY_OUTSTATE_INT_USER);
         }else {
-            mUserId = DEFAULT_USER_ID;
+            mUserId = getSharedPreferences(SHARED_ID, MODE_PRIVATE).getLong(BUNDLE_KEY_ACTIVE_USER, DEFAULT_USER_ID);
         }
         this.configureViewModel();
         this.getApartments(mUserId);
@@ -130,10 +130,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     //Update header
-    private void updateHeader(User user){
+    protected void updateHeader(User user){
         mNavUserName.setText(user.getUsername());
         BitmapStorage.showImageInformations(this, user.getUrlPicture());
-        mNavUserPhoto.setImageResource(R.drawable.bk_photo);
+        if (!user.getUrlPicture().equals(User.EMPTY_CASE) && BitmapStorage.isFileExist(this, user.getUrlPicture())) {
+            this.mNavUserPhoto.setImageBitmap(BitmapStorage.loadImage(this, user.getUrlPicture()));
+        } else {
+            this.mNavUserPhoto.setImageResource(R.drawable.bk_photo);
+        }
     }
 
     @Override
@@ -142,8 +146,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         int id = menuItem.getItemId();
 
         switch (id){
-            case R.id.drawer_item_profileManager: startActivity(new Intent(this, ProfileManagerActivity.class)); break;
-            case R.id.drawer_item_apartment_manager: startActivity(new Intent(this, MainActivity.class)); break;
+            case R.id.drawer_item_profileManager:
+                startActivity(new Intent(this, ProfileManagerActivity.class));
+                break;
+            case R.id.drawer_item_apartment_manager:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
         }
 
         this.mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -173,10 +181,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         switch (item.getItemId()){
             case R.id.menu_toolbar_modify:
-                Intent intentModifier = new Intent(this, ModifierActivity.class);
-                intentModifier.putExtra(ModifierActivity.BUNDLE_KEY_APARTMENT, mApartment);
-                intentModifier.putExtra(ModifierActivity.BUNDLE_KEY_USER, mUser);
-                startActivity(intentModifier);
+                if (mApartment != null) {
+                    Intent intentModifier = new Intent(this, ModifierActivity.class);
+                    intentModifier.putExtra(ModifierActivity.BUNDLE_KEY_APARTMENT, mApartment);
+                    intentModifier.putExtra(ModifierActivity.BUNDLE_KEY_USER, mUser);
+                    startActivity(intentModifier);
+                }
                 return true;
             case R.id.menu_toolbar_add:
                 Intent intentCreate = new Intent(this, CreateActivity.class);
@@ -222,7 +232,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
         // ProfileFragment UPDATE
         if (getFirstFragment() instanceof ProfileManagerFragment && mUserList != null) {
-            ((ProfileManagerFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mUserList.get((int) mUserId-1), mUserList);
+            ((ProfileManagerFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mUserList.get((int) mUserId-1), mUserList, mUserId);
         }
 
         // SECOND FRAGMENT LAYOUT UPDATE

@@ -16,7 +16,8 @@
             android:id="@+id/left_line_border"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:src="@color/colorPrimaryDark" />
+            android:src="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/manager_detail_photo_user"

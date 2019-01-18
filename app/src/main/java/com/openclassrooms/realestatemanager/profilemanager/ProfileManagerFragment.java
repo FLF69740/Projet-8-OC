@@ -85,9 +85,10 @@ public class ProfileManagerFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }
 
-    public void refresh(User user, List<User> userList) {
+    public void refresh(User user, List<User> userList, long activeUser) {
         mUserList = userList;
         int position = (int) (user.getId() -1);
+        mActiveUser = activeUser - 1;
         if (mUserList != null) {
             configureRecyclerView();
             configureOnClickRecyclerView();

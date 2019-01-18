@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.profilemanager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -8,7 +9,7 @@ import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.User;
 
-public class ProfileManagerActivity extends BaseActivity implements ProfileManagerFragment.ItemUserClickedListener {
+public class ProfileManagerActivity extends BaseActivity implements ProfileManagerFragment.ItemUserClickedListener, ProfileManagerDetailFragment.ActiveUserClickedListener {
 
     public static final String BUNDLE_PROFILE_USER = "BUNDLE_PROFILE_USER";
     public static final String BUNDLE_PROFILE_USER_ID = "BUNDLE_PROFILE_USER_ID";
@@ -81,4 +82,11 @@ public class ProfileManagerActivity extends BaseActivity implements ProfileManag
     }
 
 
+    @Override
+    public void activeUserClicked(View view, long userId) {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_ID, MODE_PRIVATE);
+        sharedPreferences.edit().putLong(BUNDLE_KEY_ACTIVE_USER, userId).apply();
+        this.updateFragment();
+        this.updateHeader(mUser);
+    }
 }

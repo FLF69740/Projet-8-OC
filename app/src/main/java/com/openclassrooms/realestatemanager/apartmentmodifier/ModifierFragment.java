@@ -326,7 +326,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         }
         if (requestCode == RC_MANAGER_UPLOAD){
             if (resultCode == RESULT_OK){
-                Toast.makeText(getContext(), data.getStringExtra(ModifierUserActivity.BUNDLE_CHANGE_USER_NAME), Toast.LENGTH_LONG).show();
+                mApartment.setUserId(data.getIntExtra(ModifierUserActivity.BUNDLE_CHANGE_USER_TAG, (int) mApartment.getUserId()));
             }
         }
     }
