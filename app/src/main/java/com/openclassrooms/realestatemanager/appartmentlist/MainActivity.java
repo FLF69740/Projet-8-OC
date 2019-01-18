@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.appartmentlist;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -10,7 +12,6 @@ import com.openclassrooms.realestatemanager.apartmentdetail.SecondFragment;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
-import com.openclassrooms.realestatemanager.apartmentmodifier.ModifierActivity;
 import com.openclassrooms.realestatemanager.models.Apartment;
 
 public class MainActivity extends BaseActivity implements MainFragment.ItemClickedListener
@@ -18,6 +19,9 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
 
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
+
+    private static final String BUNDLE_KEY_ADAPTER_POSITION = "BUNDLE_KEY_ADAPTER_POSITION";
+
 
     @Override
     protected int getContentView() {
@@ -44,8 +48,6 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
         return R.id.frame_layout_second;
     }
 
-
-
     @Override
     protected boolean isAChildActivity() {
         return false;
@@ -66,15 +68,6 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
             Apartment apartment = new Apartment(type, price, adress, postalCode, town, Utils.getTodayDate(), 1);
 
             createApartment(apartment);
-        }
-        if (MODIFIER_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode){
-            Apartment apartment = data.getParcelableExtra(ModifierActivity.BUNDLE_APARTMENT_UPDATE);
-            updateApartment(apartment);
-            mApartment = apartment;
-            SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
-            if (secondFragment != null && secondFragment.isVisible()) {
-                secondFragment.updateFragmentScreen(mApartment, mUser);
-            }
         }
     }
 

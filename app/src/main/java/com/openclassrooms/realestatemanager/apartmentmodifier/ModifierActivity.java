@@ -1,12 +1,16 @@
 package com.openclassrooms.realestatemanager.apartmentmodifier;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.appartmentlist.MainActivity;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.Item;
 import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
@@ -24,6 +28,7 @@ public class ModifierActivity extends BaseActivity implements ModifierFragment.I
     protected Fragment getFirstFragment() {
         Apartment apartment = getIntent().getParcelableExtra(BUNDLE_KEY_APARTMENT);
         User user = getIntent().getParcelableExtra(BUNDLE_KEY_USER);
+        mUser = user;
         return ModifierFragment.newInstance(apartment, user);
     }
 
@@ -64,9 +69,8 @@ public class ModifierActivity extends BaseActivity implements ModifierFragment.I
             apartment.setDateSold(Apartment.EMPTY_CASE);
         }
         apartment.setSold(isSold);
-        Intent intent = new Intent();
-        intent.putExtra(BUNDLE_APARTMENT_UPDATE, apartment);
-        setResult(RESULT_OK, intent);
+        updateApartment(apartment);
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 }

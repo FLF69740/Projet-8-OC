@@ -125,8 +125,6 @@ public class SecondFragment extends Fragment {
     public void ShowViewPagerPhoto(){
         Intent intent = new Intent(getActivity(), ViewPagerPhotoActivity.class);
         intent.putExtra(BUNDLE_KEY_LIST_PHOTO, mApartment.getUrlPicture());
-     //   startActivity(intent);
-        // Start Animation
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), mPhotoPresentation, getString(R.string.animation_second_fragment_to_viewpager));
             startActivity(intent, options.toBundle());

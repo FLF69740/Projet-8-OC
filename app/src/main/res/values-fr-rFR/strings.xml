@@ -47,7 +47,9 @@
     <string name="user_profile_title">Profile utilisateur</string>
     <string name="nav_drawer_item_apartment">Gestionnaire Appartement</string>
     <string name="user_profile_detail_description">DESCRIPTION :</string>
-    <string name="user_profile_detail_active_profile">SELECTION</string>
+    <string name="user_profile_detail_active_profile">SELECTION PROFIL</string>
     <string name="user_profile_new_user">Nouvel Utilisateur…</string>
     <string name="user_profile_new_user_dialog">Veuillez rentrer le nom de ce nouvel utilisateur :</string>
+    <string name="user_profile_detail_change">CHANGER DONNEES</string>
+    <string name="user_profile_change_update">METTRE A JOUR</string>
 </resources>

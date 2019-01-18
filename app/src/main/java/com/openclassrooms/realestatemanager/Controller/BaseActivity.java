@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.Controller;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -37,27 +38,31 @@ import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerFragmen
 import com.openclassrooms.realestatemanager.profilemanager.UserCreationActivity;
 import com.openclassrooms.realestatemanager.viewmodel.ListingViewModel;
 
+import java.io.Serializable;
 import java.util.List;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     private static final String BUNDLE_KEY_ADAPTER_POSITION = "BUNDLE_KEY_ADAPTER_POSITION";
-    private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
+    protected static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
+    public static final String BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY = "BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY";
+    public static final String BUNDLE_USERID_TO_PROFILEMANAGER_ACTIVITY = "BUNDLE_USERID_TO_PROFILEMANAGER_ACTIVITY";
+
 
     protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
-    protected static final int MODIFIER_ACTIVITY_REQUEST_CODE = 20;
     protected static final int CREATE_USER_REQUEST_CODE = 30;
 
-    protected static int USER_ID = 1;
+    protected static long DEFAULT_USER_ID = 1;
     protected static final String BUNDLE_KEY_PREF_INT_USER = "BUNDLE_KEY_PREF_INT_USER";
+    protected static final String BUNDLE_KEY_OUTSTATE_INT_USER = "BUNDLE_KEY_OUTSTATE_INT_USER";
     protected View mViewHeader;
     protected ListingViewModel mListingViewModel;
     protected List<Apartment> mApartmentList;
     protected List<User> mUserList;
     protected Apartment mApartment;
     protected User mUser;
-    protected int mUserId;
+    protected long mUserId;
     protected String mAdapterPosition;
     protected Toolbar toolbar;
 
@@ -82,19 +87,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             mApartment = savedInstanceState.getParcelable(BUNDLE_KEY_APARTMENT);
             mAdapterPosition = savedInstanceState.getString(BUNDLE_KEY_ADAPTER_POSITION);
             mUser = savedInstanceState.getParcelable(BUNDLE_KEY_USER);
-            mUserId = savedInstanceState.getInt(BUNDLE_KEY_PREF_INT_USER);
-        } else {
-            mUserId = getPreferences(MODE_PRIVATE).getInt(BUNDLE_KEY_PREF_INT_USER, USER_ID);
+            mUserId = savedInstanceState.getLong(BUNDLE_KEY_OUTSTATE_INT_USER);
+        }else {
+            mUserId = DEFAULT_USER_ID;
         }
         this.configureViewModel();
         this.getApartments(mUserId);
+        this.getUsers();
 
-        if (savedInstanceState == null) {
-            this.configureFragment();
-        }
-
+        this.configureFragment();
         this.configureToolbar();
-
     }
 
     @Override
@@ -103,7 +105,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         outState.putParcelable(BUNDLE_KEY_APARTMENT, mApartment);
         outState.putString(BUNDLE_KEY_ADAPTER_POSITION, mAdapterPosition);
         outState.putParcelable(BUNDLE_KEY_USER, mUser);
-        outState.putInt(BUNDLE_KEY_PREF_INT_USER, mUserId);
+        outState.putLong(BUNDLE_KEY_OUTSTATE_INT_USER, mUserId);
     }
 
     /**
@@ -128,9 +130,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     //Update header
-    private void updateHeader(){
-        mNavUserName.setText(mUser.getUsername());
-        BitmapStorage.showImageInformations(this, mUser.getUrlPicture());
+    private void updateHeader(User user){
+        mNavUserName.setText(user.getUsername());
+        BitmapStorage.showImageInformations(this, user.getUrlPicture());
         mNavUserPhoto.setImageResource(R.drawable.bk_photo);
     }
 
@@ -140,11 +142,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         int id = menuItem.getItemId();
 
         switch (id){
-            case R.id.drawer_item_profileManager:
-                Intent intent = new Intent(this, ProfileManagerActivity.class);
-                intent.putExtra(BUNDLE_KEY_PREF_INT_USER, mUserId);
-                startActivity(intent);
-                break;
+            case R.id.drawer_item_profileManager: startActivity(new Intent(this, ProfileManagerActivity.class)); break;
             case R.id.drawer_item_apartment_manager: startActivity(new Intent(this, MainActivity.class)); break;
         }
 
@@ -178,7 +176,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 Intent intentModifier = new Intent(this, ModifierActivity.class);
                 intentModifier.putExtra(ModifierActivity.BUNDLE_KEY_APARTMENT, mApartment);
                 intentModifier.putExtra(ModifierActivity.BUNDLE_KEY_USER, mUser);
-                startActivityForResult(intentModifier, MODIFIER_ACTIVITY_REQUEST_CODE);
+                startActivity(intentModifier);
                 return true;
             case R.id.menu_toolbar_add:
                 Intent intentCreate = new Intent(this, CreateActivity.class);
@@ -217,23 +215,28 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected void updateFragment(){
         // MainFragment UPDATE
         if (getFirstFragment() instanceof MainFragment && this.mApartmentList != null && !this.mApartmentList.isEmpty() && this.mUser != null){
-            this.mApartment = mApartmentList.get(0);
-            ((MainFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mApartmentList);
+            if (this.mApartment == null) {
+                this.mApartment = mApartmentList.get(0);
+            }
+            ((MainFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mApartmentList, mApartment.getId());
         }
         // ProfileFragment UPDATE
-        else if (getFirstFragment() instanceof ProfileManagerFragment && mUserList != null && mUser != null) {
-            ((ProfileManagerFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mUser, mUserList);
+        if (getFirstFragment() instanceof ProfileManagerFragment && mUserList != null) {
+            ((ProfileManagerFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mUserList.get((int) mUserId-1), mUserList);
         }
 
         // SECOND FRAGMENT LAYOUT UPDATE
         if ((getFirstFragment() instanceof MainFragment || getFirstFragment() instanceof  ProfileManagerFragment)&& findViewById(getSecondFragmentLayout()) != null){
             // SecondFragment UPDATE
             if (getSecondFragment() instanceof  SecondFragment && this.mApartmentList != null && !this.mApartmentList.isEmpty() && this.mUser != null){
-                ((SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(mApartmentList.get(0), mUser);
+                if (this.mApartment == null) {
+                    this.mApartment = mApartmentList.get(0);
+                }
+                ((SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(mApartment, mUser);
             }
             // ProfileFragmentDetail UPDATE
-            else if (getSecondFragment() instanceof ProfileManagerDetailFragment && mUser != null){
-                ((ProfileManagerDetailFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(mUser);
+            else if (getSecondFragment() instanceof ProfileManagerDetailFragment && mUserList != null){
+                ((ProfileManagerDetailFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(mUserList.get((int) mUserId-1), mUserId);
             }
         }
     }
@@ -257,7 +260,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
      */
 
     // Configure ViewModel
-    private void configureViewModel(){
+    protected void configureViewModel(){
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.mListingViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListingViewModel.class);
         this.mListingViewModel.init(mUserId);
@@ -265,13 +268,18 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     // Configure current user
-    protected void getUser(int userId){
+    protected void getUser(long userId){
         this.mListingViewModel.getUser(userId).observe(this, this::updateActiveUser);
     }
 
-    // create an User
+    // create an user
     protected void createUser(User user){
         this.mListingViewModel.createUser(user);
+    }
+
+    // update an user
+    protected void updateUser(User user){
+        this.mListingViewModel.updateUser(user);
     }
 
     // Configure list of users
@@ -280,7 +288,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     // Configure apartments list for a user
-    protected void getApartments(int userId){
+    protected void getApartments(long userId){
         this.mListingViewModel.getApartments(userId).observe(this, this::updateApartmentsList);
     }
 
@@ -307,6 +315,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     // update the list of users
     protected void updateUsersList(List<User> users){
         this.mUserList = users;
+        mUser = mUserList.get((int)mUserId-1);
         updateFragment();
     }
 
@@ -314,7 +323,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected void updateActiveUser(User user){
         this.mUser = user;
         updateFragment();
-        if (!isAChildActivity()) updateHeader();
+        if (!isAChildActivity()) updateHeader(user);
     }
 
 }

@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.profilemanager;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -13,12 +14,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.appartmentlist.ApartmentListAdapter;
 import com.openclassrooms.realestatemanager.appartmentlist.MainFragment;
 import com.openclassrooms.realestatemanager.appartmentlist.RecyclerViewClickSupport;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.User;
+import com.openclassrooms.realestatemanager.photomanager.PhotoModifierActivity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,6 +30,8 @@ import java.util.PrimitiveIterator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -34,34 +39,24 @@ public class ProfileManagerFragment extends Fragment {
 
     private View mView;
     private List<User> mUserList;
-    private User mUser;
     private UsersListAdapter mAdapter;
-    private int mSelectedUser, mActiveUser;
+    private int mSelectedUser;
+    private long mActiveUser;
 
     @BindView(R.id.recycler_view_users)RecyclerView mRecyclerView;
-
-    private static final String BUNDLE_KEY_ACTIVE_USER = "BUNDLE_KEY_ACTIVE_USER";
 
     public ProfileManagerFragment() {
         // Required empty public constructor
     }
 
-    public static ProfileManagerFragment newInstance(int selectedUser){
-        ProfileManagerFragment profileManagerFragment = new ProfileManagerFragment();
-        Bundle args = new Bundle(1);
-        args.putInt(BUNDLE_KEY_ACTIVE_USER, selectedUser);
-        profileManagerFragment.setArguments(args);
-
-        return profileManagerFragment;
+    public static ProfileManagerFragment newInstance() {
+        return new ProfileManagerFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_profile_manager, container, false);
         ButterKnife.bind(this, mView);
-        if (getArguments() != null){
-            mActiveUser = getArguments().getInt(BUNDLE_KEY_ACTIVE_USER) - 1;
-        }
         return mView;
     }
 
@@ -70,7 +65,7 @@ public class ProfileManagerFragment extends Fragment {
      */
 
     private void configureRecyclerView(){
-        this.mAdapter = new UsersListAdapter(mUserList, mSelectedUser, mActiveUser);
+        this.mAdapter = new UsersListAdapter(mUserList, mSelectedUser, (int) mActiveUser);
         this.mRecyclerView.setAdapter(mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -91,11 +86,12 @@ public class ProfileManagerFragment extends Fragment {
     }
 
     public void refresh(User user, List<User> userList) {
-        mUser = user;
         mUserList = userList;
-        if (mUserList != null && mUser != null) {
+        int position = (int) (user.getId() -1);
+        if (mUserList != null) {
             configureRecyclerView();
             configureOnClickRecyclerView();
+            setAdapterLocation(position);
         }
     }
 
@@ -120,5 +116,7 @@ public class ProfileManagerFragment extends Fragment {
             throw new ClassCastException(e.toString() + " must implement ItemUserClickedListener");
         }
     }
+
+
 
 }

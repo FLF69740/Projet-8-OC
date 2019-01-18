@@ -43,7 +43,6 @@ public class ListingViewModel extends ViewModel {
 
     //GET USER
     public LiveData<User> getUser(long userId){
-     //   return this.mCurrentUser;
         return mUserDataSource.getUser(userId);
     }
 

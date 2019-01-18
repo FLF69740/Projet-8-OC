@@ -86,8 +86,9 @@ public class MainFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }
 
-    public void refresh(List<Apartment> apartmentList) {
+    public void refresh(List<Apartment> apartmentList, long apartmentId) {
         mApartmentList = apartmentList;
+        mSelectedApartment = (int) apartmentId - 1;
         configureRecyclerView();
         configureOnClickRecyclerView();
     }

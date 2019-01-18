@@ -88,12 +88,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
         </activity>
-
         <activity
             android:name=".profilemanager.UserCreationActivity"
             android:label="@string/user_profile_new_user"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".photomanager.PhotoProfileActivity" />
 
+        <activity android:name=".profilemanager.ProfileManagerChangeActivity"
+            android:label="@string/user_profile_title"
+            android:parentActivityName=".profilemanager.ProfileManagerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".appartmentlist.MainActivity" />
+        </activity>
 
     </application>
 

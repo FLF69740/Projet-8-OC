@@ -3,10 +3,7 @@ package com.openclassrooms.realestatemanager.profilemanager;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
-
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.User;
@@ -14,11 +11,11 @@ import com.openclassrooms.realestatemanager.models.User;
 public class ProfileManagerActivity extends BaseActivity implements ProfileManagerFragment.ItemUserClickedListener {
 
     public static final String BUNDLE_PROFILE_USER = "BUNDLE_PROFILE_USER";
+    public static final String BUNDLE_PROFILE_USER_ID = "BUNDLE_PROFILE_USER_ID";
 
     @Override
     protected Fragment getFirstFragment() {
-        int activeUser = getIntent().getIntExtra(BUNDLE_KEY_PREF_INT_USER, 0);
-        return ProfileManagerFragment.newInstance(activeUser);
+        return ProfileManagerFragment.newInstance();
     }
 
     @Override
@@ -46,24 +43,22 @@ public class ProfileManagerActivity extends BaseActivity implements ProfileManag
         return false;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.getUsers();
-    }
-
     /**
      *  RECYCLERVIEW CLICK
      */
 
     @Override
     public void itemUserClicked(View view, User user, String adapterPosition) {
+        mUser = user;
+        mUserId = user.getId();
+        mAdapterPosition = adapterPosition;
         ProfileManagerDetailFragment profileManagerDetailFragment = (ProfileManagerDetailFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
         if (profileManagerDetailFragment != null && profileManagerDetailFragment.isVisible()){
-            profileManagerDetailFragment.updateFragmentScreen(user);
+            profileManagerDetailFragment.updateFragmentScreen(user, user.getId());
         } else {
             Intent intent = new Intent(this, ProfileManagerDetailActivity.class);
             intent.putExtra(BUNDLE_PROFILE_USER, user);
+            intent.putExtra(BUNDLE_PROFILE_USER_ID, user.getId());
             startActivity(intent);
         }
     }
@@ -84,4 +79,6 @@ public class ProfileManagerActivity extends BaseActivity implements ProfileManag
             }
         }
     }
+
+
 }
