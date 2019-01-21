@@ -22,7 +22,6 @@ public class ModifierActivity extends BaseActivity implements ModifierFragment.I
 
     public static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
     public static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
-    public static final String BUNDLE_APARTMENT_UPDATE = "BUNDLE_APARTMENT_UPDATE";
 
     @Override
     protected Fragment getFirstFragment() {

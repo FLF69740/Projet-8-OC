@@ -27,9 +27,7 @@ public class MainFragment extends Fragment {
 
     @BindView(R.id.recycler_view_listing)RecyclerView mRecyclerView;
 
-    public MainFragment() {
-        // Required empty public constructor
-    }
+    public MainFragment() {}
 
     public static MainFragment newInstance(List<Apartment> apartmentList, String position){
         MainFragment mainFragment = new MainFragment();

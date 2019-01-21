@@ -129,4 +129,13 @@ public class Utils {
         return (int) (feet / 10.764);
     }
 
+    /**
+     *  LOAN SIMULATION
+     */
+
+    public static double getLoaninterestResult(int price, int nbYear, double rate){
+        // exemple 200000$ during 5 years with 1.1 rate : (200000 x 1.1 / 100) x 5
+        return price*rate/100*nbYear;
+    }
+
 }

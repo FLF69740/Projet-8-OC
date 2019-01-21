@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.Controller;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
@@ -30,6 +28,7 @@ import com.openclassrooms.realestatemanager.appartmentlist.MainActivity;
 import com.openclassrooms.realestatemanager.appartmentlist.MainFragment;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
+import com.openclassrooms.realestatemanager.loansimulator.LoanSimulationActivity;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.User;
 import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerActivity;
@@ -37,8 +36,6 @@ import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerDetailF
 import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerFragment;
 import com.openclassrooms.realestatemanager.profilemanager.UserCreationActivity;
 import com.openclassrooms.realestatemanager.viewmodel.ListingViewModel;
-
-import java.io.Serializable;
 import java.util.List;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,8 +46,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected static final String BUNDLE_KEY_OUTSTATE_INT_USER = "BUNDLE_KEY_OUTSTATE_INT_USER";
 
     public static final String BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY = "BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY";
+
+    //Shared Preferences
     public static final String BUNDLE_KEY_ACTIVE_USER = "BUNDLE_KEY_ACTIVE_USER";
     public static final String SHARED_ID = "SHARED_ID";
+    public static final String BUNDLE_KEY_ACTIVE_MONEY = "BUNDLE_KEY_ACTIVE_MONEY";
+    public static final String SHARED_MONEY = "SHARED_MONEY";
 
     protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
     protected static final int CREATE_USER_REQUEST_CODE = 30;
@@ -152,6 +153,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             case R.id.drawer_item_apartment_manager:
                 startActivity(new Intent(this, MainActivity.class));
                 break;
+            case R.id.drawer_item_loanSimulation:
+                startActivity(new Intent(this, LoanSimulationActivity.class));
+                break;
         }
 
         this.mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -178,7 +182,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()){
             case R.id.menu_toolbar_modify:
                 if (mApartment != null) {
@@ -210,11 +213,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
 
     protected void configureFragment(){
-
         getSupportFragmentManager().beginTransaction()
                 .add(getFragmentLayout(), getFirstFragment())
                 .commit();
-
         if ((getFirstFragment() instanceof MainFragment || getFirstFragment() instanceof ProfileManagerFragment)&& findViewById(getSecondFragmentLayout())!= null){
             getSupportFragmentManager().beginTransaction()
                     .add(getSecondFragmentLayout(), getSecondFragment())
@@ -234,7 +235,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         if (getFirstFragment() instanceof ProfileManagerFragment && mUserList != null) {
             ((ProfileManagerFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mUserList.get((int) mUserId-1), mUserList, mUserId);
         }
-
         // SECOND FRAGMENT LAYOUT UPDATE
         if ((getFirstFragment() instanceof MainFragment || getFirstFragment() instanceof  ProfileManagerFragment)&& findViewById(getSecondFragmentLayout()) != null){
             // SecondFragment UPDATE

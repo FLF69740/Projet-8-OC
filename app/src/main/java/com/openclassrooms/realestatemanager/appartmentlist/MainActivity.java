@@ -1,8 +1,6 @@
 package com.openclassrooms.realestatemanager.appartmentlist;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -19,9 +17,6 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
 
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
-
-    private static final String BUNDLE_KEY_ADAPTER_POSITION = "BUNDLE_KEY_ADAPTER_POSITION";
-
 
     @Override
     protected int getContentView() {

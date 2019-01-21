@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".loansimulator.LoanSimulationFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="@string/loan_simulation_title"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/loan_price_title"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto_light"
+            android:gravity="center"
+            android:text="@string/loan_simulation_price"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/loan_rate_title"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <TextView
+            android:id="@+id/loan_rate_title"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto_light"
+            android:gravity="center"
+            android:text="@string/loan_simulation_rate"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/loan_rate_year"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/loan_price_title" />
+
+        <TextView
+            android:id="@+id/loan_rate_year"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto_light"
+            android:gravity="center"
+            android:text="@string/loan_simulation_year"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView8"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/loan_rate_title" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_light"
+            android:gravity="center"
+            android:text="@string/loan_simulation_contribution"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_two_fragment"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/loan_rate_year" />
+
+        <!-- EDIT TEXT -->
+
+        <EditText
+            android:id="@+id/loan_editText_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/edit_text_style"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@+id/loan_price_title"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_fragment"
+            app:layout_constraintTop_toTopOf="@+id/loan_price_title" />
+
+        <EditText
+            android:id="@+id/loan_editText_rate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/edit_text_style"
+            android:fontFamily="@font/roboto_light"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:inputType="numberDecimal"
+            app:layout_constraintBottom_toTopOf="@+id/loan_rate_year"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_fragment"
+            app:layout_constraintTop_toTopOf="@+id/loan_rate_title" />
+
+        <EditText
+            android:id="@+id/loan_editText_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/edit_text_style"
+            android:fontFamily="@font/roboto_light"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@+id/loan_rate_year"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/loan_rate_title" />
+
+        <EditText
+            android:id="@+id/loan_editText_contribution"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/edit_text_style"
+            android:fontFamily="@font/roboto_light"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@+id/textView8"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_fragment"
+            app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+        <!-- UNITY -->
+
+        <TextView
+            android:id="@+id/loan_unity_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="20sp"
+            android:text="@string/loan_simulation_dollar"
+            app:layout_constraintBottom_toBottomOf="@+id/loan_editText_price"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintTop_toTopOf="@+id/loan_editText_price" />
+
+        <TextView
+            android:id="@+id/loan_unity_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="@string/loan_simulation_percent"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/loan_editText_rate"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintTop_toTopOf="@+id/loan_editText_rate" />
+
+        <TextView
+            android:id="@+id/loan_unity_contribution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="20sp"
+            android:text="@string/loan_simulation_dollar"
+            app:layout_constraintBottom_toBottomOf="@+id/loan_editText_contribution"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintTop_toTopOf="@+id/loan_editText_contribution" />
+
+        <!-- RESULT AERA -->
+
+        <Button
+            android:id="@+id/loan_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/loan_simulation_result"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline_two_fragment" />
+
+        <TextView
+            android:id="@+id/loan_result"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="right"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/loan_result_each_month"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loan_btn" />
+
+        <TextView
+            android:id="@+id/loan_result_each_month"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="20sp"
+            android:text="@string/loan_simulation_each_month"
+            app:layout_constraintBottom_toBottomOf="@+id/loan_result"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintStart_toEndOf="@+id/loan_result"
+            app:layout_constraintTop_toTopOf="@+id/loan_result" />
+
+        <TextView
+            android:id="@+id/loan_result_unity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/loan_simulation_dollar"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/loan_result_each_month"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintTop_toTopOf="@+id/loan_result_each_month" />
+
+
+        <!-- GUIDELINE -->
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline_two_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.65" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline_vertical_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.45" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline_vertical_2_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

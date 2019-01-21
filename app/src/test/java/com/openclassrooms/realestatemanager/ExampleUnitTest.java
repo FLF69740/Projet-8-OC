@@ -14,4 +14,16 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void loanTest() throws Exception{
+        int nbYear = 5;
+        int price = 20000;
+        double rate = 4.2;
+
+        int result = (int) Utils.getLoaninterestResult(price, nbYear, rate);
+
+
+        assertEquals("Result", 4200, result);
+    }
 }

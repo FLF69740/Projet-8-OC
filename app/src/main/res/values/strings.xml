@@ -3,6 +3,18 @@
 
     <string name="animation_second_fragment_to_viewpager" translatable="false">AnimationSecondToViewpager</string>
 
+    <!-- LOAN SIMULATION -->
+    <string name="loan_simulation_title">IN FINE Loan Simulator</string>
+    <string name="loan_simulation_price">PRICE :</string>
+    <string name="loan_simulation_rate">RATE :</string>
+    <string name="loan_simulation_year">YEARS :</string>
+    <string name="loan_simulation_contribution">CONTRIBUTION :</string>
+    <string name="loan_simulation_result">RESULT</string>
+    <string name="loan_simulation_percent" translatable="false">%</string>
+    <string name="loan_simulation_dollar" translatable="false">$</string>
+    <string name="loan_simulation_euro" translatable="false">€</string>
+    <string name="loan_simulation_each_month">/ each month</string>
+
     <!-- Profile manager -->
     <string name="user_profile_title">User Profile</string>
     <string name="user_profile_detail_description">DESCRIPTION :</string>

@@ -42,9 +42,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
         </activity>
-        <activity android:name=".apartmentdetail.ViewPagerPhotoActivity" />
-
-        <!-- CREATION ACTIVITY -->
+        <activity android:name=".apartmentdetail.ViewPagerPhotoActivity" /> <!-- CREATION ACTIVITY -->
         <activity
             android:name=".apartmentcreator.CreateActivity"
             android:label="@string/toolbar_apartment_creation"
@@ -67,19 +65,17 @@
             android:name=".apartmentmodifier.ModifierUserActivity"
             android:label="@string/activity_user_modifier_title"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-
-        <!-- PROFILE MANAGER ACTIVITIES -->
         <activity android:name=".photomanager.PhotoModifierActivity" />
 
         <!-- PROFILE MANAGER ACTIVITIES -->
         <activity
             android:name=".profilemanager.ProfileManagerActivity"
-            android:label="@string/activity_user_modifier_title"
-            android:parentActivityName=".appartmentlist.MainActivity">
+            android:label="@string/activity_user_modifier_title">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
         </activity>
+
         <activity
             android:name=".profilemanager.ProfileManagerDetailActivity"
             android:label="@string/user_profile_title"
@@ -88,19 +84,27 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
         </activity>
+
         <activity
             android:name=".profilemanager.UserCreationActivity"
             android:label="@string/user_profile_new_user"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
         <activity android:name=".photomanager.PhotoProfileActivity" />
 
-        <activity android:name=".profilemanager.ProfileManagerChangeActivity"
+        <activity
+            android:name=".profilemanager.ProfileManagerChangeActivity"
             android:label="@string/user_profile_title"
             android:parentActivityName=".profilemanager.ProfileManagerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
         </activity>
+
+        <!-- LOAN SIMULATION -->
+        <activity
+            android:name=".loansimulator.LoanSimulationActivity"
+            android:label="@string/nav_drawer_item_loan"/>
 
     </application>
 

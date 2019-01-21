@@ -52,4 +52,11 @@
     <string name="user_profile_new_user_dialog">Veuillez rentrer le nom de ce nouvel utilisateur :</string>
     <string name="user_profile_detail_change">CHANGER DONNEES</string>
     <string name="user_profile_change_update">METTRE A JOUR</string>
+    <string name="loan_simulation_title">Simulateur de prêts IN FINE</string>
+    <string name="loan_simulation_price">SOMME :</string>
+    <string name="loan_simulation_rate">TAUX :</string>
+    <string name="loan_simulation_year">ANNEES :</string>
+    <string name="loan_simulation_contribution">APPORT :</string>
+    <string name="loan_simulation_result">RESULTAT</string>
+    <string name="loan_simulation_each_month">/ chaque mois</string>
 </resources>

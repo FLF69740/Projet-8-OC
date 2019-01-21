@@ -19,8 +19,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.photomanager.PhotoModifierActivity;
 import com.openclassrooms.realestatemanager.R;
@@ -30,7 +28,6 @@ import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.Item;
 import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
 import com.openclassrooms.realestatemanager.models.User;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -265,7 +262,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
     private void validationClick(List<Item> listItem, int position){
         mValidationButtonModify.setOnClickListener(v -> {
             if (!mEditTextModify.getText().toString().equals("")) {
-                Boolean isNewPO = false;
+                boolean isNewPO = false;
                 if (listItem.get(position).getTitle().equals(mView.getContext().getString(R.string.apartment_title_po_single)) &&
                         listItem.get(position).getInformation().equals(mView.getContext().getString(R.string.fragment_modification_recycler_no_po))){
                     isNewPO = true;
