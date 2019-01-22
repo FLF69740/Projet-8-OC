@@ -131,7 +131,7 @@ public class CreateFragment extends Fragment {
     @OnClick(R.id.fragment_creation_create_button) public void buttonClicked(){
 
         String finalPrice = mEditTextPrice.getText().toString();
-        if (mMoney_unit.equals(getActivity().getString(R.string.loan_simulation_euro)) && !mEditTextPrice.getText().toString().equals("0")){
+        if (mMoney_unit.equals(getActivity().getString(R.string.loan_simulation_euro))){
             int price = Integer.valueOf(mEditTextPrice.getText().toString());
             int newPrice = Utils.convertEuroToDollar(price);
             finalPrice = String.valueOf(newPrice);

@@ -23,7 +23,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.BUNDLE_KEY_ACTIVE_DIMENSION;
 import static com.openclassrooms.realestatemanager.Controller.BaseActivity.BUNDLE_KEY_ACTIVE_MONEY;
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.SHARED_DIMENSION;
 import static com.openclassrooms.realestatemanager.Controller.BaseActivity.SHARED_MONEY;
 
 
@@ -99,7 +101,7 @@ public class SecondFragment extends Fragment {
         mTextViewSecondLayoutPrice.setText(getFinalPrice(mApartment.getPrice()));
         mTextViewDateInscription.setText(mApartment.getDateInscription());
         mDescriptionBody.setText(mApartment.getDescription());
-        mSurfaceInformation.setText(Utils.getDimension(mApartment.getDimension(), this.mView.getContext().getString(R.string.METER), this.mView));
+        mSurfaceInformation.setText(getFinalDimension(mApartment.getDimension()));
         mNumberOfRoomsInformation.setText(Utils.getRooms(mApartment.getRoomNumber(), this.mView));
         mPointOfInterestInformation.setText(getPOString(mApartment.getPoInterest()));
         mLocalisationInformation.setText(Utils.getFullAdress(mApartment.getAdress(), String.valueOf(mApartment.getPostalCode()), mApartment.getTown()));
@@ -126,11 +128,21 @@ public class SecondFragment extends Fragment {
     // price transition
     private String getFinalPrice(int price){
         String moneyUnit = getContext().getSharedPreferences(SHARED_MONEY, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_MONEY, getContext().getString(R.string.loan_simulation_dollar));
-        if (moneyUnit.equals(getContext().getString(R.string.loan_simulation_euro)) && price != 0){
+        if (moneyUnit.equals(getContext().getString(R.string.loan_simulation_euro))){
             price = Utils.convertDollarToEuro(price);
         }
-        String priceString = Utils.getPriceFormat(price) + " (" + moneyUnit + ")";
-        return priceString;
+        return moneyUnit + " " + Utils.getPriceFormat(price);
+    }
+
+    // dimension transition
+    private String getFinalDimension(int dimension){
+        String dimensionUnit = getContext().getSharedPreferences(SHARED_DIMENSION, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_DIMENSION, getContext().getString(R.string.units_square));
+        String unity = getContext().getString(R.string.FEET);
+        if (dimensionUnit.equals(getContext().getString(R.string.units_meters))){
+            dimension = Utils.getSquareMeter(dimension);
+            unity = getContext().getString(R.string.METER);
+        }
+        return Utils.getDimension(dimension, unity, this.mView);
     }
 
     @OnClick(R.id.photo_presentation)

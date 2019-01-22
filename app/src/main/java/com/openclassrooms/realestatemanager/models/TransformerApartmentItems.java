@@ -11,7 +11,9 @@ import com.openclassrooms.realestatemanager.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.BUNDLE_KEY_ACTIVE_DIMENSION;
 import static com.openclassrooms.realestatemanager.Controller.BaseActivity.BUNDLE_KEY_ACTIVE_MONEY;
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.SHARED_DIMENSION;
 import static com.openclassrooms.realestatemanager.Controller.BaseActivity.SHARED_MONEY;
 
 public class TransformerApartmentItems {
@@ -35,9 +37,13 @@ public class TransformerApartmentItems {
 
     public void createItemList(Apartment apartment, Context context){
         mItemList.add(new Item(apartment.getType(), context.getString(R.string.apartment_title_type), NO_PICTURE, false, false));
-        mItemList.add(new Item(getFinalPriceForItem(context, apartment.getPrice()), context.getString(R.string.apartment_title_price), NO_PICTURE, false, false));
+        mItemList.add(new Item(getFinalPriceForItem(context, apartment.getPrice()), context.getString(R.string.apartment_title_price) + " " +
+                context.getSharedPreferences(SHARED_MONEY, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_MONEY, context.getString(R.string.loan_simulation_dollar)),
+                NO_PICTURE, false, false));
         mItemList.add(new Item(apartment.getDescription(), context.getString(R.string.apartment_description), NO_PICTURE, false, false));
-        mItemList.add(new Item(String.valueOf(apartment.getDimension()), context.getString(R.string.apartment_title_square), NO_PICTURE, false, false));
+        mItemList.add(new Item(getFinalDimensionForItem(context, apartment.getDimension()), context.getString(R.string.apartment_title_square) + " " +
+                context.getSharedPreferences(SHARED_DIMENSION, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_DIMENSION, context.getString(R.string.units_square)),
+                NO_PICTURE, false, false));
         mItemList.add(new Item(String.valueOf(apartment.getRoomNumber()), context.getString(R.string.apartment_title_room), NO_PICTURE, false, false));
         mItemList.add(new Item("", context.getString(R.string.apartment_title_adress), NO_PICTURE, true, false));
         mItemList.add(new Item(apartment.getAdress(), context.getString(R.string.apartment_title_street), NO_PICTURE, false, false));
@@ -78,12 +84,12 @@ public class TransformerApartmentItems {
         for (int i = 0 ; i < itemList.size() ; i++){
             if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_type))){
                 mApartment.setType(itemList.get(i).getInformation());
-            } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_price))) {
+            } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_price) + " " + context.getSharedPreferences(SHARED_MONEY, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_MONEY, context.getString(R.string.loan_simulation_dollar)))) {
                 mApartment.setPrice(Integer.valueOf(getFinalPriceForApartment(context, itemList.get(i).getInformation())));
             } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_description))) {
                 mApartment.setDescription(itemList.get(i).getInformation());
-            } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_square))) {
-                mApartment.setDimension(Integer.valueOf(itemList.get(i).getInformation()));
+            } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_square) + " " + context.getSharedPreferences(SHARED_DIMENSION, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_DIMENSION, context.getString(R.string.units_square)))) {
+                mApartment.setDimension(Integer.valueOf(getFinalDimensionForApartment(context, itemList.get(i).getInformation())));
             } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_room))) {
                 mApartment.setRoomNumber(Integer.valueOf(itemList.get(i).getInformation()));
             } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_street))) {
@@ -133,7 +139,7 @@ public class TransformerApartmentItems {
     private String getFinalPriceForItem(Context context, int price){
         String moneyUnit = context.getSharedPreferences(SHARED_MONEY, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_MONEY, context.getString(R.string.loan_simulation_dollar));
         assert moneyUnit != null;
-        if (moneyUnit.equals(context.getString(R.string.loan_simulation_euro)) && price != 0){
+        if (moneyUnit.equals(context.getString(R.string.loan_simulation_euro))){
             price = Utils.convertDollarToEuro(price);
         }
         return String.valueOf(price);
@@ -143,10 +149,34 @@ public class TransformerApartmentItems {
     private String getFinalPriceForApartment(Context context, String price){
         String moneyUnit = context.getSharedPreferences(SHARED_MONEY, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_MONEY, context.getString(R.string.loan_simulation_dollar));
         assert moneyUnit != null;
-        if (moneyUnit.equals(context.getString(R.string.loan_simulation_euro)) && !price.equals("0")){
+        if (moneyUnit.equals(context.getString(R.string.loan_simulation_euro))){
             price = String.valueOf(Utils.convertEuroToDollar(Integer.valueOf(price)));
         }
         return price;
+    }
+
+    /**
+     *  DIMENSION TRANSITION
+     */
+
+    // creation of the dimension item with apartment information
+    private String getFinalDimensionForItem(Context context, int dimension){
+        String dimensionUnit = context.getSharedPreferences(SHARED_DIMENSION, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_DIMENSION, context.getString(R.string.units_square));
+        assert dimensionUnit != null;
+        if (dimensionUnit.equals(context.getString(R.string.units_meters))){
+            dimension = Utils.getSquareMeter(dimension);
+        }
+        return String.valueOf(dimension);
+    }
+
+    // creation of the apartment dimension with item information
+    private String getFinalDimensionForApartment(Context context, String dimension){
+        String dimensionUnit = context.getSharedPreferences(SHARED_DIMENSION, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_DIMENSION, context.getString(R.string.units_square));
+        assert dimensionUnit != null;
+        if (dimensionUnit.equals(context.getString(R.string.units_meters))){
+            dimension = String.valueOf(Utils.getSquareFeet(Integer.valueOf(dimension)));
+        }
+        return dimension;
     }
 
 }

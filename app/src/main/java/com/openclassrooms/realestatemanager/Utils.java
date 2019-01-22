@@ -22,11 +22,38 @@ public class Utils {
      * @return
      */
     public static int convertDollarToEuro(int dollars){
-        return (int) Math.round(dollars * 0.812);
+        if (dollars != 0) {
+            return (int) Math.round(dollars * 0.812);
+        }else {
+            return dollars;
+        }
     }
 
     public static int convertEuroToDollar(int euros){
-        return (int) Math.round(euros / 0.812);
+        if (euros != 0) {
+            return (int) Math.round(euros / 0.812);
+        }else {
+            return euros;
+        }
+    }
+
+    //Price format (main & detail fragment)
+    public static String getPriceFormat(int price){
+        StringBuilder resultTemp = new StringBuilder(String.valueOf(price));
+        resultTemp.reverse();
+        char[] priceChars = resultTemp.toString().toCharArray();
+        StringBuilder result = new StringBuilder();
+        int sectionChar = 0;
+        for (int i = 0 ; i < priceChars.length ; i++){
+            sectionChar++;
+            if (sectionChar == 4){
+                result.append(',');
+                sectionChar = 1;
+            }
+            result .append(priceChars[i]);
+        }
+        result.reverse();
+        return result.toString();
     }
 
     /**
@@ -72,25 +99,6 @@ public class Utils {
      *  APARTMENT DETAILS FORMAT
      */
 
-    //Price format (main & detail fragment)
-    public static String getPriceFormat(int price){
-        StringBuilder resultTemp = new StringBuilder(String.valueOf(price));
-        resultTemp.reverse();
-        char[] priceChars = resultTemp.toString().toCharArray();
-        StringBuilder result = new StringBuilder();
-        int sectionChar = 0;
-        for (int i = 0 ; i < priceChars.length ; i++){
-            sectionChar++;
-            if (sectionChar == 4){
-                result.append(',');
-                sectionChar = 1;
-            }
-            result .append(priceChars[i]);
-        }
-        result.reverse();
-        return result.toString();
-    }
-
     //Full adress composition (detail fragment)
     public static String getFullAdress(String adress, String postalCode, String town){
         return adress + "\n" + postalCode + "\n" + town;
@@ -99,15 +107,6 @@ public class Utils {
     //number of rooms (detail fragment)
     public static String getRooms(int numberOfRooms, View view){
         return String.valueOf(numberOfRooms) + " " + view.getContext().getString(R.string.apartment_room);
-    }
-
-    //dimension (detail fragment)
-    public static String getDimension(int dimension, String unity, View view){
-        if (unity.equals(view.getContext().getString(R.string.METER))){
-            return dimension + view.getContext().getString(R.string.units_meters);
-        } else {
-            return dimension + view.getContext().getString(R.string.units_square);
-        }
     }
 
     //sold text return
@@ -148,12 +147,29 @@ public class Utils {
 
     //meters to feet
     public static int getSquareFeet(int meter){
-        return (int) Math.round(meter * 10.764);
+        if (meter != 0) {
+            return (int) Math.round(meter * 10.764);
+        } else {
+            return meter;
+        }
     }
 
     //feet to meter
     public static int getSquareMeter(int feet){
-        return (int) Math.round(feet / 10.764);
+        if (feet != 0) {
+            return (int) Math.round(feet / 10.764);
+        } else {
+            return feet;
+        }
+    }
+
+    //dimension (detail fragment)
+    public static String getDimension(int dimension, String unity, View view){
+        if (unity.equals(view.getContext().getString(R.string.METER))){
+            return dimension + view.getContext().getString(R.string.units_meters);
+        } else {
+            return dimension + view.getContext().getString(R.string.units_square);
+        }
     }
 
     /**

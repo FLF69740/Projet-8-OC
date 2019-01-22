@@ -35,7 +35,7 @@ public class ApartmentListViewHolder extends RecyclerView.ViewHolder {
         this.mTextViewTown.setText(apartment.getTown());
 
         int price = apartment.getPrice();
-        if (moneyUnit.equals(mItemView.getContext().getString(R.string.loan_simulation_euro)) && price != 0){
+        if (moneyUnit.equals(mItemView.getContext().getString(R.string.loan_simulation_euro))){
             price = Utils.convertDollarToEuro(price);
         }
         moneyUnit += Utils.getPriceFormat(price);
