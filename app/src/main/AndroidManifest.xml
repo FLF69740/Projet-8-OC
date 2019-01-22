@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".units.UnitsActivity"></activity>
         <!-- MAIN ACTIVITY -->
         <activity
             android:name=".appartmentlist.MainActivity"
@@ -30,9 +30,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- SECOND ACTIVITY -->
+        </activity> <!-- SECOND ACTIVITY -->
         <activity
             android:name=".apartmentdetail.SecondActivity"
             android:label="@string/toolbar_appartment_description"
@@ -50,9 +48,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
-        </activity>
-
-        <!-- MODIFIER ACTIVITY -->
+        </activity> <!-- MODIFIER ACTIVITY -->
         <activity
             android:name=".apartmentmodifier.ModifierActivity"
             android:label="@string/toolbar_apartment_modification"
@@ -65,9 +61,7 @@
             android:name=".apartmentmodifier.ModifierUserActivity"
             android:label="@string/activity_user_modifier_title"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity android:name=".photomanager.PhotoModifierActivity" />
-
-        <!-- PROFILE MANAGER ACTIVITIES -->
+        <activity android:name=".photomanager.PhotoModifierActivity" /> <!-- PROFILE MANAGER ACTIVITIES -->
         <activity
             android:name=".profilemanager.ProfileManagerActivity"
             android:label="@string/activity_user_modifier_title">
@@ -75,7 +69,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
         </activity>
-
         <activity
             android:name=".profilemanager.ProfileManagerDetailActivity"
             android:label="@string/user_profile_title"
@@ -84,14 +77,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
         </activity>
-
         <activity
             android:name=".profilemanager.UserCreationActivity"
             android:label="@string/user_profile_new_user"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-
         <activity android:name=".photomanager.PhotoProfileActivity" />
-
         <activity
             android:name=".profilemanager.ProfileManagerChangeActivity"
             android:label="@string/user_profile_title"
@@ -99,13 +89,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
-        </activity>
-
-        <!-- LOAN SIMULATION -->
+        </activity> <!-- LOAN SIMULATION -->
         <activity
             android:name=".loansimulator.LoanSimulationActivity"
-            android:label="@string/nav_drawer_item_loan"/>
-
+            android:label="@string/nav_drawer_item_loan" />
     </application>
 
 </manifest>

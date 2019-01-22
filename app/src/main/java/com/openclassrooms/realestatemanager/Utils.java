@@ -25,6 +25,10 @@ public class Utils {
         return (int) Math.round(dollars * 0.812);
     }
 
+    public static int convertEuroToDollar(int euros){
+        return (int) Math.round(euros / 0.812);
+    }
+
     /**
      * Conversion de la date d'aujourd'hui en un format plus approprié
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
@@ -64,6 +68,29 @@ public class Utils {
         return wifi.isWifiEnabled();
     }
 
+    /**
+     *  APARTMENT DETAILS FORMAT
+     */
+
+    //Price format (main & detail fragment)
+    public static String getPriceFormat(int price){
+        StringBuilder resultTemp = new StringBuilder(String.valueOf(price));
+        resultTemp.reverse();
+        char[] priceChars = resultTemp.toString().toCharArray();
+        StringBuilder result = new StringBuilder();
+        int sectionChar = 0;
+        for (int i = 0 ; i < priceChars.length ; i++){
+            sectionChar++;
+            if (sectionChar == 4){
+                result.append(',');
+                sectionChar = 1;
+            }
+            result .append(priceChars[i]);
+        }
+        result.reverse();
+        return result.toString();
+    }
+
     //Full adress composition (detail fragment)
     public static String getFullAdress(String adress, String postalCode, String town){
         return adress + "\n" + postalCode + "\n" + town;
@@ -77,9 +104,9 @@ public class Utils {
     //dimension (detail fragment)
     public static String getDimension(int dimension, String unity, View view){
         if (unity.equals(view.getContext().getString(R.string.METER))){
-            return dimension + " sq m";
+            return dimension + view.getContext().getString(R.string.units_meters);
         } else {
-            return dimension + " sq ft";
+            return dimension + view.getContext().getString(R.string.units_square);
         }
     }
 
@@ -121,12 +148,12 @@ public class Utils {
 
     //meters to feet
     public static int getSquareFeet(int meter){
-        return (int) (meter * 10.764);
+        return (int) Math.round(meter * 10.764);
     }
 
     //feet to meter
     public static int getSquareMeter(int feet){
-        return (int) (feet / 10.764);
+        return (int) Math.round(feet / 10.764);
     }
 
     /**

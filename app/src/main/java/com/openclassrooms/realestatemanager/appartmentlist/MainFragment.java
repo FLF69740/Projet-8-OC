@@ -16,6 +16,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.BUNDLE_KEY_ACTIVE_MONEY;
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.SHARED_MONEY;
+
 public class MainFragment extends Fragment {
 
     private static final String BUNDLE_KEY_ADAPTER_POSITION = "BUNDLE_KEY_ADAPTER_POSITION";
@@ -64,7 +67,8 @@ public class MainFragment extends Fragment {
      */
 
     private void configureRecyclerView(){
-        this.mAdapter = new ApartmentListAdapter(mApartmentList, mSelectedApartment);
+        String moneyUnit = getActivity().getSharedPreferences(SHARED_MONEY, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_MONEY, getString(R.string.loan_simulation_dollar));
+        this.mAdapter = new ApartmentListAdapter(mApartmentList, mSelectedApartment, moneyUnit);
         this.mRecyclerView.setAdapter(mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

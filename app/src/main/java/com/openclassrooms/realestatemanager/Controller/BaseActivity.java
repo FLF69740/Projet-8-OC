@@ -35,6 +35,7 @@ import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerActivit
 import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerDetailFragment;
 import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerFragment;
 import com.openclassrooms.realestatemanager.profilemanager.UserCreationActivity;
+import com.openclassrooms.realestatemanager.units.UnitsActivity;
 import com.openclassrooms.realestatemanager.viewmodel.ListingViewModel;
 import java.util.List;
 
@@ -44,17 +45,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     private static final String BUNDLE_KEY_ADAPTER_POSITION = "BUNDLE_KEY_ADAPTER_POSITION";
     protected static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
     protected static final String BUNDLE_KEY_OUTSTATE_INT_USER = "BUNDLE_KEY_OUTSTATE_INT_USER";
-
     public static final String BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY = "BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY";
+    protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
+    protected static final int CREATE_USER_REQUEST_CODE = 30;
 
     //Shared Preferences
     public static final String BUNDLE_KEY_ACTIVE_USER = "BUNDLE_KEY_ACTIVE_USER";
     public static final String SHARED_ID = "SHARED_ID";
     public static final String BUNDLE_KEY_ACTIVE_MONEY = "BUNDLE_KEY_ACTIVE_MONEY";
     public static final String SHARED_MONEY = "SHARED_MONEY";
-
-    protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
-    protected static final int CREATE_USER_REQUEST_CODE = 30;
+    public static final String BUNDLE_KEY_ACTIVE_DIMENSION = "BUNDLE_KEY_ACTIVE_DIMENSION";
+    public static final String SHARED_DIMENSION = "SHARED_DIMENSION";
 
     protected static long DEFAULT_USER_ID = 1;
     protected View mViewHeader;
@@ -66,7 +67,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected long mUserId;
     protected String mAdapterPosition;
     protected Toolbar toolbar;
-
     private TextView mNavUserName;
     private ImageView mNavUserPhoto;
     private DrawerLayout mDrawerLayout;
@@ -95,7 +95,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         this.configureViewModel();
         this.getApartments(mUserId);
         this.getUsers();
-
         this.configureFragment();
         this.configureToolbar();
     }
@@ -155,6 +154,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 break;
             case R.id.drawer_item_loanSimulation:
                 startActivity(new Intent(this, LoanSimulationActivity.class));
+                break;
+            case R.id.drawer_item_units:
+                startActivity(new Intent(this, UnitsActivity.class));
                 break;
         }
 

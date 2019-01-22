@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
@@ -20,6 +21,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.BUNDLE_KEY_ACTIVE_MONEY;
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.SHARED_MONEY;
+
 
 public class CreateFragment extends Fragment {
 
@@ -29,10 +33,12 @@ public class CreateFragment extends Fragment {
     @BindView(R.id.fragment_creation_town_editText)EditText mEditTextTown;
     @BindView(R.id.fragment_creation_price_editText)EditText mEditTextPrice;
     @BindView(R.id.fragment_creation_create_button)Button mButton;
+    @BindView(R.id.textView_create_price)TextView mTextViewPrice;
 
-    View mView;
-    Boolean isButtonActivated = false;
-    Boolean isTypeNotEmpty = false, isAdressNotEmpty = false, isPostalCodeNotEmpty = false, isTownNotEmpty = false, isPriceNotEmpty = false;
+    private View mView;
+    private Boolean isButtonActivated = false;
+    private Boolean isTypeNotEmpty = false, isAdressNotEmpty = false, isPostalCodeNotEmpty = false, isTownNotEmpty = false, isPriceNotEmpty = false;
+    private String mMoney_unit = "";
 
     public CreateFragment() {}
 
@@ -45,8 +51,15 @@ public class CreateFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_create, container, false);
         ButterKnife.bind(this, mView);
         mButton.setEnabled(isButtonActivated);
-        configureEditText();
+        this.configurePriceUnit();
+        this.configureEditText();
         return mView;
+    }
+
+    private void configurePriceUnit(){
+        mMoney_unit = getActivity().getSharedPreferences(SHARED_MONEY, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_MONEY, getString(R.string.loan_simulation_dollar));
+        String priceTitle = getActivity().getString(R.string.fragment_creation_price) + " (" + mMoney_unit + ")";
+        mTextViewPrice.setText(priceTitle);
     }
 
     private void configureEditText(){
@@ -116,8 +129,16 @@ public class CreateFragment extends Fragment {
     }
 
     @OnClick(R.id.fragment_creation_create_button) public void buttonClicked(){
+
+        String finalPrice = mEditTextPrice.getText().toString();
+        if (mMoney_unit.equals(getActivity().getString(R.string.loan_simulation_euro)) && !mEditTextPrice.getText().toString().equals("0")){
+            int price = Integer.valueOf(mEditTextPrice.getText().toString());
+            int newPrice = Utils.convertEuroToDollar(price);
+            finalPrice = String.valueOf(newPrice);
+        }
+
         mCallback.itemClicked(this.mView, mEditTextType.getText().toString(), mEditTextAdress.getText().toString(), Integer.valueOf(mEditTextPostalCode.getText().toString()),
-                mEditTextTown.getText().toString(), Integer.valueOf(mEditTextPrice.getText().toString()));
+                mEditTextTown.getText().toString(), Integer.valueOf(finalPrice));
     }
 
     /**

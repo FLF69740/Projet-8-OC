@@ -11,6 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline_create_apartment_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
         <TextView
             android:id="@+id/fragment_creation_title_textview"
             android:layout_width="match_parent"
@@ -56,11 +63,12 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/roboto_light"
             android:gravity="center|end"
             android:text="@string/fragment_creation_postalcode"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView15"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_creation_create_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
@@ -68,42 +76,40 @@
             android:id="@+id/textView15"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:fontFamily="@font/roboto_light"
             android:gravity="center|end"
             android:text="@string/fragment_creation_town"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView_create_price"
-            app:layout_constraintEnd_toEndOf="@+id/textView14"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+            app:layout_constraintBottom_toTopOf="@+id/textView13"
+            app:layout_constraintEnd_toEndOf="@+id/textView_create_price"
+            app:layout_constraintStart_toStartOf="@+id/guideline_create_apartment_middle"
+            app:layout_constraintTop_toTopOf="@+id/textView12" />
 
         <TextView
             android:id="@+id/textView_create_price"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
             android:fontFamily="@font/roboto_light"
             android:gravity="center|end"
             android:text="@string/fragment_creation_price"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/fragment_creation_create_button"
-            app:layout_constraintEnd_toEndOf="@+id/textView14"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+            app:layout_constraintBottom_toTopOf="@+id/textView14"
+            app:layout_constraintStart_toStartOf="@+id/guideline_create_apartment_middle"
+            app:layout_constraintTop_toTopOf="@+id/textView13" />
 
         <EditText
             android:id="@+id/fragment_creation_type_editText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/edit_text_style"
             android:padding="5dp"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/textView13"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_create_apartment_middle"
             app:layout_constraintStart_toEndOf="@+id/textView12"
             app:layout_constraintTop_toTopOf="@+id/textView12" />
 
@@ -112,12 +118,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/edit_text_style"
             android:padding="5dp"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/textView14"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_create_apartment_middle"
             app:layout_constraintStart_toEndOf="@+id/textView13"
             app:layout_constraintTop_toTopOf="@+id/textView13" />
 
@@ -126,13 +132,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/edit_text_style"
             android:inputType="number"
             android:padding="5dp"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView15"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/textView14"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_create_apartment_middle"
             app:layout_constraintStart_toEndOf="@+id/textView14"
             app:layout_constraintTop_toTopOf="@+id/textView14" />
 
@@ -142,11 +148,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:inputType="textCapCharacters"
-            android:textSize="16sp"
-            android:padding="5dp"
             android:background="@drawable/edit_text_style"
-            app:layout_constraintBottom_toTopOf="@+id/textView_create_price"
+            android:inputType="textCapCharacters"
+            android:padding="5dp"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView15"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView15"
             app:layout_constraintTop_toTopOf="@+id/textView15" />

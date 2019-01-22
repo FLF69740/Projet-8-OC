@@ -2,6 +2,14 @@
     <string name="app_name">Real Estate Manager</string>
 
     <string name="animation_second_fragment_to_viewpager" translatable="false">AnimationSecondToViewpager</string>
+    
+    <!-- UNITS -->
+    <string name="units_meters" translatable="false">m²</string>
+    <string name="units_square" translatable="false">sq ft</string>
+    <string name="units_message_dimension">1 sq ft equals 0.092 m²</string>
+    <string name="units_message_money">1 $ equals 0.812 €</string>
+    <string name="units_title">UNITS TABLE</string>
+    <string name="units_activated_message">ACTIVATED  : </string>
 
     <!-- LOAN SIMULATION -->
     <string name="loan_simulation_title">IN FINE Loan Simulator</string>

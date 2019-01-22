@@ -29,11 +29,17 @@ public class ApartmentListViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, mItemView);
     }
 
-    public void updateWithApartmentInformations(Apartment apartment, boolean selectedApartment){
+    public void updateWithApartmentInformations(Apartment apartment, boolean selectedApartment, String moneyUnit){
 
         this.mTextViewType.setText(apartment.getType());
         this.mTextViewTown.setText(apartment.getTown());
-        this.mTextViewPrice.setText(String.valueOf(apartment.getPrice()));
+
+        int price = apartment.getPrice();
+        if (moneyUnit.equals(mItemView.getContext().getString(R.string.loan_simulation_euro)) && price != 0){
+            price = Utils.convertDollarToEuro(price);
+        }
+        moneyUnit += Utils.getPriceFormat(price);
+        this.mTextViewPrice.setText(moneyUnit);
 
         if (BitmapStorage.isFileExist(mItemView.getContext(), BitmapStorage.getFirstPhotoName(apartment))) {
             this.mImageViewPicture.setImageBitmap(BitmapStorage.loadImage(mItemView.getContext(), BitmapStorage.getFirstPhotoName(apartment)));

@@ -1,8 +1,8 @@
 package com.openclassrooms.realestatemanager.apartmentdetail;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,22 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
 import com.openclassrooms.realestatemanager.models.User;
-
-import java.util.List;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pub.devrel.easypermissions.AfterPermissionGranted;
 
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.BUNDLE_KEY_ACTIVE_MONEY;
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.SHARED_MONEY;
 
 
 public class SecondFragment extends Fragment {
@@ -44,6 +41,7 @@ public class SecondFragment extends Fragment {
     @BindView(R.id.date_inscription)TextView mTextViewDateInscription;
     @BindView(R.id.dateSold)TextView mTextViewDateSold;
     @BindView(R.id.photo_number_indicator)TextView mPhotoNumberIndicator;
+    @BindView(R.id.layout_second_price)TextView mTextViewSecondLayoutPrice;
 
     private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
@@ -52,6 +50,7 @@ public class SecondFragment extends Fragment {
     private Apartment mApartment;
     private User mUser;
     private View mView;
+    private boolean mIsPhotoExist;
 
     public SecondFragment() {}
 
@@ -88,13 +87,16 @@ public class SecondFragment extends Fragment {
         mApartment = apartment;
         mUser = user;
         if (BitmapStorage.isFileExist(Objects.requireNonNull(getContext()), BitmapStorage.getFirstPhotoName(mApartment))) {
+            this.mIsPhotoExist = true;
             this.mPhotoPresentation.setImageBitmap(BitmapStorage.loadImage(getContext(), BitmapStorage.getFirstPhotoName(mApartment)));
             this.mPhotoNumberIndicator.setText(String.valueOf(BitmapStorage.getPhotoNumber(mApartment)));
         } else {
+            this.mIsPhotoExist = false;
             this.mPhotoPresentation.setImageResource(R.drawable.image_realestate);
             this.mPhotoNumberIndicator.setVisibility(View.INVISIBLE);
         }
 
+        mTextViewSecondLayoutPrice.setText(getFinalPrice(mApartment.getPrice()));
         mTextViewDateInscription.setText(mApartment.getDateInscription());
         mDescriptionBody.setText(mApartment.getDescription());
         mSurfaceInformation.setText(Utils.getDimension(mApartment.getDimension(), this.mView.getContext().getString(R.string.METER), this.mView));
@@ -121,15 +123,27 @@ public class SecondFragment extends Fragment {
         return string;
     }
 
+    // price transition
+    private String getFinalPrice(int price){
+        String moneyUnit = getContext().getSharedPreferences(SHARED_MONEY, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_MONEY, getContext().getString(R.string.loan_simulation_dollar));
+        if (moneyUnit.equals(getContext().getString(R.string.loan_simulation_euro)) && price != 0){
+            price = Utils.convertDollarToEuro(price);
+        }
+        String priceString = Utils.getPriceFormat(price) + " (" + moneyUnit + ")";
+        return priceString;
+    }
+
     @OnClick(R.id.photo_presentation)
     public void ShowViewPagerPhoto(){
-        Intent intent = new Intent(getActivity(), ViewPagerPhotoActivity.class);
-        intent.putExtra(BUNDLE_KEY_LIST_PHOTO, mApartment.getUrlPicture());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), mPhotoPresentation, getString(R.string.animation_second_fragment_to_viewpager));
-            startActivity(intent, options.toBundle());
-        } else {
-            startActivity(intent);
+        if (mIsPhotoExist) {
+            Intent intent = new Intent(getActivity(), ViewPagerPhotoActivity.class);
+            intent.putExtra(BUNDLE_KEY_LIST_PHOTO, mApartment.getUrlPicture());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), mPhotoPresentation, getString(R.string.animation_second_fragment_to_viewpager));
+                startActivity(intent, options.toBundle());
+            } else {
+                startActivity(intent);
+            }
         }
     }
 }

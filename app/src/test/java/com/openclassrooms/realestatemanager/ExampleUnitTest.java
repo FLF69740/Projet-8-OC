@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager;
 
+import android.view.View;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -25,5 +27,19 @@ public class ExampleUnitTest {
 
 
         assertEquals("Result", 4200, result);
+    }
+
+    @Test
+    public void testIfIntegerIsDividedBySectionEachThree() throws Exception{
+        assertEquals("1", Utils.getPriceFormat(1));
+        assertEquals("10", Utils.getPriceFormat(10));
+        assertEquals("100", Utils.getPriceFormat(100));
+        assertEquals("1,000", Utils.getPriceFormat(1000));
+        assertEquals("10,000", Utils.getPriceFormat(10000));
+        assertEquals("100,000", Utils.getPriceFormat(100000));
+        assertEquals("1,000,000", Utils.getPriceFormat(1000000));
+        assertEquals("10,000,000", Utils.getPriceFormat(10000000));
+        assertEquals("100,000,000", Utils.getPriceFormat(100000000));
+        assertEquals("1,000,000,000", Utils.getPriceFormat(1000000000));
     }
 }

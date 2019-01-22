@@ -6,9 +6,13 @@ import android.util.Log;
 
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.BUNDLE_KEY_ACTIVE_MONEY;
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.SHARED_MONEY;
 
 public class TransformerApartmentItems {
 
@@ -31,7 +35,7 @@ public class TransformerApartmentItems {
 
     public void createItemList(Apartment apartment, Context context){
         mItemList.add(new Item(apartment.getType(), context.getString(R.string.apartment_title_type), NO_PICTURE, false, false));
-        mItemList.add(new Item(String.valueOf(apartment.getPrice()), context.getString(R.string.apartment_title_price), NO_PICTURE, false, false));
+        mItemList.add(new Item(getFinalPriceForItem(context, apartment.getPrice()), context.getString(R.string.apartment_title_price), NO_PICTURE, false, false));
         mItemList.add(new Item(apartment.getDescription(), context.getString(R.string.apartment_description), NO_PICTURE, false, false));
         mItemList.add(new Item(String.valueOf(apartment.getDimension()), context.getString(R.string.apartment_title_square), NO_PICTURE, false, false));
         mItemList.add(new Item(String.valueOf(apartment.getRoomNumber()), context.getString(R.string.apartment_title_room), NO_PICTURE, false, false));
@@ -75,7 +79,7 @@ public class TransformerApartmentItems {
             if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_type))){
                 mApartment.setType(itemList.get(i).getInformation());
             } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_price))) {
-                mApartment.setPrice(Integer.valueOf(itemList.get(i).getInformation()));
+                mApartment.setPrice(Integer.valueOf(getFinalPriceForApartment(context, itemList.get(i).getInformation())));
             } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_description))) {
                 mApartment.setDescription(itemList.get(i).getInformation());
             } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_square))) {
@@ -119,6 +123,30 @@ public class TransformerApartmentItems {
 
     public Apartment getApartment(){
         return mApartment;
+    }
+
+    /**
+     *  PRICE TRANSITION
+     */
+
+    // creation of the price item with apartment information
+    private String getFinalPriceForItem(Context context, int price){
+        String moneyUnit = context.getSharedPreferences(SHARED_MONEY, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_MONEY, context.getString(R.string.loan_simulation_dollar));
+        assert moneyUnit != null;
+        if (moneyUnit.equals(context.getString(R.string.loan_simulation_euro)) && price != 0){
+            price = Utils.convertDollarToEuro(price);
+        }
+        return String.valueOf(price);
+    }
+
+    // creation of the apartment price with item information
+    private String getFinalPriceForApartment(Context context, String price){
+        String moneyUnit = context.getSharedPreferences(SHARED_MONEY, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_MONEY, context.getString(R.string.loan_simulation_dollar));
+        assert moneyUnit != null;
+        if (moneyUnit.equals(context.getString(R.string.loan_simulation_euro)) && !price.equals("0")){
+            price = String.valueOf(Utils.convertEuroToDollar(Integer.valueOf(price)));
+        }
+        return price;
     }
 
 }

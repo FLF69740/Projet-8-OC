@@ -15,10 +15,12 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListView
 
     private List<Apartment> mApartmentList;
     private int mSelectedApartment;
+    private String mMoneyUnit;
 
-    public ApartmentListAdapter(List<Apartment> apartmentList, int selectedApartment) {
+    public ApartmentListAdapter(List<Apartment> apartmentList, int selectedApartment, String moneyUnit) {
         this.mApartmentList = apartmentList;
         this.mSelectedApartment = selectedApartment;
+        this.mMoneyUnit = moneyUnit;
     }
 
     @NonNull
@@ -33,7 +35,7 @@ public class ApartmentListAdapter extends RecyclerView.Adapter<ApartmentListView
     @Override
     public void onBindViewHolder(@NonNull ApartmentListViewHolder apartmentListViewHolder, int i) {
         Boolean selected = mSelectedApartment == i;
-        apartmentListViewHolder.updateWithApartmentInformations(this.mApartmentList.get(i), selected);
+        apartmentListViewHolder.updateWithApartmentInformations(this.mApartmentList.get(i), selected, mMoneyUnit);
     }
 
     @Override

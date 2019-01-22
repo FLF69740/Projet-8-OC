@@ -59,4 +59,8 @@
     <string name="loan_simulation_contribution">APPORT :</string>
     <string name="loan_simulation_result">RESULTAT</string>
     <string name="loan_simulation_each_month">/ chaque mois</string>
+    <string name="units_message_dimension">1 m² vaut 10.764 sq ft</string>
+    <string name="units_message_money">1 € vaut 1.231 $</string>
+    <string name="units_title">TABLEAU DES UNITES</string>
+    <string name="units_activated_message">"ACTIVE : "</string>
 </resources>

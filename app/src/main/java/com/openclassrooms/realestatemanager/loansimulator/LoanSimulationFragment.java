@@ -32,22 +32,19 @@ public class LoanSimulationFragment extends Fragment implements View.OnClickList
     @BindView(R.id.loan_result_unity)TextView mTextViewResultUnity;
     @BindView(R.id.loan_unity_contribution)TextView mTextViewContributionUnity;
 
-    private View mView;
-
     public LoanSimulationFragment() {}
 
     public static LoanSimulationFragment newInstance(){
         return new LoanSimulationFragment();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_loan_simulation, container, false);
-        ButterKnife.bind(this, mView);
+        View view = inflater.inflate(R.layout.fragment_loan_simulation, container, false);
+        ButterKnife.bind(this, view);
         mResultBtn.setOnClickListener(this);
         this.moneyUnitConfiguration();
-        return mView;
+        return view;
     }
 
     @Override
