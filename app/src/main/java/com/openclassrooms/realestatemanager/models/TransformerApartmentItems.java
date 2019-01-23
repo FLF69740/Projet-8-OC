@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.models;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
@@ -85,11 +86,21 @@ public class TransformerApartmentItems {
             if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_type))){
                 mApartment.setType(itemList.get(i).getInformation());
             } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_price) + " " + context.getSharedPreferences(SHARED_MONEY, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_MONEY, context.getString(R.string.loan_simulation_dollar)))) {
-                mApartment.setPrice(Integer.valueOf(getFinalPriceForApartment(context, itemList.get(i).getInformation())));
+                try {
+                    mApartment.setPrice(Integer.valueOf(getFinalPriceForApartment(context, itemList.get(i).getInformation())));
+                } catch (NumberFormatException e){
+                    Toast.makeText(context, context.getString(R.string.apartment_advertising), Toast.LENGTH_LONG).show();
+                    mApartment.setPrice(0);
+                }
             } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_description))) {
                 mApartment.setDescription(itemList.get(i).getInformation());
             } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_square) + " " + context.getSharedPreferences(SHARED_DIMENSION, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_DIMENSION, context.getString(R.string.units_square)))) {
-                mApartment.setDimension(Integer.valueOf(getFinalDimensionForApartment(context, itemList.get(i).getInformation())));
+                try {
+                    mApartment.setDimension(Integer.valueOf(getFinalDimensionForApartment(context, itemList.get(i).getInformation())));
+                } catch (NumberFormatException e){
+                    Toast.makeText(context, context.getString(R.string.apartment_advertising), Toast.LENGTH_LONG).show();
+                    mApartment.setDimension(0);
+                }
             } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_room))) {
                 mApartment.setRoomNumber(Integer.valueOf(itemList.get(i).getInformation()));
             } else if (itemList.get(i).getTitle().equals(context.getString(R.string.apartment_title_street))) {

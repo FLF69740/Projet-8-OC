@@ -28,6 +28,7 @@ public class LoanSimulationFragment extends Fragment implements View.OnClickList
     @BindView(R.id.loan_editText_year)EditText mEditTextYear;
     @BindView(R.id.loan_btn)Button mResultBtn;
     @BindView(R.id.loan_result)TextView mTextViewResult;
+    @BindView(R.id.loan_total_amount)TextView mTextViewTotalAmount;
     @BindView(R.id.loan_unity_price)TextView mTextViewPriceUnity;
     @BindView(R.id.loan_result_unity)TextView mTextViewResultUnity;
     @BindView(R.id.loan_unity_contribution)TextView mTextViewContributionUnity;
@@ -50,11 +51,13 @@ public class LoanSimulationFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (isEditTextOk()){
-            mTextViewResult.setText(String.valueOf(Integer.valueOf(mEditTextPrice.getText().toString()) - Integer.valueOf(mEditTextContribution.getText().toString()) +
-                    (int) Utils.getLoaninterestResult(
-                            Integer.valueOf(mEditTextPrice.getText().toString()),
-                            Integer.valueOf(mEditTextYear.getText().toString()),
-                            Double.valueOf(mEditTextRate.getText().toString()))));
+            double totalAmount = Integer.valueOf(mEditTextPrice.getText().toString()) - Integer.valueOf(mEditTextContribution.getText().toString()) + Utils.getLoaninterestResult(
+                    Integer.valueOf(mEditTextPrice.getText().toString()),
+                    Integer.valueOf(mEditTextYear.getText().toString()),
+                    Double.valueOf(mEditTextRate.getText().toString()));
+
+            mTextViewTotalAmount.setText(String.valueOf((int) totalAmount));
+            mTextViewResult.setText(String.valueOf((int) Utils.getMonthRefund(totalAmount, Integer.valueOf(mEditTextYear.getText().toString()))));
         }
     }
 

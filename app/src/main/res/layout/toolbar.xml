@@ -6,4 +6,4 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:titleTextColor="@android:color/white"
-    android:background="?attr/colorPrimary" />
+    android:background="@drawable/toolbar_style" />

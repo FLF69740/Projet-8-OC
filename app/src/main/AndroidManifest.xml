@@ -20,7 +20,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".units.UnitsActivity"></activity>
+
+        <!-- ABOUT ACTIVITY -->
+        <activity
+            android:name=".About.AboutActivity"
+            android:label="@string/nav_drawer_item_about"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
+        <!-- UNITS ACTIVITY -->
+        <activity android:name=".units.UnitsActivity" />
+
         <!-- MAIN ACTIVITY -->
         <activity
             android:name=".appartmentlist.MainActivity"
@@ -30,7 +39,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- SECOND ACTIVITY -->
+        </activity>
+
+        <!-- SECOND ACTIVITY -->
         <activity
             android:name=".apartmentdetail.SecondActivity"
             android:label="@string/toolbar_appartment_description"
@@ -40,7 +51,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
         </activity>
-        <activity android:name=".apartmentdetail.ViewPagerPhotoActivity" /> <!-- CREATION ACTIVITY -->
+        <activity android:name=".apartmentdetail.ViewPagerPhotoActivity" />
+
+        <!-- CREATION ACTIVITY -->
         <activity
             android:name=".apartmentcreator.CreateActivity"
             android:label="@string/toolbar_apartment_creation"
@@ -48,7 +61,9 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
-        </activity> <!-- MODIFIER ACTIVITY -->
+        </activity>
+
+        <!-- MODIFIER ACTIVITY -->
         <activity
             android:name=".apartmentmodifier.ModifierActivity"
             android:label="@string/toolbar_apartment_modification"
@@ -61,7 +76,9 @@
             android:name=".apartmentmodifier.ModifierUserActivity"
             android:label="@string/activity_user_modifier_title"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity android:name=".photomanager.PhotoModifierActivity" /> <!-- PROFILE MANAGER ACTIVITIES -->
+        <activity android:name=".photomanager.PhotoModifierActivity" />
+
+        <!-- PROFILE MANAGER ACTIVITIES -->
         <activity
             android:name=".profilemanager.ProfileManagerActivity"
             android:label="@string/activity_user_modifier_title">
@@ -89,7 +106,9 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
-        </activity> <!-- LOAN SIMULATION -->
+        </activity>
+
+        <!-- LOAN SIMULATION -->
         <activity
             android:name=".loansimulator.LoanSimulationActivity"
             android:label="@string/nav_drawer_item_loan" />

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".apartmentmodifier.ModifierFragment">
+    tools:context=".apartmentmodifier.ModifierFragment"
+    android:background="@drawable/information_style">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,7 +14,7 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@color/colorPrimary"
+            android:background="@drawable/information_panel_style"
             app:layout_constraintBottom_toTopOf="@+id/recycler_view_modifier"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +110,7 @@
             android:id="@+id/bottom_background_change"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@color/colorPrimary"
+            android:src="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -121,6 +122,8 @@
             android:layout_height="wrap_content"
             android:text="@string/fragment_modification_button_title"
             android:fontFamily="@font/roboto_bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/rounded_button_style"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
@@ -132,7 +135,7 @@
             android:id="@+id/bottom_background_modify"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@color/colorAccent"
+            android:background="@drawable/rounded_button_style"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -129,8 +129,8 @@ public class Utils {
 
     // return the state of an EditText depending of entry type
     public static int getInputType(Context context, String type){
-        if (type.equals(context.getString(R.string.apartment_title_price)) ||
-                type.equals(context.getString(R.string.apartment_title_square)) ||
+        if (type.contains(context.getString(R.string.apartment_title_price)) ||
+                type.contains(context.getString(R.string.apartment_title_square)) ||
                 type.equals(context.getString(R.string.apartment_title_room)) ||
                 type.equals(context.getString(R.string.apartment_title_postal_code))){
             return InputType.TYPE_CLASS_NUMBER;
@@ -179,6 +179,10 @@ public class Utils {
     public static double getLoaninterestResult(int price, int nbYear, double rate){
         // exemple 200000$ during 5 years with 1.1 rate : (200000 x 1.1 / 100) x 5
         return price*rate/100*nbYear;
+    }
+
+    public static double getMonthRefund(double amount, int year){
+        return amount / (year * 12);
     }
 
 }

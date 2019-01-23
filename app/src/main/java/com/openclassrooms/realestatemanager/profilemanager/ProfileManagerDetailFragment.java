@@ -18,12 +18,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.BUNDLE_KEY_ACTIVE_DIMENSION;
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.BUNDLE_KEY_ACTIVE_USER;
+import static com.openclassrooms.realestatemanager.Controller.BaseActivity.SHARED_ID;
+
 
 public class ProfileManagerDetailFragment extends Fragment {
 
     @BindView(R.id.manager_detail_name_user)TextView mTextViewNameUser;
     @BindView(R.id.manager_detail_photo_user)ImageView mImageViewPhotoUser;
     @BindView(R.id.manager_detail_description_user)TextView mTextViewDescriptionUser;
+    @BindView(R.id.manager_detail_active_profile)ImageView mImageViewActiveProfile;
 
     private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
     public static final String BUNDLE_USER_ID = "BUNDLE_USER_ID";
@@ -71,6 +76,12 @@ public class ProfileManagerDetailFragment extends Fragment {
         mUser.setId(userId);
         mTextViewNameUser.setText(user.getUsername());
 
+        if (userId == getActivity().getSharedPreferences(SHARED_ID, Context.MODE_PRIVATE).getLong(BUNDLE_KEY_ACTIVE_USER, 0)){
+            mImageViewActiveProfile.setVisibility(View.VISIBLE);
+        }else {
+            mImageViewActiveProfile.setVisibility(View.INVISIBLE);
+        }
+
         if (!user.getUserDescription().equals(User.EMPTY_CASE)){
             mTextViewDescriptionUser.setText(user.getUserDescription());
         } else {
@@ -99,6 +110,7 @@ public class ProfileManagerDetailFragment extends Fragment {
     @OnClick(R.id.manager_detail_button_active_profile)
     public void loadActiveUser(){
         mCallback.activeUserClicked(this.mView, this.mUser.getId());
+        mImageViewActiveProfile.setVisibility(View.VISIBLE);
     }
 
     /**

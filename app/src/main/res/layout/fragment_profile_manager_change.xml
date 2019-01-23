@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".profilemanager.ProfileManagerChangeFragment">
+    tools:context=".profilemanager.ProfileManagerChangeFragment"
+    android:background="@drawable/information_style">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,42 +16,54 @@
             android:id="@+id/left_line_border"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:src="@color/colorPrimaryDark" />
+            android:src="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/horizontal_line_border"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/information_panel_style"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_profile_detail_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/manager_change_photo_user"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/bk_photo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/manager_change_name_user"
+            app:layout_constraintEnd_toEndOf="@+id/horizontal_line_border"
+            app:layout_constraintStart_toStartOf="@+id/horizontal_line_border"
+            app:layout_constraintTop_toTopOf="@+id/horizontal_line_border" />
 
         <EditText
             android:id="@+id/manager_change_name_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_light"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/edit_text_style"
+            android:fontFamily="@font/roboto_light"
+            android:padding="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:text="@string/nav_header_userName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/manager_change_photo_user" />
-
-        <ImageView
-            android:id="@+id/horizontal_line_border"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:src="@color/colorPrimaryDark"
-            app:layout_constraintTop_toBottomOf="@+id/manager_change_name_user" />
+            app:layout_constraintBottom_toBottomOf="@+id/horizontal_line_border"
+            app:layout_constraintEnd_toEndOf="@+id/horizontal_line_border"
+            app:layout_constraintStart_toStartOf="@+id/horizontal_line_border" />
 
         <TextView
             android:id="@+id/textView4"
@@ -62,7 +75,7 @@
             android:text="@string/user_profile_detail_description"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontal_line_border" />
+            app:layout_constraintTop_toTopOf="@+id/guideline_profile_detail_horizontal" />
 
         <EditText
             android:id="@+id/manager_change_description_user"
@@ -74,25 +87,34 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/nav_drawer_item_about"
+            android:background="@drawable/edit_text_style"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline_profile_detail_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.6" />
 
         <Button
             android:id="@+id/manager_update_button_change"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/roboto_light"
             android:text="@string/user_profile_change_update"
             android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/rounded_button_style"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/manager_change_description_user" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

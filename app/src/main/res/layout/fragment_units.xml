@@ -5,11 +5,38 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".units.UnitsFragment">
+    tools:context=".units.UnitsFragment"
+    android:background="@drawable/information_style">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/information_panel_style"
+            app:layout_constraintBottom_toTopOf="@+id/imageView7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/information_panel_style"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
         <TextView
             android:id="@+id/textView9"
@@ -33,7 +60,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,14 +95,16 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text="@string/loan_simulation_dollar" />
+                android:text="@string/loan_simulation_dollar"
+                android:textSize="20sp"/>
 
             <RadioButton
                 android:id="@+id/radio_button_euros"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/loan_simulation_euro" />
+                android:text="@string/loan_simulation_euro"
+                android:textSize="20sp"/>
 
         </RadioGroup>
 
@@ -125,14 +154,16 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text="@string/units_meters" />
+                android:text="@string/units_meters"
+                android:textSize="20sp"/>
 
             <RadioButton
                 android:id="@+id/radio_button_square"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/units_square" />
+                android:text="@string/units_square"
+                android:textSize="20sp"/>
 
         </RadioGroup>
 

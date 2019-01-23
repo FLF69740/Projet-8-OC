@@ -63,4 +63,8 @@
     <string name="units_message_money">1 € vaut 1.231 $</string>
     <string name="units_title">TABLEAU DES UNITES</string>
     <string name="units_activated_message">"ACTIVE : "</string>
+    <string name="apartment_advertising">Mauvais format de chiffre dans le formulaire</string>
+    <string name="about_close">FERMER</string>
+    <string name="loan_simulation_each_month_land">Chaque mois</string>
+    <string name="loan_simulation_total_amount">Montant total</string>
 </resources>

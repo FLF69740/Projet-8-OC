@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".loansimulator.LoanSimulationFragment"
-    android:background="@drawable/information_style">
+    android:background="@drawable/information_land_style">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -76,7 +76,7 @@
             android:gravity="center"
             android:text="@string/loan_simulation_contribution"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_two_fragment"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_fragment"
             app:layout_constraintTop_toBottomOf="@+id/loan_rate_year" />
 
@@ -90,11 +90,11 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/edit_text_style"
             android:fontFamily="@font/roboto_light"
-            android:textSize="16sp"
-            android:padding="10dp"
             android:inputType="number"
+            android:padding="10dp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/loan_price_title"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintEnd_toStartOf="@+id/loan_unity_price"
             app:layout_constraintStart_toStartOf="@+id/guideline_vertical_fragment"
             app:layout_constraintTop_toTopOf="@+id/loan_price_title" />
 
@@ -108,11 +108,11 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/edit_text_style"
             android:fontFamily="@font/roboto_light"
+            android:inputType="numberDecimal"
             android:padding="10dp"
             android:textSize="16sp"
-            android:inputType="numberDecimal"
             app:layout_constraintBottom_toTopOf="@+id/loan_rate_year"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintEnd_toStartOf="@+id/loan_unity_rate"
             app:layout_constraintStart_toStartOf="@+id/guideline_vertical_fragment"
             app:layout_constraintTop_toTopOf="@+id/loan_rate_title" />
 
@@ -125,11 +125,11 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/edit_text_style"
             android:fontFamily="@font/roboto_light"
+            android:inputType="number"
             android:padding="10dp"
             android:textSize="16sp"
-            android:inputType="number"
             app:layout_constraintBottom_toBottomOf="@+id/loan_rate_year"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintEnd_toStartOf="@+id/loan_unity_contribution"
             app:layout_constraintStart_toStartOf="@+id/guideline_vertical_fragment"
             app:layout_constraintTop_toBottomOf="@+id/loan_rate_title" />
 
@@ -141,11 +141,11 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/edit_text_style"
             android:fontFamily="@font/roboto_light"
+            android:inputType="number"
             android:padding="10dp"
             android:textSize="16sp"
-            android:inputType="number"
             app:layout_constraintBottom_toBottomOf="@+id/textView8"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintEnd_toStartOf="@+id/loan_unity_contribution"
             app:layout_constraintStart_toStartOf="@+id/guideline_vertical_fragment"
             app:layout_constraintTop_toTopOf="@+id/textView8" />
 
@@ -155,36 +155,36 @@
             android:id="@+id/loan_unity_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto_light"
-            android:textSize="20sp"
             android:text="@string/loan_simulation_dollar"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/loan_editText_price"
-            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
             app:layout_constraintTop_toTopOf="@+id/loan_editText_price" />
 
         <TextView
             android:id="@+id/loan_unity_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto_light"
             android:text="@string/loan_simulation_percent"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/loan_editText_rate"
-            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
             app:layout_constraintTop_toTopOf="@+id/loan_editText_rate" />
 
         <TextView
             android:id="@+id/loan_unity_contribution"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto_light"
-            android:textSize="20sp"
             android:text="@string/loan_simulation_dollar"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/loan_editText_contribution"
-            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
             app:layout_constraintTop_toTopOf="@+id/loan_editText_contribution" />
 
         <!-- RESULT AERA -->
@@ -201,51 +201,52 @@
             android:textSize="20sp"
             android:textColor="@android:color/white"
             android:background="@drawable/rounded_button_style"
+            app:layout_constraintBottom_toTopOf="@+id/loan_total_amount"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline_two_fragment" />
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/loan_simulation_total_amount"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/loan_total_amount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment" />
 
         <TextView
             android:id="@+id/loan_total_amount"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto_bold"
-            android:gravity="end"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/loan_result"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
-            app:layout_constraintStart_toEndOf="@+id/textView17"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment"
             app:layout_constraintTop_toBottomOf="@+id/loan_btn" />
 
         <TextView
-            android:id="@+id/textView17"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/roboto_bold"
-            android:gravity="end"
-            android:text="@string/loan_simulation_total_amount"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/loan_total_amount"
-            app:layout_constraintEnd_toStartOf="@+id/loan_total_amount"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/loan_total_amount" />
-
-        <TextView
             android:id="@+id/loan_result"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/roboto_bold"
             android:gravity="end"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/loan_result_each_month"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment"
             app:layout_constraintTop_toBottomOf="@+id/loan_total_amount" />
 
         <TextView
@@ -254,13 +255,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="@string/loan_simulation_each_month_land"
             android:textSize="20sp"
-            android:text="@string/loan_simulation_each_month"
-            app:layout_constraintBottom_toBottomOf="@+id/loan_result"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2_fragment"
-            app:layout_constraintStart_toEndOf="@+id/loan_result"
-            app:layout_constraintTop_toTopOf="@+id/loan_result" />
+            app:layout_constraintBottom_toTopOf="@+id/loan_result"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment" />
 
         <TextView
             android:id="@+id/loan_result_unity"
@@ -271,7 +273,7 @@
             android:text="@string/loan_simulation_dollar"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/loan_total_amount"
-            app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2_fragment"
+            app:layout_constraintStart_toEndOf="@+id/loan_total_amount"
             app:layout_constraintTop_toTopOf="@+id/loan_total_amount" />
 
 
@@ -289,14 +291,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.45" />
+            app:layout_constraintGuide_percent="0.25" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline_vertical_2_fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.85" />
+            app:layout_constraintGuide_percent="0.65" />
 
     </android.support.constraint.ConstraintLayout>
 
