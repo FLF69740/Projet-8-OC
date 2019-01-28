@@ -95,6 +95,7 @@
     <string name="activity_photo_modifier_advertising_photo_name">This title for this photo already exists</string>
     <string name="activity_photo_modifier_advertising_empty_edittext">Photo must have a title</string>
     <string name="activity_user_modifier_title">LIST OF USERS</string>
+    <string name="activity_user_modifier_postal_code_advertising">FIVE NUMBERS FOR A POSTAL CODE</string>
 
     <!-- TRANSFORMER APARTMENT ITEM -->
     <string name="apartment_title_type">TYPE :</string>

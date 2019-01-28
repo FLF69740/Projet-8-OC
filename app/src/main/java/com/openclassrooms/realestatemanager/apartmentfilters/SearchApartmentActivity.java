@@ -1,11 +1,8 @@
 package com.openclassrooms.realestatemanager.apartmentfilters;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.widget.Toast;
-
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.injections.Injection;
@@ -13,7 +10,7 @@ import com.openclassrooms.realestatemanager.injections.ViewModelSearchFactory;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.LineSearch;
 import com.openclassrooms.realestatemanager.viewmodel.SearchFilterViewModel;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchApartmentActivity extends BaseActivity {
@@ -55,6 +52,7 @@ public class SearchApartmentActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mApartmentList = (List<Apartment>) getIntent().getSerializableExtra(BaseActivity.BUNDLE_APARTMENTLIST_TO_SEARCH_ACTIVITY);
+        mLineSearchList = new ArrayList<>();
         this.configureViewModelSearch();
         this.readSearchFilterDB();
 
@@ -74,8 +72,28 @@ public class SearchApartmentActivity extends BaseActivity {
 
     // Configure Filters list
     private void configureList(List<LineSearch> searchList){
-        mLineSearchList = searchList;
-        Toast.makeText(this, "line : " + mLineSearchList.size(), Toast.LENGTH_SHORT).show();
+        if (searchList.size() == 1){
+            List<LineSearch> firstList = new ArrayList<>(BusinessApartmentFilters.createFirstSearchFilterDB(this));
+            for (int i = 0; i < firstList.size(); i++){
+                createLineSearch(firstList.get(i));
+            }
+        } else {
+            mLineSearchList = searchList;
+            mLineSearchList.remove(0);
+            mLineSearchList.remove(0);
+            mLineSearchList.remove(0);
+        }
+        ((SearchApartmentFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mLineSearchList);
+    }
+
+    /**
+     *  DATA FILTER
+     */
+
+    // create Filter
+    private void createLineSearch(LineSearch lineSearch){
+        this.mSearchFilterViewModel.createLineSearch(lineSearch);
+        mLineSearchList.add(lineSearch);
     }
 
 

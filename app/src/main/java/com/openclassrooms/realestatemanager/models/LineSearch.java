@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 public class LineSearch {
 
     public static final String EMPTY_CASE = "EMPTY_CASE";
+    public static final String BLANK = "_____";
 
     @PrimaryKey(autoGenerate = true) private long mId;
     private String mSectionName;
@@ -79,13 +80,5 @@ public class LineSearch {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
-    }
-
-    public boolean ismIsInformationTo() {
-        return mIsInformationTo;
-    }
-
-    public void setmIsInformationTo(boolean mIsInformationTo) {
-        this.mIsInformationTo = mIsInformationTo;
     }
 }

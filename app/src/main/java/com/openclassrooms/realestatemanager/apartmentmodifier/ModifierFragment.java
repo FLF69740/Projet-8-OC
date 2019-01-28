@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.photomanager.PhotoModifierActivity;
 import com.openclassrooms.realestatemanager.R;
@@ -213,6 +215,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         startActivityForResult(intent, RC_MANAGER_UPLOAD);
     }
 
+    // method from the bottom modifier bar management
     private void loadModifierBarManager(List<Item> listItem, int position){
         if (!listItem.get(position).getATitle()) {
             panelChoiceVisibility(false);
@@ -260,15 +263,19 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
     // CHANGE BUTTON CLICK LISTENER
     private void validationClick(List<Item> listItem, int position){
         mValidationButtonModify.setOnClickListener(v -> {
-            if (!mEditTextModify.getText().toString().equals("")) {
-                boolean isNewPO = false;
-                if (listItem.get(position).getTitle().equals(mView.getContext().getString(R.string.apartment_title_po_single)) &&
-                        listItem.get(position).getInformation().equals(mView.getContext().getString(R.string.fragment_modification_recycler_no_po))){
-                    isNewPO = true;
+                if (!mEditTextModify.getText().toString().equals("")) {
+                    if (listItem.get(position).getTitle().equals(getContext().getString(R.string.apartment_title_postal_code)) && mEditTextModify.getText().length() != 5) {
+                        Toast.makeText(getContext(), getString(R.string.activity_user_modifier_postal_code_advertising), Toast.LENGTH_LONG).show();
+                    }else {
+                        boolean isNewPO = false;
+                        if (listItem.get(position).getTitle().equals(mView.getContext().getString(R.string.apartment_title_po_single)) &&
+                                listItem.get(position).getInformation().equals(mView.getContext().getString(R.string.fragment_modification_recycler_no_po))) {
+                            isNewPO = true;
+                        }
+                        listItem.get(position).setInformation(mEditTextModify.getText().toString());
+                        this.createOrChangeItem(listItem, isNewPO, false, false, position);
+                    }
                 }
-                listItem.get(position).setInformation(mEditTextModify.getText().toString());
-                this.createOrChangeItem(listItem, isNewPO, false, false, position);
-            }
             panelChoiceVisibility(true);
         });
     }

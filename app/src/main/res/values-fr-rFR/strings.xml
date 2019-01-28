@@ -71,4 +71,5 @@
     <string name="search_apartment_date_to">à</string>
     <string name="search_apartment_load_button">CHARGER</string>
     <string name="search_apartment_number_of_picture">nombre de photos (max) :</string>
+    <string name="activity_user_modifier_postal_code_advertising">CINQ NUMEROS POUR UN CODE POSTAL</string>
 </resources>

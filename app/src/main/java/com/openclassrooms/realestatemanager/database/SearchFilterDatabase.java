@@ -46,7 +46,7 @@ public abstract class SearchFilterDatabase extends RoomDatabase {
 
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("mId", 1);
-                contentValues.put("mSectionName", "INSCRIPTION");
+                contentValues.put("mSectionName", "DATABASE SEARCH FILTERS");
                 contentValues.put("mInformationFrom", DEFAULT_AERA);
                 contentValues.put("mInformationTo", DEFAULT_AERA);
                 contentValues.put("mIsInformationTo", true);

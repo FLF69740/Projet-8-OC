@@ -132,7 +132,8 @@ public class Utils {
         if (type.contains(context.getString(R.string.apartment_title_price)) ||
                 type.contains(context.getString(R.string.apartment_title_square)) ||
                 type.equals(context.getString(R.string.apartment_title_room)) ||
-                type.equals(context.getString(R.string.apartment_title_postal_code))){
+                type.equals(context.getString(R.string.apartment_title_postal_code)) ||
+                type.equals(context.getString(R.string.search_apartment_number_of_picture))) {
             return InputType.TYPE_CLASS_NUMBER;
         }else if (type.equals(context.getString(R.string.apartment_title_town))){
             return InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS;
