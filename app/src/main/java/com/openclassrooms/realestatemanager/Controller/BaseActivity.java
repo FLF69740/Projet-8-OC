@@ -26,6 +26,7 @@ import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
 import com.openclassrooms.realestatemanager.apartmentdetail.SecondFragment;
+import com.openclassrooms.realestatemanager.apartmentfilters.SearchApartmentActivity;
 import com.openclassrooms.realestatemanager.apartmentmodifier.ModifierActivity;
 import com.openclassrooms.realestatemanager.appartmentlist.MainActivity;
 import com.openclassrooms.realestatemanager.appartmentlist.MainFragment;
@@ -40,6 +41,8 @@ import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerFragmen
 import com.openclassrooms.realestatemanager.profilemanager.UserCreationActivity;
 import com.openclassrooms.realestatemanager.units.UnitsActivity;
 import com.openclassrooms.realestatemanager.viewmodel.ListingViewModel;
+
+import java.io.Serializable;
 import java.util.List;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,7 +52,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
     protected static final String BUNDLE_KEY_OUTSTATE_INT_USER = "BUNDLE_KEY_OUTSTATE_INT_USER";
     public static final String BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY = "BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY";
+    public static final String BUNDLE_APARTMENTLIST_TO_SEARCH_ACTIVITY = "BUNDLE_APARTMENTLIST_TO_SEARCH_ACTIVITY";
     protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
+    protected static final int SEARCH_ACTIVITY_REQUEST_CODE = 20;
     protected static final int CREATE_USER_REQUEST_CODE = 30;
 
     //Shared Preferences
@@ -204,7 +209,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 startActivityForResult(intentCreate, CREATE_ACTIVITY_REQUEST_CODE);
                 return true;
             case R.id.menu_toolbar_search:
-                Toast.makeText(this, "SEARCH", Toast.LENGTH_SHORT).show();
+                Intent intentSearch = new Intent(this, SearchApartmentActivity.class);
+                intentSearch.putExtra(BUNDLE_APARTMENTLIST_TO_SEARCH_ACTIVITY, (Serializable) mApartmentList);
+                startActivityForResult(intentSearch, SEARCH_ACTIVITY_REQUEST_CODE);
                 return true;
             case R.id.menu_toolbar_add_profile:
                 Intent intentNewUser = new Intent(this, UserCreationActivity.class);

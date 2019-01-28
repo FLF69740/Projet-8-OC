@@ -9,18 +9,14 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
+import com.openclassrooms.realestatemanager.apartmentmodifier.TransformerApartmentItems;
 import com.openclassrooms.realestatemanager.profilemanager.ProfileManagerDetailFragment;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

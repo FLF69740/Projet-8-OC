@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
-import static com.openclassrooms.realestatemanager.models.TransformerApartmentItems.ENTITY_SEPARATOR;
-import static com.openclassrooms.realestatemanager.models.TransformerApartmentItems.PICTURE_SEP_TI_URL;
+import static com.openclassrooms.realestatemanager.apartmentmodifier.TransformerApartmentItems.ENTITY_SEPARATOR;
+import static com.openclassrooms.realestatemanager.apartmentmodifier.TransformerApartmentItems.PICTURE_SEP_TI_URL;
 
 public class PhotoPageFragment extends Fragment {
 

@@ -3,18 +3,14 @@ package com.openclassrooms.realestatemanager.apartmentmodifier;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.Item;
-import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

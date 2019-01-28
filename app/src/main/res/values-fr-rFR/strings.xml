@@ -67,4 +67,8 @@
     <string name="about_close">FERMER</string>
     <string name="loan_simulation_each_month_land">Chaque mois</string>
     <string name="loan_simulation_total_amount">Montant total</string>
+    <string name="search_apartment_fragment_title">Recherche appartement</string>
+    <string name="search_apartment_date_to">à</string>
+    <string name="search_apartment_load_button">CHARGER</string>
+    <string name="search_apartment_number_of_picture">nombre de photos (max) :</string>
 </resources>

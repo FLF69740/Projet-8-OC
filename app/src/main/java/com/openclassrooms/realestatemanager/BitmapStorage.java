@@ -5,19 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.openclassrooms.realestatemanager.models.Apartment;
-import com.openclassrooms.realestatemanager.models.Item;
-import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
-import com.openclassrooms.realestatemanager.models.User;
+import com.openclassrooms.realestatemanager.apartmentmodifier.TransformerApartmentItems;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.List;
 
 public class BitmapStorage {
 

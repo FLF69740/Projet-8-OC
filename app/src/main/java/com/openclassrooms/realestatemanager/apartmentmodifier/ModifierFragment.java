@@ -26,7 +26,6 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.appartmentlist.RecyclerViewClickSupport;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.Item;
-import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
 import com.openclassrooms.realestatemanager.models.User;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,10 +55,10 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
     private User mUser;
     private Uri mUriPicture;
     private String mDateInscription;
-    private Boolean mIsSold;
+    private boolean mIsSold;
     private Calendar mCalendar = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
-    private Boolean mLaunchCalendarAutoriation;
+    private boolean mLaunchCalendarAutoriation;
 
     @BindView(R.id.recycler_view_modifier)RecyclerView mRecyclerView;
     @BindView(R.id.radioGroup)RadioGroup mRadioGroupButton;
@@ -283,14 +282,14 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
     }
 
     // define to show or hide elements of ModifierBarManager
-    private void modifierBarManagerParameters(int statePhotoButton, Boolean isEditTextEnabled, String editTextString, int stateClearButton){
+    private void modifierBarManagerParameters(int statePhotoButton, boolean isEditTextEnabled, String editTextString, int stateClearButton){
         mPhotoButtonModify.setVisibility(statePhotoButton);
         mEditTextModify.setEnabled(isEditTextEnabled);
         mEditTextModify.setText(editTextString);
         mClearButtonModify.setVisibility(stateClearButton);
     }
 
-    private void panelChoiceVisibility(Boolean change){
+    private void panelChoiceVisibility(boolean change){
         int a = 4, b = 0;
         if (change){
             a = 0;
@@ -324,6 +323,7 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         if (requestCode == RC_MANAGER_UPLOAD){
             if (resultCode == RESULT_OK){
                 mApartment.setUserId(data.getIntExtra(ModifierUserActivity.BUNDLE_CHANGE_USER_TAG, (int) mApartment.getUserId()));
+                mTextViewNameManager.setText(data.getStringExtra(ModifierUserActivity.BUNDLE_CHANGE_USER_NAME));
             }
         }
     }

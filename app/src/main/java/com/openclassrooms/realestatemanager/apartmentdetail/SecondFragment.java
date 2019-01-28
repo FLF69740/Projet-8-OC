@@ -16,7 +16,7 @@ import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Apartment;
-import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
+import com.openclassrooms.realestatemanager.apartmentmodifier.TransformerApartmentItems;
 import com.openclassrooms.realestatemanager.models.User;
 import java.util.Objects;
 import butterknife.BindView;

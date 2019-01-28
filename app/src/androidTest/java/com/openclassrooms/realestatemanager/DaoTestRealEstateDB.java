@@ -17,7 +17,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class DaoTest {
+public class DaoTestRealEstateDB {
 
     private RealEstateManagerDatabase mDatabase;
     private static long USER_ID_FIRST = 1;

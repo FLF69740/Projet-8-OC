@@ -1,19 +1,14 @@
 package com.openclassrooms.realestatemanager.apartmentmodifier;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.appartmentlist.MainActivity;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.Item;
-import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
 import com.openclassrooms.realestatemanager.models.User;
 
 import java.util.List;

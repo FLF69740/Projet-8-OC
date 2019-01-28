@@ -7,14 +7,11 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.ContentValues;
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.database.dao.ApartmentDao;
 import com.openclassrooms.realestatemanager.database.dao.UserDao;
 import com.openclassrooms.realestatemanager.models.Apartment;
-import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
 import com.openclassrooms.realestatemanager.models.User;
 
 @Database(entities = {Apartment.class, User.class}, version = 1, exportSchema = false)

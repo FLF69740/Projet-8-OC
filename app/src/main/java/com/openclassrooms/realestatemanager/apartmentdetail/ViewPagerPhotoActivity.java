@@ -4,12 +4,11 @@ import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.R;
 
-import static com.openclassrooms.realestatemanager.models.TransformerApartmentItems.ENTITY_SEPARATOR;
+import static com.openclassrooms.realestatemanager.apartmentmodifier.TransformerApartmentItems.ENTITY_SEPARATOR;
 
 public class ViewPagerPhotoActivity extends AppCompatActivity {
 

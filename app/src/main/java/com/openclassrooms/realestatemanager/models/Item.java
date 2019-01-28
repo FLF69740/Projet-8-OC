@@ -5,10 +5,10 @@ public class Item {
     private String mInformation;
     private String mTitle;
     private String mUrlPicture;
-    private Boolean isATitle;
-    private Boolean isAPicture;
+    private boolean isATitle;
+    private boolean isAPicture;
 
-    public Item(String information, String title, String urlPicture, Boolean isATitle, Boolean isAPicture) {
+    public Item(String information, String title, String urlPicture, boolean isATitle, boolean isAPicture) {
         mInformation = information;
         mTitle = title;
         mUrlPicture = urlPicture;
@@ -40,7 +40,7 @@ public class Item {
         mUrlPicture = urlPicture;
     }
 
-    public Boolean getATitle() {
+    public boolean getATitle() {
         return isATitle;
     }
 
@@ -48,7 +48,7 @@ public class Item {
         isATitle = ATitle;
     }
 
-    public Boolean getAPicture() {
+    public boolean getAPicture() {
         return isAPicture;
     }
 

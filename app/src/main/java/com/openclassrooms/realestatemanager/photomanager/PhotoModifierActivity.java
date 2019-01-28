@@ -18,7 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.apartmentmodifier.ModifierFragment;
-import com.openclassrooms.realestatemanager.models.TransformerApartmentItems;
+import com.openclassrooms.realestatemanager.apartmentmodifier.TransformerApartmentItems;
 
 import java.util.List;
 
