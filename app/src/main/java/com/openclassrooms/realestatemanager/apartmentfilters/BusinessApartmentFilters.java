@@ -2,8 +2,13 @@ package com.openclassrooms.realestatemanager.apartmentfilters;
 
 import android.content.Context;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.LineSearch;
+
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class BusinessApartmentFilters {
@@ -107,6 +112,16 @@ public class BusinessApartmentFilters {
         return myList;
     }
 
+    // Get Calendar date
+    public static DateTime getDateMemory(String date){
+        DateTime calendar = new DateTime();
+        if (!date.equals(LineSearch.EMPTY_CASE)) {
+            calendar = calendar.dayOfMonth().setCopy(Utils.getDayOfMonth(date));
+            calendar = calendar.monthOfYear().setCopy(Utils.getMonth(date));
+            calendar = calendar.year().setCopy(Utils.getYear(date));
+        }
+        return calendar;
+    }
 
 
 

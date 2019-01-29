@@ -72,13 +72,13 @@ public class Utils {
         return Integer.valueOf(divider[0]);
     }
 
-    //Get day of month
+    //Get month
     public static int getMonth(String date){
         String[] divider = date.split("/");
         return Integer.valueOf(divider[1]);
     }
 
-    //Get day of month
+    //Get year
     public static int getYear(String date){
         String[] divider = date.split("/");
         return Integer.valueOf(divider[2]);

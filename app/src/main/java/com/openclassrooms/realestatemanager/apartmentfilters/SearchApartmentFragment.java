@@ -1,37 +1,37 @@
 package com.openclassrooms.realestatemanager.apartmentfilters;
 
-
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.appartmentlist.RecyclerViewClickSupport;
 import com.openclassrooms.realestatemanager.models.LineSearch;
+import org.joda.time.DateTime;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,9 +64,14 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
     }
 
     private View mView;
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
     private List<LineSearch> mLineSearchList;
+    private LineSearch mLineSearchInscription, mLineSearchSold;
     private SearchFilterAdapter mAdapter;
+    private DateTime mCalendarInscriptionFrom = new DateTime();
+    private DateTime mCalendarInscriptionTo = new DateTime();
+    private DateTime mCalendarSoldFrom = new DateTime();
+    private DateTime mCalendarSoldTo = new DateTime();
+    private String mStringInscriptionFrom = "", mStringInscriptionTo = "", mStringSoldFrom = "", mStringSoldTo = "";
 
 
     @Override
@@ -78,16 +83,26 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
         this.showSoldPanel(false);
 
         this.configureOnClickRecyclerView();
-        this.editCalendars();
-        this.checkBoxInscriptionConfiguration(false);
         this.panelChoiceVisibility(true);
+
         return mView;
     }
 
     // get LineSearch List and configure RecyclerView
-    public void refresh(List<LineSearch> lineSearchList) {
+    public void refresh(List<LineSearch> lineSearchList, LineSearch lineSearchInscription, LineSearch lineSearchSold) {
         mLineSearchList = new ArrayList<>(lineSearchList);
-        configureRecyclerView();
+        mLineSearchInscription = lineSearchInscription;
+        mLineSearchSold = lineSearchSold;
+        if (mLineSearchInscription.isChecked()){
+            mCheckBoxSearchInscriptionDate.setChecked(true);
+        }
+        this.checkBoxInscriptionConfiguration(mLineSearchInscription.isChecked());
+        if (mLineSearchSold.isChecked()){
+            mRadioButtonSold.setChecked(true);
+            this.showSoldPanel(true);
+        }
+        this.configureRecyclerView();
+        this.editCalendars();
     }
 
     // Show or Gone Banckground panel/load button
@@ -143,9 +158,11 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
         switch (radioButton.getId()){
             case R.id.search_radio_button_for_sale:
                 showSoldPanel(false);
+                mLineSearchSold.setChecked(false);
                 break;
             case R.id.search_radio_button_sold:
                 showSoldPanel(true);
+                mLineSearchSold.setChecked(true);
                 break;
         }
     }
@@ -161,6 +178,7 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
 
     // Buttons inscription state
     private void buttonsInscriptionState(boolean checked){
+        mLineSearchInscription.setChecked(checked);
         mButtonInscriptionFrom.setEnabled(checked);
         mButtonInscriptionTo.setEnabled(checked);
         if (checked){
@@ -176,60 +194,58 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
      *  DATE PICKER DEFINITION
      */
 
-    private Calendar mCalendarInscriptionFrom = Calendar.getInstance();
-    private Calendar mCalendarInscriptionTo = Calendar.getInstance();
-    private Calendar mCalendarSoldFrom = Calendar.getInstance();
-    private Calendar mCalendarSoldTo = Calendar.getInstance();
-    private String mStringInscriptionFrom = "", mStringInscriptionTo = "", mStringSoldFrom = "", mStringSoldTo = "";
-
     DatePickerDialog.OnDateSetListener datePickerInscriptionFrom = (view, year, month, dayOfMonth) -> {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        DateTime calendar = new DateTime();
+        calendar = calendar.dayOfMonth().setCopy(dayOfMonth);
+        calendar = calendar.monthOfYear().setCopy(month+1);
+        calendar = calendar.year().setCopy(year);
         setDateString(calendar,0);
         if (getComparationDates(calendar, mCalendarInscriptionTo)){
             updateLabel(0);
             mCalendarInscriptionFrom = calendar;
+            mLineSearchInscription.setInformationFrom(mStringInscriptionFrom);
         }
         else alertDateMessage();
     };
 
     DatePickerDialog.OnDateSetListener datePickerInscriptionTo = (view, year, month, dayOfMonth) -> {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        DateTime calendar = new DateTime();
+        calendar = calendar.dayOfMonth().setCopy(dayOfMonth);
+        calendar = calendar.monthOfYear().setCopy(month+1);
+        calendar = calendar.year().setCopy(year);
         setDateString(calendar,1);
         if (getComparationDates(mCalendarInscriptionFrom, calendar)){
             updateLabel(1);
             mCalendarInscriptionTo = calendar;
+            mLineSearchInscription.setInformationTo(mStringInscriptionTo);
         }
         else alertDateMessage();
     };
 
     DatePickerDialog.OnDateSetListener datePickerSoldFrom = (view, year, month, dayOfMonth) -> {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        DateTime calendar = new DateTime();
+        calendar = calendar.dayOfMonth().setCopy(dayOfMonth);
+        calendar = calendar.monthOfYear().setCopy(month+1);
+        calendar = calendar.year().setCopy(year);
         setDateString(calendar,2);
         if (getComparationDates(calendar, mCalendarSoldTo)){
             updateLabel(2);
             mCalendarSoldFrom = calendar;
+            mLineSearchSold.setInformationFrom(mStringSoldFrom);
         }
         else alertDateMessage();
     };
 
     DatePickerDialog.OnDateSetListener datePickerSoldTo = (view, year, month, dayOfMonth) -> {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        DateTime calendar = new DateTime();
+        calendar = calendar.dayOfMonth().setCopy(dayOfMonth);
+        calendar = calendar.monthOfYear().setCopy(month+1);
+        calendar = calendar.year().setCopy(year);
         setDateString(calendar,3);
         if (getComparationDates(mCalendarSoldFrom, calendar)){
             updateLabel(3);
             mCalendarSoldTo = calendar;
+            mLineSearchSold.setInformationTo(mStringSoldTo);
         }
         else alertDateMessage();
     };
@@ -241,22 +257,27 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
 
     // Define Listeners from Calendars (Begin and End Dates)
     private void editCalendars(){
-        mButtonInscriptionFrom.setText(sdf.format(mCalendarInscriptionFrom.getTime()));
-        mButtonInscriptionTo.setText(sdf.format(mCalendarInscriptionTo.getTime()));
-        mButtonSoldFrom.setText(sdf.format(mCalendarSoldFrom.getTime()));
-        mButtonSoldTo.setText(sdf.format(mCalendarSoldTo.getTime()));
+        mCalendarInscriptionFrom = BusinessApartmentFilters.getDateMemory(mLineSearchInscription.getInformationFrom());
+        mCalendarInscriptionTo = BusinessApartmentFilters.getDateMemory(mLineSearchInscription.getInformationTo());
+        mCalendarSoldFrom = BusinessApartmentFilters.getDateMemory(mLineSearchSold.getInformationFrom());
+        mCalendarSoldTo = BusinessApartmentFilters.getDateMemory(mLineSearchSold.getInformationTo());
+
+        mButtonInscriptionFrom.setText(mCalendarInscriptionFrom.toString("dd/MM/yyyy"));
+        mButtonInscriptionTo.setText(mCalendarInscriptionTo.toString("dd/MM/yyyy"));
+        mButtonSoldFrom.setText(mCalendarSoldFrom.toString("dd/MM/yyyy"));
+        mButtonSoldTo.setText(mCalendarSoldTo.toString("dd/MM/yyyy"));
 
         mButtonInscriptionFrom.setOnClickListener(v -> new DatePickerDialog(getContext(), datePickerInscriptionFrom,
-                mCalendarInscriptionFrom.get(Calendar.YEAR), mCalendarInscriptionFrom.get(Calendar.MONTH), mCalendarInscriptionFrom.get(Calendar.DAY_OF_MONTH)).show());
+                mCalendarInscriptionFrom.getYear(), mCalendarInscriptionFrom.getMonthOfYear()-1, mCalendarInscriptionFrom.getDayOfMonth()).show());
 
         mButtonInscriptionTo.setOnClickListener(v -> new DatePickerDialog(getContext(), datePickerInscriptionTo,
-                mCalendarInscriptionTo.get(Calendar.YEAR), mCalendarInscriptionTo.get(Calendar.MONTH), mCalendarInscriptionTo.get(Calendar.DAY_OF_MONTH)).show());
+                mCalendarInscriptionTo.getYear(), mCalendarInscriptionTo.getMonthOfYear()-1, mCalendarInscriptionTo.getDayOfMonth()).show());
 
         mButtonSoldFrom.setOnClickListener(v -> new DatePickerDialog(getContext(), datePickerSoldFrom,
-                mCalendarSoldFrom.get(Calendar.YEAR), mCalendarSoldFrom.get(Calendar.MONTH), mCalendarSoldFrom.get(Calendar.DAY_OF_MONTH)).show());
+                mCalendarSoldFrom.getYear(), mCalendarSoldFrom.getMonthOfYear()-1, mCalendarSoldFrom.getDayOfMonth()).show());
 
         mButtonSoldTo.setOnClickListener(v -> new DatePickerDialog(getContext(), datePickerSoldTo,
-                mCalendarSoldTo.get(Calendar.YEAR), mCalendarSoldTo.get(Calendar.MONTH), mCalendarSoldTo.get(Calendar.DAY_OF_MONTH)).show());
+                mCalendarSoldTo.getYear(), mCalendarSoldTo.getMonthOfYear()-1, mCalendarSoldTo.getDayOfMonth()).show());
     }
 
     // Subscribe the date String into the the concerned editText (defined with his position)
@@ -265,38 +286,42 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
             case 0 : mButtonInscriptionFrom.setText(getDateString(pos)); break;
             case 1 : mButtonInscriptionTo.setText(getDateString(pos)); break;
             case 2 : mButtonSoldFrom.setText(getDateString(pos)); break;
-            case 3 : mButtonSoldTo.setText(getDateString(pos));
-        }
-        if ((pos == 1) && (mButtonInscriptionFrom.getText().toString().isEmpty())) {
-            mButtonInscriptionFrom.setText(getDateString(pos));
-            mCalendarInscriptionFrom = mCalendarInscriptionTo;
-        }
-        if ((pos == 3) && (mButtonSoldFrom.getText().toString().isEmpty())) {
-            mButtonSoldFrom.setText(getDateString(pos));
-            mCalendarSoldFrom = mCalendarSoldTo;
+            case 3 : mButtonSoldTo.setText(getDateString(pos)); break;
         }
     }
 
     // Define the String of the target date
-    public void setDateString(Calendar calendar, int position){
-        if (position == 0) mStringInscriptionFrom = sdf.format(calendar.getTime());
-        if (position == 1) mStringInscriptionTo = sdf.format(calendar.getTime());
-        if (position == 2) mStringSoldFrom = sdf.format(calendar.getTime());
-        else mStringSoldTo = sdf.format(calendar.getTime());
+    public void setDateString(DateTime calendar, int position){
+        if (position == 0) {
+            mStringInscriptionFrom = calendar.toString("dd/MM/yyyy");
+        }
+        if (position == 1) {
+            mStringInscriptionTo = calendar.toString("dd/MM/yyyy");
+        }
+        if (position == 2) {
+            mStringSoldFrom = calendar.toString("dd/MM/yyyy");
+        }
+        if (position == 3){
+            mStringSoldTo = calendar.toString("dd/MM/yyyy");
+        }
     }
 
     // Return the String of the target date
     public String getDateString(int position) {
-        if (position == 0) return mStringInscriptionFrom;
-        if (position == 1) return mStringInscriptionTo;
-        if (position == 2) return mStringSoldFrom;
-        else return mStringSoldTo;
+        if (position == 0) {
+            return mStringInscriptionFrom;
+        }else if (position == 1) {
+            return mStringInscriptionTo;
+        }else if (position == 2) {
+            return mStringSoldFrom;
+        }else {
+            return mStringSoldTo;
+        }
     }
 
     // Comparation between the dates
-    public boolean getComparationDates(Calendar calendar1, Calendar calendar2){
-        if (calendar1.getTimeInMillis() > calendar2.getTimeInMillis()) return false;
-        else return true;
+    public boolean getComparationDates(DateTime calendar1, DateTime calendar2){
+        return !calendar2.isBefore(calendar1);
     }
 
     /**
@@ -311,7 +336,7 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
             mTextViewTitleBottom.setText(lineSearchList.get(position).getSectionName());
 
             // INFORMATION FROM AND TO EMPTY
-            if (lineSearchList.get(position).getInformationFrom().equals(getContext().getString(R.string.apartment_title_po_single)) ||
+            if (lineSearchList.get(position).getInformationFrom().equals(Objects.requireNonNull(getContext()).getString(R.string.apartment_title_po_single)) ||
                     lineSearchList.get(position).getInformationFrom().equals(LineSearch.EMPTY_CASE)) {
                 this.mEditTextInformationFrom.setText("");
             }else {
@@ -347,7 +372,7 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
     private void validationClick(List<LineSearch> lineSearchList, int position){
         mImageViewValidationLine.setOnClickListener(v -> {
                 if (!mEditTextInformationFrom.getText().toString().equals("")) {
-                    if (lineSearchList.get(position).getSectionName().equals(getContext().getString(R.string.apartment_title_postal_code)) && mEditTextInformationFrom.getText().length() != 5) {
+                    if (lineSearchList.get(position).getSectionName().equals(Objects.requireNonNull(getContext()).getString(R.string.apartment_title_postal_code)) && mEditTextInformationFrom.getText().length() != 5) {
                         Toast.makeText(getContext(), getString(R.string.activity_user_modifier_postal_code_advertising), Toast.LENGTH_LONG).show();
                     }else {
                         lineSearchList.get(position).setChecked(mCheckBoxBottom.isChecked());
@@ -367,6 +392,33 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
             mAdapter.notifyDataSetChanged();
             panelChoiceVisibility(true);
         });
+    }
+
+    /**
+     *  CALLBACK
+     */
+
+    // interface for button clicked
+    public interface LineSearchModifierClickedListener{
+        void itemClicked(View view, List<LineSearch> lineSearchList, LineSearch lineSearchInscription, LineSearch lineSearchSold);
+    }
+
+    //callback for button clicked
+    private LineSearchModifierClickedListener mCallback;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (LineSearchModifierClickedListener) getActivity();
+        } catch (ClassCastException e){
+            throw new ClassCastException(e.toString() + " must implement ItemClickedListener");
+        }
+    }
+
+    @OnClick(R.id.search_load_button)
+    public void changeButtonClick(){
+        mCallback.itemClicked(mView, mLineSearchList, mLineSearchInscription, mLineSearchSold);
     }
 
 

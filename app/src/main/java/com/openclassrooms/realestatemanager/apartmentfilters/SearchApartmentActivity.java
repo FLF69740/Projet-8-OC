@@ -3,6 +3,9 @@ package com.openclassrooms.realestatemanager.apartmentfilters;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.injections.Injection;
@@ -13,10 +16,11 @@ import com.openclassrooms.realestatemanager.viewmodel.SearchFilterViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchApartmentActivity extends BaseActivity {
+public class SearchApartmentActivity extends BaseActivity implements SearchApartmentFragment.LineSearchModifierClickedListener {
 
     private SearchFilterViewModel mSearchFilterViewModel;
     private List<LineSearch> mLineSearchList;
+    private LineSearch mLineSearchInscription, mLineSearchSold;
 
     @Override
     protected Fragment getFirstFragment() {
@@ -55,7 +59,6 @@ public class SearchApartmentActivity extends BaseActivity {
         mLineSearchList = new ArrayList<>();
         this.configureViewModelSearch();
         this.readSearchFilterDB();
-
     }
 
     // load the search rules book
@@ -80,10 +83,12 @@ public class SearchApartmentActivity extends BaseActivity {
         } else {
             mLineSearchList = searchList;
             mLineSearchList.remove(0);
-            mLineSearchList.remove(0);
-            mLineSearchList.remove(0);
         }
-        ((SearchApartmentFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mLineSearchList);
+        mLineSearchInscription = mLineSearchList.get(0);
+        mLineSearchSold = mLineSearchList.get(1);
+        mLineSearchList.remove(0);
+        mLineSearchList.remove(0);
+        ((SearchApartmentFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mLineSearchList, mLineSearchInscription, mLineSearchSold);
     }
 
     /**
@@ -97,6 +102,13 @@ public class SearchApartmentActivity extends BaseActivity {
     }
 
 
-
-
+    @Override
+    public void itemClicked(View view, List<LineSearch> lineSearchList, LineSearch lineSearchInscription, LineSearch lineSearchSold) {
+        mSearchFilterViewModel.updateLineSearch(lineSearchInscription);
+        mSearchFilterViewModel.updateLineSearch(lineSearchSold);
+        for (int i = 0; i < lineSearchList.size(); i++){
+            mSearchFilterViewModel.updateLineSearch(lineSearchList.get(i));
+        }
+        finish();
+    }
 }

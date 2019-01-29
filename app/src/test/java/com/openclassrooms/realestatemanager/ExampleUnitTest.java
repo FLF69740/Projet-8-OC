@@ -2,6 +2,9 @@ package com.openclassrooms.realestatemanager;
 
 import android.view.View;
 
+import com.openclassrooms.realestatemanager.apartmentfilters.BusinessApartmentFilters;
+import com.openclassrooms.realestatemanager.models.LineSearch;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
