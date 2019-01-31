@@ -1,8 +1,11 @@
 package com.openclassrooms.realestatemanager.appartmentlist;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,6 +19,8 @@ import com.openclassrooms.realestatemanager.apartmentfilters.SearchApartmentActi
 import com.openclassrooms.realestatemanager.models.Apartment;
 
 import java.util.List;
+
+import static com.openclassrooms.realestatemanager.MainApplication.CHANNEL;
 
 public class MainActivity extends BaseActivity implements MainFragment.ItemClickedListener
 {
@@ -68,11 +73,27 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
             Apartment apartment = new Apartment(type, price, adress, postalCode, town, Utils.getTodayDate(), mUserId);
 
             createApartment(apartment);
+
+            this.sendNotification(apartment);
         }
         if (SEARCH_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode){
             mApartmentList = (List<Apartment>) data.getSerializableExtra(SearchApartmentActivity.BUNDLE_APARTMENT_LIST_SEARCH);
             updateFragmentWithSearchFilter(mApartmentList);
         }
+    }
+
+    // send a notification
+    private void sendNotification(Apartment apartment){
+        String body = getString(R.string.fragment_creation_notification_content_body_first) + apartment.getAdress() + getString(R.string.fragment_creation_notification_content_body_second);
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL)
+                .setSmallIcon(R.drawable.image_realestate)
+                .setContentTitle(getString(R.string.fragment_creation_notification_content_title))
+                .setContentText(body)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+        notificationManagerCompat.notify(100, notification);
     }
 
     /**

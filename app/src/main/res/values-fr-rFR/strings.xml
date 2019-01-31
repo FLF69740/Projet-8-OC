@@ -73,4 +73,9 @@
     <string name="search_apartment_number_of_picture">nombre de photos (max) :</string>
     <string name="activity_user_modifier_postal_code_advertising">CINQ NUMEROS POUR UN CODE POSTAL</string>
     <string name="search_apartment_tolerances_inverse_warning">"tolérance inf toujours plus petit que tolérance sup "</string>
+    <string name="fragment_creation_notification_title">Avertissement de création d\'appartement</string>
+    <string name="fragment_creation_notification_description">permets de recevoir une notification à chaque création d\'appartement</string>
+    <string name="fragment_creation_notification_content_title">Nouvel appartement créé !</string>
+    <string name="fragment_creation_notification_content_body_first">"Votre appartement : "</string>
+    <string name="fragment_creation_notification_content_body_second">est créé.</string>
 </resources>

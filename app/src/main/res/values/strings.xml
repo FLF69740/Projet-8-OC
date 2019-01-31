@@ -66,7 +66,7 @@
     <string name="photo_title_viewpager" translatable="false">PHOTO TITLE</string>
     <string name="photo_close_viewpager" translatable="false">X</string>
 
-    <!-- creation fragment -->
+    <!-- Apartment creation -->
     <string name="fragment_creation_title">fill in the fields below :</string>
     <string name="fragment_creation_type">type</string>
     <string name="fragment_creation_adress">address</string>
@@ -74,6 +74,11 @@
     <string name="fragment_creation_town">town</string>
     <string name="fragment_creation_price">price</string>
     <string name="fragment_creation_button">CREATE</string>
+    <string name="fragment_creation_notification_title">New Apartment creation warning</string>
+    <string name="fragment_creation_notification_description">allow you to receive a notification for each apartment creation</string>
+    <string name="fragment_creation_notification_content_title">New apartment created !</string>
+    <string name="fragment_creation_notification_content_body_first">Your apartment : </string>
+    <string name="fragment_creation_notification_content_body_second">" is created."</string>
 
     <!-- Apartment detail -->
     <string name="apartment_description">Description :</string>
