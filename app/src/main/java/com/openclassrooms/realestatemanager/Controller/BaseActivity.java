@@ -269,10 +269,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected void updateFragmentWithSearchFilter(List<Apartment> apartmentList){
         if (apartmentList.isEmpty()){
             ((MainFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(apartmentList, 1);
-            ((SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(null, mUser);
+            if (findViewById(getSecondFragmentLayout()) != null) {
+                ((SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(null, mUser);
+            }
         }else {
             ((MainFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(apartmentList, 1);
-            ((SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(apartmentList.get(0), mUser);
+            if (findViewById(getSecondFragmentLayout()) != null) {
+                ((SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(apartmentList.get(0), mUser);
+            }
         }
     }
 

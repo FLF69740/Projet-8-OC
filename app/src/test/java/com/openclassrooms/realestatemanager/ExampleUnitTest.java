@@ -1,13 +1,10 @@
 package com.openclassrooms.realestatemanager;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
+
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
@@ -22,8 +19,18 @@ public class ExampleUnitTest {
 
         int result = (int) Utils.getLoaninterestResult(price, nbYear, rate);
 
-
         assertEquals("Result", 4200, result);
+    }
+
+    @Test
+    public void testEuroToDollarConversion() throws Exception{
+        assertEquals (265, Utils.convertEuroToDollar(215));
+    }
+
+    @Test
+    public void testDateFormatToFrenchFormat() throws Exception{
+        DateTime today = new DateTime();
+        assertEquals(today.toString("dd/MM/yyyy"), Utils.getTodayDate());
     }
 
     @Test

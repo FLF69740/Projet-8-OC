@@ -71,13 +71,10 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_search_apartment, container, false);
         ButterKnife.bind(this, mView);
-
         mRadioGroup.setOnCheckedChangeListener(this);
         this.showSoldPanel(false);
-
         this.configureOnClickRecyclerView();
         this.panelChoiceVisibility(true);
-
         return mView;
     }
 
@@ -255,21 +252,16 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
         mCalendarInscriptionTo = BusinessApartmentFilters.getDateMemory(mLineSearchInscription.getInformationTo());
         mCalendarSoldFrom = BusinessApartmentFilters.getDateMemory(mLineSearchSold.getInformationFrom());
         mCalendarSoldTo = BusinessApartmentFilters.getDateMemory(mLineSearchSold.getInformationTo());
-
         mButtonInscriptionFrom.setText(mCalendarInscriptionFrom.toString("dd/MM/yyyy"));
         mButtonInscriptionTo.setText(mCalendarInscriptionTo.toString("dd/MM/yyyy"));
         mButtonSoldFrom.setText(mCalendarSoldFrom.toString("dd/MM/yyyy"));
         mButtonSoldTo.setText(mCalendarSoldTo.toString("dd/MM/yyyy"));
-
         mButtonInscriptionFrom.setOnClickListener(v -> new DatePickerDialog(getContext(), datePickerInscriptionFrom,
                 mCalendarInscriptionFrom.getYear(), mCalendarInscriptionFrom.getMonthOfYear()-1, mCalendarInscriptionFrom.getDayOfMonth()).show());
-
         mButtonInscriptionTo.setOnClickListener(v -> new DatePickerDialog(getContext(), datePickerInscriptionTo,
                 mCalendarInscriptionTo.getYear(), mCalendarInscriptionTo.getMonthOfYear()-1, mCalendarInscriptionTo.getDayOfMonth()).show());
-
         mButtonSoldFrom.setOnClickListener(v -> new DatePickerDialog(getContext(), datePickerSoldFrom,
                 mCalendarSoldFrom.getYear(), mCalendarSoldFrom.getMonthOfYear()-1, mCalendarSoldFrom.getDayOfMonth()).show());
-
         mButtonSoldTo.setOnClickListener(v -> new DatePickerDialog(getContext(), datePickerSoldTo,
                 mCalendarSoldTo.getYear(), mCalendarSoldTo.getMonthOfYear()-1, mCalendarSoldTo.getDayOfMonth()).show());
     }
@@ -326,9 +318,7 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
     private void loadModifierBarManager(List<LineSearch> lineSearchList, int position){
         if (!lineSearchList.get(position).isATitle()){
             panelChoiceVisibility(false);
-
             mTextViewTitleBottom.setText(lineSearchList.get(position).getSectionName());
-
             // INFORMATION FROM AND TO EMPTY
             if (lineSearchList.get(position).getInformationFrom().equals(Objects.requireNonNull(getContext()).getString(R.string.apartment_title_po_single)) ||
                     lineSearchList.get(position).getInformationFrom().equals(LineSearch.EMPTY_CASE)) {
@@ -336,7 +326,6 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
             }else {
                 this.mEditTextInformationFrom.setText(lineSearchList.get(position).getInformationFrom());
             }
-
             if (!lineSearchList.get(position).isInformationTo()){
                 this.mTextViewTo.setVisibility(View.GONE);
                 this.mEditTextInformationTo.setVisibility(View.GONE);
@@ -355,7 +344,6 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
             }else {
                 mCheckBoxBottom.setChecked(false);
             }
-
             this.mEditTextInformationFrom.setInputType(Utils.getInputType(getContext(), lineSearchList.get(position).getSectionName()));
             this.mEditTextInformationTo.setInputType(Utils.getInputType(getContext(), lineSearchList.get(position).getSectionName()));
             this.validationClick(lineSearchList, position);
@@ -369,12 +357,15 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
                     if (lineSearchList.get(position).getSectionName().equals(Objects.requireNonNull(getContext()).getString(R.string.apartment_title_postal_code)) && mEditTextInformationFrom.getText().length() != 5) {
                         Toast.makeText(getContext(), getString(R.string.activity_user_modifier_postal_code_advertising), Toast.LENGTH_LONG).show();
                     }else {
-                        lineSearchList.get(position).setChecked(mCheckBoxBottom.isChecked());
-                        lineSearchList.get(position).setInformationFrom(mEditTextInformationFrom.getText().toString());
-                        if (!mEditTextInformationTo.getText().toString().equals("")) {
+                        if (mEditTextInformationTo.getText().toString().equals("")) {
+                            mEditTextInformationTo.setText(mEditTextInformationFrom.getText().toString());
+                        }
+                        if (BusinessApartmentFilters.isTolOk(Integer.valueOf(mEditTextInformationFrom.getText().toString()), Integer.valueOf(mEditTextInformationTo.getText().toString()))) {
+                            lineSearchList.get(position).setChecked(mCheckBoxBottom.isChecked());
+                            lineSearchList.get(position).setInformationFrom(mEditTextInformationFrom.getText().toString());
                             lineSearchList.get(position).setInformationTo(mEditTextInformationTo.getText().toString());
                         } else {
-                            lineSearchList.get(position).setInformationTo(mEditTextInformationFrom.getText().toString());
+                            Toast.makeText(getContext(), getString(R.string.search_apartment_tolerances_inverse_warning), Toast.LENGTH_LONG).show();
                         }
                     }
                 } else {
@@ -414,8 +405,4 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
     public void changeButtonClick(){
         mCallback.itemClicked(mView, mLineSearchList, mLineSearchInscription, mLineSearchSold);
     }
-
-
-
-
 }

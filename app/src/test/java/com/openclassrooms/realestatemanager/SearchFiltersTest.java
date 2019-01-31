@@ -4,12 +4,10 @@ import com.openclassrooms.realestatemanager.apartmentfilters.ApartmentSelector;
 import com.openclassrooms.realestatemanager.apartmentfilters.BusinessApartmentFilters;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.LineSearch;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 

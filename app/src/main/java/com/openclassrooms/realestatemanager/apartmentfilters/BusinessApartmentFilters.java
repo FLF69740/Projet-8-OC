@@ -144,6 +144,11 @@ public class BusinessApartmentFilters {
         }
     }
 
+    // Get coherence comparaison between tol inf and sup
+    public static Boolean isTolOk(int inf, int sup){
+        return (inf<=sup);
+    }
+
 
 
 }

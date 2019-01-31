@@ -8,6 +8,7 @@
     <string name="search_apartment_date_to">to</string>
     <string name="search_apartment_load_button">LOAD</string>
     <string name="search_apartment_number_of_picture">Number of picture (max) :</string>
+    <string name="search_apartment_tolerances_inverse_warning">tolerance inf always smaller than tolerance sup</string>
 
     <!-- ABOUT -->
     <string name="about_message" translatable="false">REAL ESTATE MANAGER : v 1.0.0\nbuilt : 2019/02/01\nPowered with Android Studio for :\nAndroid 4.4 and higher\n\ncreated by FLT Startcraft</string>

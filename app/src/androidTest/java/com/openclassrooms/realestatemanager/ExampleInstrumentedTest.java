@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -16,11 +18,18 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+
     @Test
     public void useAppContext() throws Exception {
-        // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
-
         assertEquals("com.openclassrooms.realestatemanager", appContext.getPackageName());
     }
+
+    @Test
+    public void testIfNetworkAvailable() throws Exception{
+        Context context = InstrumentationRegistry.getTargetContext();
+        assertTrue(Utils.isNetworkAvailable(context));
+    }
+
+
 }
