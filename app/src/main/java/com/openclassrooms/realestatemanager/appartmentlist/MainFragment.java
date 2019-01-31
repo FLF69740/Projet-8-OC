@@ -89,10 +89,12 @@ public class MainFragment extends Fragment {
     }
 
     public void refresh(List<Apartment> apartmentList, long apartmentId) {
-        mApartmentList = apartmentList;
-        mSelectedApartment = (int) apartmentId - 1;
-        configureRecyclerView();
-        configureOnClickRecyclerView();
+        if (apartmentList != null){
+            mApartmentList = apartmentList;
+            mSelectedApartment = (int) apartmentId - 1;
+            configureRecyclerView();
+            configureOnClickRecyclerView();
+        }
     }
 
     /**

@@ -4,23 +4,20 @@ import android.content.Context;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.LineSearch;
-
 import org.joda.time.DateTime;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class BusinessApartmentFilters {
 
     // initialisation list of section
-    private static List<String> getSectionFilter(Context context){
+    private static List<String> getSectionFilter(Context context, String money, String dimension){
         List<String> myList = new ArrayList<>();
         myList.add(context.getString(R.string.apartment_inscription));
         myList.add(context.getString(R.string.apartment_title_date_sold));
         myList.add(context.getString(R.string.apartment_title_type));
-        myList.add(context.getString(R.string.apartment_title_price));
-        myList.add(context.getString(R.string.apartment_title_square));
+        myList.add(context.getString(R.string.apartment_title_price) + " " + money + " ");
+        myList.add(context.getString(R.string.apartment_title_square) + " " + dimension + " ");
         myList.add(context.getString(R.string.apartment_title_room));
         myList.add(context.getString(R.string.apartment_title_adress));
         myList.add(context.getString(R.string.apartment_title_street));
@@ -96,12 +93,12 @@ public class BusinessApartmentFilters {
     }
 
     // First Configuration
-    public static List<LineSearch> createFirstSearchFilterDB(Context context){
+    public static List<LineSearch> createFirstSearchFilterDB(Context context, String money, String dimension){
         List<LineSearch> myList = new ArrayList<>();
         int countdown = 0;
         while (countdown != 14){
             myList.add(new LineSearch(
-                    getSectionFilter(context).get(countdown),
+                    getSectionFilter(context, money, dimension).get(countdown),
                     getFromAndToFilter().get(countdown),
                     getFromAndToFilter().get(countdown),
                     getIsInformationToFilter().get(countdown),
@@ -121,6 +118,30 @@ public class BusinessApartmentFilters {
             calendar = calendar.year().setCopy(Utils.getYear(date));
         }
         return calendar;
+    }
+
+    // Get count of substring into a string
+    public static int getCountSubstring(String target, String theChain){
+        int lastIndex = 0;
+        int count = 0;
+
+        while(lastIndex != -1){
+            lastIndex = theChain.indexOf(target,lastIndex);
+            if(lastIndex != -1){
+                count ++;
+                lastIndex += target.length();
+            }
+        }
+        return count;
+    }
+
+    // Get list of Key words for Point of interest
+    public static String[] getKeyWordsList(String points){
+        if (points.contains(" ")){
+            return points.split(" ");
+        }else {
+            return new String[]{points};
+        }
     }
 
 

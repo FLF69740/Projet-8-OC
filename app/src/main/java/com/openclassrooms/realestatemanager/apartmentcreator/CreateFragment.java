@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.apartmentcreator;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -35,9 +36,14 @@ public class CreateFragment extends Fragment {
     @BindView(R.id.fragment_creation_create_button)Button mButton;
     @BindView(R.id.textView_create_price)TextView mTextViewPrice;
 
+    private static final String BUNDLE_TEXT_TYPE  = "BUNDLE_TEXT_TYPE";
+    private static final String BUNDLE_TEXT_ADRESS  = "BUNDLE_TEXT_ADRESS";
+    private static final String BUNDLE_TEXT_POSTALCODE  = "BUNDLE_TEXT_POSTALCODE";
+    private static final String BUNDLE_TEXT_TOWN  = "BUNDLE_TEXT_TOWN";
+    private static final String BUNDLE_TEXT_PRICE  = "BUNDLE_TEXT_PRICE";
+
     private View mView;
-    private Boolean isButtonActivated = false;
-    private Boolean isTypeNotEmpty = false, isAdressNotEmpty = false, isPostalCodeNotEmpty = false, isTownNotEmpty = false, isPriceNotEmpty = false;
+    private boolean isTypeNotEmpty = false, isAdressNotEmpty = false, isPostalCodeNotEmpty = false, isTownNotEmpty = false, isPriceNotEmpty = false;
     private String mMoney_unit = "";
 
     public CreateFragment() {}
@@ -50,10 +56,28 @@ public class CreateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_create, container, false);
         ButterKnife.bind(this, mView);
+        if (savedInstanceState != null){
+            mEditTextType.setText(savedInstanceState.getString(BUNDLE_TEXT_TYPE));
+            mEditTextAdress.setText(savedInstanceState.getString(BUNDLE_TEXT_ADRESS));
+            mEditTextPostalCode.setText(savedInstanceState.getString(BUNDLE_TEXT_POSTALCODE));
+            mEditTextTown.setText(savedInstanceState.getString(BUNDLE_TEXT_TOWN));
+            mEditTextPrice.setText(savedInstanceState.getString(BUNDLE_TEXT_PRICE));
+        }
+        boolean isButtonActivated = false;
         mButton.setEnabled(isButtonActivated);
         this.configurePriceUnit();
         this.configureEditText();
         return mView;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(BUNDLE_TEXT_TYPE, mEditTextType.getText().toString());
+        outState.putString(BUNDLE_TEXT_ADRESS, mEditTextAdress.getText().toString());
+        outState.putString(BUNDLE_TEXT_POSTALCODE, mEditTextPostalCode.getText().toString());
+        outState.putString(BUNDLE_TEXT_TOWN, mEditTextTown.getText().toString());
+        outState.putString(BUNDLE_TEXT_PRICE, mEditTextPrice.getText().toString());
     }
 
     private void configurePriceUnit(){

@@ -1,6 +1,9 @@
 package com.openclassrooms.realestatemanager.apartmentfilters;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +16,8 @@ import com.openclassrooms.realestatemanager.injections.ViewModelSearchFactory;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.LineSearch;
 import com.openclassrooms.realestatemanager.viewmodel.SearchFilterViewModel;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +25,8 @@ public class SearchApartmentActivity extends BaseActivity implements SearchApart
 
     private SearchFilterViewModel mSearchFilterViewModel;
     private List<LineSearch> mLineSearchList;
-    private LineSearch mLineSearchInscription, mLineSearchSold;
+    private String mMoney;
+    private String mDimension;
 
     @Override
     protected Fragment getFirstFragment() {
@@ -75,20 +81,22 @@ public class SearchApartmentActivity extends BaseActivity implements SearchApart
 
     // Configure Filters list
     private void configureList(List<LineSearch> searchList){
+        mMoney = this.getSharedPreferences(SHARED_MONEY, MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_MONEY, getString(R.string.loan_simulation_dollar));
+        mDimension = this.getSharedPreferences(SHARED_DIMENSION, Context.MODE_PRIVATE).getString(BUNDLE_KEY_ACTIVE_DIMENSION, getString(R.string.units_square));
         if (searchList.size() == 1){
-            List<LineSearch> firstList = new ArrayList<>(BusinessApartmentFilters.createFirstSearchFilterDB(this));
+            List<LineSearch> firstList = new ArrayList<>(BusinessApartmentFilters.createFirstSearchFilterDB(this, mMoney, mDimension));
             for (int i = 0; i < firstList.size(); i++){
                 createLineSearch(firstList.get(i));
             }
         } else {
-            mLineSearchList = searchList;
+            mLineSearchList = loadUnits(this, searchList, mMoney, mDimension);
             mLineSearchList.remove(0);
         }
-        mLineSearchInscription = mLineSearchList.get(0);
-        mLineSearchSold = mLineSearchList.get(1);
+        LineSearch lineSearchInscription = mLineSearchList.get(0);
+        LineSearch lineSearchSold = mLineSearchList.get(1);
         mLineSearchList.remove(0);
         mLineSearchList.remove(0);
-        ((SearchApartmentFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mLineSearchList, mLineSearchInscription, mLineSearchSold);
+        ((SearchApartmentFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mLineSearchList, lineSearchInscription, lineSearchSold);
     }
 
     /**
@@ -101,6 +109,7 @@ public class SearchApartmentActivity extends BaseActivity implements SearchApart
         mLineSearchList.add(lineSearch);
     }
 
+    public static final String BUNDLE_APARTMENT_LIST_SEARCH = "BUNDLE_APARTMENT_LIST_SEARCH";
 
     @Override
     public void itemClicked(View view, List<LineSearch> lineSearchList, LineSearch lineSearchInscription, LineSearch lineSearchSold) {
@@ -109,6 +118,29 @@ public class SearchApartmentActivity extends BaseActivity implements SearchApart
         for (int i = 0; i < lineSearchList.size(); i++){
             mSearchFilterViewModel.updateLineSearch(lineSearchList.get(i));
         }
+        ApartmentSelector apartmentSelector = new ApartmentSelector(mMoney, mDimension);
+        mApartmentList = apartmentSelector.getSelectedApartments(mApartmentList, lineSearchList, lineSearchInscription, lineSearchSold);
+        Intent intent = new Intent();
+        intent.putExtra(BUNDLE_APARTMENT_LIST_SEARCH, (Serializable) mApartmentList);
+        setResult(RESULT_OK, intent);
         finish();
     }
+
+    /**
+     *  UNITS TRANSITION
+     */
+
+    private List<LineSearch> loadUnits(Context context, List<LineSearch> searchList, String money, String dimension){
+        for (int i = 0 ; i < searchList.size() ; i++){
+            if (searchList.get(i).getSectionName().contains(context.getString(R.string.apartment_title_price))){
+                searchList.get(i).setSectionName(context.getString(R.string.apartment_title_price) + " " + money + " ");
+            }
+            if (searchList.get(i).getSectionName().contains(context.getString(R.string.apartment_title_square))){
+                searchList.get(i).setSectionName(context.getString(R.string.apartment_title_square) + " " + dimension + " ");
+            }
+        }
+        return searchList;
+    }
+
+
 }

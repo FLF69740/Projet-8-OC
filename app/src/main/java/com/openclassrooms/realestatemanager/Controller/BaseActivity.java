@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.Controller;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,8 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.openclassrooms.realestatemanager.About.AboutActivity;
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
@@ -227,6 +224,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
      */
 
 
+    // configure fragment with fragment manager
     protected void configureFragment(){
         getSupportFragmentManager().beginTransaction()
                 .add(getFragmentLayout(), getFirstFragment())
@@ -238,6 +236,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
     }
 
+    // Update fragment(s)
     protected void updateFragment(){
         // MainFragment UPDATE
         if (getFirstFragment() instanceof MainFragment && this.mApartmentList != null && !this.mApartmentList.isEmpty() && this.mUser != null){
@@ -263,6 +262,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             else if (getSecondFragment() instanceof ProfileManagerDetailFragment && mUserList != null){
                 ((ProfileManagerDetailFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(mUserList.get((int) mUserId-1), mUserId);
             }
+        }
+    }
+
+    // Update Main and Second Fragment after search filters activated
+    protected void updateFragmentWithSearchFilter(List<Apartment> apartmentList){
+        if (apartmentList.isEmpty()){
+            ((MainFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(apartmentList, 1);
+            ((SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(null, mUser);
+        }else {
+            ((MainFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(apartmentList, 1);
+            ((SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout())).updateFragmentScreen(apartmentList.get(0), mUser);
         }
     }
 

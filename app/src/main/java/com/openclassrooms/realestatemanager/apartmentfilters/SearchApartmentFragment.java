@@ -4,8 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,14 +23,9 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.appartmentlist.RecyclerViewClickSupport;
 import com.openclassrooms.realestatemanager.models.LineSearch;
 import org.joda.time.DateTime;
-
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -117,6 +110,7 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
         mCheckBoxBottom.setVisibility(b);
         mTextViewTitleBottom.setVisibility(b);
         mEditTextInformationFrom.setVisibility(b);
+        mTextViewTo.setVisibility(b);
         mEditTextInformationTo.setVisibility(b);
         mImageViewValidationLine.setVisibility(b);
     }

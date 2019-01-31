@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.Toast;
+
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.apartmentdetail.SecondActivity;
 import com.openclassrooms.realestatemanager.apartmentdetail.SecondFragment;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
+import com.openclassrooms.realestatemanager.apartmentfilters.SearchApartmentActivity;
 import com.openclassrooms.realestatemanager.models.Apartment;
+
+import java.util.List;
 
 public class MainActivity extends BaseActivity implements MainFragment.ItemClickedListener
 {
@@ -63,6 +68,10 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
             Apartment apartment = new Apartment(type, price, adress, postalCode, town, Utils.getTodayDate(), mUserId);
 
             createApartment(apartment);
+        }
+        if (SEARCH_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode){
+            mApartmentList = (List<Apartment>) data.getSerializableExtra(SearchApartmentActivity.BUNDLE_APARTMENT_LIST_SEARCH);
+            updateFragmentWithSearchFilter(mApartmentList);
         }
     }
 

@@ -88,30 +88,46 @@ public class SecondFragment extends Fragment {
     public void updateFragmentScreen(Apartment apartment, User user){
         mApartment = apartment;
         mUser = user;
-        if (BitmapStorage.isFileExist(Objects.requireNonNull(getContext()), BitmapStorage.getFirstPhotoName(mApartment))) {
-            this.mIsPhotoExist = true;
-            this.mPhotoPresentation.setImageBitmap(BitmapStorage.loadImage(getContext(), BitmapStorage.getFirstPhotoName(mApartment)));
-            this.mPhotoNumberIndicator.setText(String.valueOf(BitmapStorage.getPhotoNumber(mApartment)));
-        } else {
-            this.mIsPhotoExist = false;
+        if (mApartment != null) {
+            if (BitmapStorage.isFileExist(Objects.requireNonNull(getContext()), BitmapStorage.getFirstPhotoName(mApartment))) {
+                this.mIsPhotoExist = true;
+                this.mPhotoPresentation.setImageBitmap(BitmapStorage.loadImage(getContext(), BitmapStorage.getFirstPhotoName(mApartment)));
+                this.mPhotoNumberIndicator.setText(String.valueOf(BitmapStorage.getPhotoNumber(mApartment)));
+            } else {
+                this.mIsPhotoExist = false;
+                this.mPhotoPresentation.setImageResource(R.drawable.image_realestate);
+                this.mPhotoNumberIndicator.setVisibility(View.INVISIBLE);
+            }
+
+            mTextViewSecondLayoutPrice.setText(getFinalPrice(mApartment.getPrice()));
+            mTextViewDateInscription.setText(mApartment.getDateInscription());
+            mDescriptionBody.setText(mApartment.getDescription());
+            mSurfaceInformation.setText(getFinalDimension(mApartment.getDimension()));
+            mNumberOfRoomsInformation.setText(Utils.getRooms(mApartment.getRoomNumber(), this.mView));
+            mPointOfInterestInformation.setText(getPOString(mApartment.getPoInterest()));
+            mLocalisationInformation.setText(Utils.getFullAdress(mApartment.getAdress(), String.valueOf(mApartment.getPostalCode()), mApartment.getTown()));
+            mContactInformation.setText(mUser.getUsername());
+            mTypeInformation.setText(mApartment.getType());
+            mSoldInformation.setText(Utils.getStringSold(mApartment.getSold(), this.mView));
+            mSoldInformation.setTextColor(Utils.getColorSold(mApartment.getSold(), this.mView));
+            if (!mApartment.getDateSold().equals(Apartment.EMPTY_CASE)) {
+                mTextViewDateSold.setText(mApartment.getDateSold());
+            } else {
+                mTextViewDateSold.setText("-");
+            }
+        }else {
             this.mPhotoPresentation.setImageResource(R.drawable.image_realestate);
             this.mPhotoNumberIndicator.setVisibility(View.INVISIBLE);
-        }
-
-        mTextViewSecondLayoutPrice.setText(getFinalPrice(mApartment.getPrice()));
-        mTextViewDateInscription.setText(mApartment.getDateInscription());
-        mDescriptionBody.setText(mApartment.getDescription());
-        mSurfaceInformation.setText(getFinalDimension(mApartment.getDimension()));
-        mNumberOfRoomsInformation.setText(Utils.getRooms(mApartment.getRoomNumber(), this.mView));
-        mPointOfInterestInformation.setText(getPOString(mApartment.getPoInterest()));
-        mLocalisationInformation.setText(Utils.getFullAdress(mApartment.getAdress(), String.valueOf(mApartment.getPostalCode()), mApartment.getTown()));
-        mContactInformation.setText(mUser.getUsername());
-        mTypeInformation.setText(mApartment.getType());
-        mSoldInformation.setText(Utils.getStringSold(mApartment.getSold(), this.mView));
-        mSoldInformation.setTextColor(Utils.getColorSold(mApartment.getSold(), this.mView));
-        if (!mApartment.getDateSold().equals(Apartment.EMPTY_CASE)) {
-            mTextViewDateSold.setText(mApartment.getDateSold());
-        } else {
+            mTextViewSecondLayoutPrice.setText(" ");
+            mTextViewDateInscription.setText(" ");
+            mDescriptionBody.setText(" ");
+            mSurfaceInformation.setText(" ");
+            mNumberOfRoomsInformation.setText(" ");
+            mPointOfInterestInformation.setText(" ");
+            mLocalisationInformation.setText(" ");
+            mContactInformation.setText(" ");
+            mTypeInformation.setText(" ");
+            mSoldInformation.setText(" ");
             mTextViewDateSold.setText("-");
         }
     }
