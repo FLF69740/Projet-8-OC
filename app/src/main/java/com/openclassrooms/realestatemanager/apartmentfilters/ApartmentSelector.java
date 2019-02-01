@@ -27,51 +27,50 @@ public class ApartmentSelector {
 
     public List<Apartment> getSelectedApartments(List<Apartment> apartmentList, List<LineSearch> lineSearchList, LineSearch lineSearchInscription, LineSearch lineSearchSold){
         if (lineSearchInscription.isChecked()) {
-            apartmentList = getInscriptionOrSoldValidation(apartmentList, lineSearchInscription);
+            inscriptionOrSoldValidation(apartmentList, lineSearchInscription, 1);
         }
         if (lineSearchSold.isChecked()){
-            apartmentList = getInscriptionOrSoldValidation(apartmentList, lineSearchSold);
+            inscriptionOrSoldValidation(apartmentList, lineSearchSold, 2);
         }
         for (int i = 0 ; i < lineSearchList.size() ; i++){
-            apartmentList = getApartmentsAfterFilters(apartmentList, lineSearchList.get(i), i);
+            apartmentsAfterFilters(apartmentList, lineSearchList.get(i), i);
         }
         return apartmentList;
     }
 
     // remove apartments outside inscription or sold tolerances
-    private List<Apartment>  getInscriptionOrSoldValidation(List<Apartment> apartmentList, LineSearch lineSearchDelta){
-        List<Apartment> result = new ArrayList<>(apartmentList);
+    private void inscriptionOrSoldValidation(List<Apartment> apartmentList, LineSearch lineSearchDelta, int position){
         DateTime inf = DateTime.parse(lineSearchDelta.getInformationFrom(), DateTimeFormat.forPattern("dd/MM/yyyy"));
         DateTime sup = DateTime.parse(lineSearchDelta.getInformationTo(), DateTimeFormat.forPattern("dd/MM/yyyy"));
         for (int i = apartmentList.size()-1 ; i >= 0 ; i-- ){
             DateTime target = DateTime.parse(apartmentList.get(i).getDateInscription(), DateTimeFormat.forPattern("dd/MM/yyyy"));
+            if (position == 2) {
+                target = DateTime.parse(apartmentList.get(i).getDateSold(), DateTimeFormat.forPattern("dd/MM/yyyy"));
+            }
             if (target.isBefore(inf) || sup.isBefore(target)){
-                result.remove(i);
+                apartmentList.remove(i);
             }
         }
-        return result;
     }
 
     // remove apartments with lineSearchList criteria
-    private List<Apartment> getApartmentsAfterFilters(List<Apartment> apartmentList, LineSearch lineSearch, int position){
-        List<Apartment> result = new ArrayList<>(apartmentList);
+    private void apartmentsAfterFilters(List<Apartment> apartmentList, LineSearch lineSearch, int position){
         if (lineSearch.isChecked()) {
             switch (checkTypeOfControl(position, false, null)) {
                 case CHECK_INTEGER_TOLERANCES:
-                    result = getControl_CHECK_INTEGER_TOLERANCES(apartmentList, lineSearch, position);
+                    control_CHECK_INTEGER_TOLERANCES(apartmentList, lineSearch, position);
                     break;
                 case CHECK_STRING_CONTAINS:
-                    result = getControl_CHECK_STRING_CONTAINS(apartmentList, lineSearch, position);
+                    control_CHECK_STRING_CONTAINS(apartmentList, lineSearch, position);
                     break;
                 case CHECK_MULTIPLE_STRING_CONTAINS:
-                    result = getControl_CHECK_MULTIPLE_STRING_CONTAINS(apartmentList, lineSearch, position);
+                    control_CHECK_MULTIPLE_STRING_CONTAINS(apartmentList, lineSearch);
                     break;
                 case CHECK_STRING_EQUALS:
-                    result = getControl_CHECK_STRING_EQUALS(apartmentList, lineSearch, position);
+                    control_CHECK_STRING_EQUALS(apartmentList, lineSearch, position);
                     break;
             }
         }
-        return result;
     }
 
     // check type of control after line search section information
@@ -154,35 +153,30 @@ public class ApartmentSelector {
     }
 
     // control realisation with CHECK_INTEGER_TOLERANCES
-    private List<Apartment> getControl_CHECK_INTEGER_TOLERANCES(List<Apartment> apartmentList, LineSearch lineSearch, int position){
-        List<Apartment> result = new ArrayList<>(apartmentList);
+    private void control_CHECK_INTEGER_TOLERANCES(List<Apartment> apartmentList, LineSearch lineSearch, int position){
         int inf = Integer.valueOf(lineSearch.getInformationFrom());
         int sup = Integer.valueOf(lineSearch.getInformationTo());
         for (int i = apartmentList.size()-1 ; i >= 0 ; i-- ){
             int target = Integer.valueOf(checkTypeOfControl(position, true, apartmentList.get(i)));
             if (target < inf || sup < target){
-                result.remove(i);
+                apartmentList.remove(i);
             }
         }
-        return result;
     }
 
     // control realisation with CHECK_INTEGER_TOLERANCES
-    private List<Apartment> getControl_CHECK_STRING_CONTAINS(List<Apartment> apartmentList, LineSearch lineSearch, int position){
-        List<Apartment> result = new ArrayList<>(apartmentList);
+    private void control_CHECK_STRING_CONTAINS(List<Apartment> apartmentList, LineSearch lineSearch, int position){
         String subString = lineSearch.getInformationFrom();
         for (int i = apartmentList.size()-1 ; i >= 0 ; i-- ){
             String target = checkTypeOfControl(position, true, apartmentList.get(i));
             if (!target.contains(subString)){
-                result.remove(i);
+                apartmentList.remove(i);
             }
         }
-        return result;
     }
 
     // control realisation with CHECK_INTEGER_TOLERANCES
-    private List<Apartment> getControl_CHECK_MULTIPLE_STRING_CONTAINS(List<Apartment> apartmentList, LineSearch lineSearch, int position){
-        List<Apartment> result = new ArrayList<>(apartmentList);
+    private void control_CHECK_MULTIPLE_STRING_CONTAINS(List<Apartment> apartmentList, LineSearch lineSearch){
         String[] keyWords = BusinessApartmentFilters.getKeyWordsList(lineSearch.getInformationFrom());
         List<Boolean> apartmentChecked = new ArrayList<>();
         for (int i = 0; i < apartmentList.size() ; i++){
@@ -190,29 +184,26 @@ public class ApartmentSelector {
         }
         for (String keyWord : keyWords) {
             for (int i = 0; i < apartmentList.size(); i++) {
-                if (result.get(i).getPoInterest().contains(keyWord)) {
+                if (apartmentList.get(i).getPoInterest().contains(keyWord)) {
                     apartmentChecked.set(i, true);
                 }
             }
         }
         for (int i = apartmentList.size()-1 ; i >= 0 ; i-- ){
             if (!apartmentChecked.get(i).equals(true)){
-                result.remove(i);
+                apartmentList.remove(i);
             }
         }
-        return result;
     }
 
     // control realisation with CHECK_INTEGER_TOLERANCES
-    private List<Apartment> getControl_CHECK_STRING_EQUALS(List<Apartment> apartmentList, LineSearch lineSearch, int position){
-        List<Apartment> result = new ArrayList<>(apartmentList);
+    private void control_CHECK_STRING_EQUALS(List<Apartment> apartmentList, LineSearch lineSearch, int position){
         String subString = lineSearch.getInformationFrom();
         for (int i = apartmentList.size()-1 ; i >= 0 ; i-- ){
             String target = checkTypeOfControl(position, true, apartmentList.get(i));
             if (!target.equals(subString)){
-                result.remove(i);
+                apartmentList.remove(i);
             }
         }
-        return result;
     }
 }

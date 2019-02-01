@@ -6,35 +6,80 @@ import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.LineSearch;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.*;
 
 public class SearchFiltersTest {
 
-    private Apartment mApartmentOne = new Apartment("LOFT", 250000, "1, Rue de la liberté", 69001, "LYON", "10/01/2018",1);
-    private Apartment mApartmentTwo = new Apartment("DUPLEX", 345000, "50, Avenue Général De Gaulle", 75000, "Paris", "15/03/2018", 1);
-    private Apartment mApartmentThree = new Apartment("HOUSE", 545000, "3, Avenue Général De Gaulle", 75000, "Paris", "07/05/2018", 1);
-    private LineSearch mLineSearchInscription = new LineSearch("incription :", "01/01/2018", "22/04/2018", true, false, true);
-    private LineSearch mLineSearchSold = new LineSearch("sold :", "01/01/2018", "22/09/2018", true, false, true);
-    private LineSearch mType = new LineSearch("TYPE", "LOFT", null, false, false, false);
-    private LineSearch mPrice = new LineSearch("PRICE", "260000", "700000", true, false, false);
-    private LineSearch mSquare = new LineSearch("SQUARE", "20", "30", true, false, false);
-    private LineSearch mRoomm = new LineSearch("ROOM", "2", "7", true, false, false);
-    private LineSearch mTitleAdress = new LineSearch("ADRESS", "", "700000", false, true, false);
-    private LineSearch mStreet = new LineSearch("STREET", "Rue", null, false, false, false);
-    private LineSearch mPostal = new LineSearch("POSTAL CODE", "69001", null, false, false, false);
-    private LineSearch mTown = new LineSearch("TOWN", "LYON", null, false, false, false);
-    private LineSearch mPOTitle = new LineSearch("POINT OF INTEREST", "", null, false, true, false);
-    private LineSearch mPoSingle = new LineSearch("*/", "école marché", null, false, false, false);
-    private LineSearch mPicTitle = new LineSearch("PICTURES", "", null, false, true, false);
-    private LineSearch mPicture = new LineSearch("NUMBER", "2", null, false, false, false);
-    private List<LineSearch> mLineSearchList;
-    private List<Apartment> mApartmentList;
-    private ApartmentSelector mApartmentSelector;
+    private static final int NO_CHECK_POINT = 100;
+
+    /**
+     *  OBJECT INITIALISATION
+     */
+
+    private Apartment getApartmentOne(){
+        Apartment apartment = new Apartment("LOFT", 250000, "1, Rue de la liberté", 69001, "LYON", "10/01/2018",1);
+        apartment.setDateSold("01/01/2013");
+        return apartment;
+    }
+
+    private Apartment getApartmentTwo(){
+        Apartment apartment = new Apartment("DUPLEX", 345000, "50, Avenue Général De Gaulle", 75000, "Paris", "15/03/2018", 1);
+        apartment.setDateSold("01/01/2013");
+        return apartment;
+    }
+
+    private Apartment getApartmentThree(){
+        Apartment apartment = new Apartment("HOUSE", 545000, "3, Avenue Général De Gaulle", 75000, "Paris", "07/05/2018", 1);
+        apartment.setDateSold("01/03/2018");
+        return apartment;
+    }
+
+    private List<Apartment> getApartmentList(){
+        List<Apartment> apartmentList = new ArrayList<>();
+        apartmentList.add(getApartmentOne());
+        apartmentList.add(getApartmentTwo());
+        apartmentList.add(getApartmentThree());
+        return apartmentList;
+    }
+
+    private List<LineSearch> getLineSearchList(int checkPoint){
+        List<LineSearch> lineSearchList = new ArrayList<>();
+        lineSearchList.add(new LineSearch("TYPE", "LOFT", null, false, false, false));
+        lineSearchList.add(new LineSearch("PRICE", "260000", "700000", true, false, false));
+        lineSearchList.add(new LineSearch("SQUARE", "20", "30", true, false, false));
+        lineSearchList.add(new LineSearch("ROOM", "2", "7", true, false, false));
+        lineSearchList.add(new LineSearch("ADRESS", "", "700000", false, true, false));
+        lineSearchList.add(new LineSearch("STREET", "Rue", null, false, false, false));
+        lineSearchList.add(new LineSearch("POSTAL CODE", "69001", null, false, false, false));
+        lineSearchList.add(new LineSearch("TOWN", "LYON", null, false, false, false));
+        lineSearchList.add(new LineSearch("POINT OF INTEREST", "", null, false, true, false));
+        lineSearchList.add(new LineSearch("*/", "école marché", null, false, false, false));
+        lineSearchList.add(new LineSearch("PICTURES", "", null, false, true, false));
+        lineSearchList.add(new LineSearch("NUMBER", "2", null, false, false, false));
+        if (checkPoint != NO_CHECK_POINT) {
+            lineSearchList.get(checkPoint).setChecked(true);
+        }
+        return lineSearchList;
+    }
+
+    private LineSearch getLineSearchInscription(boolean check){
+        return new LineSearch("incription :", "01/03/2018", "22/04/2018", true, false, check);
+    }
+
+    private LineSearch getLineSearchSold(boolean check){
+        return new LineSearch("sold :", "01/03/2018", "22/09/2018", true, false, check);
+    }
+
+    private ApartmentSelector getApartmentSelector(){
+        return new ApartmentSelector("$", "sq ft");
+    }
+
+    /**
+     *  TEST DIVERSE
+     */
 
     @Test
     public void addition_isCorrect() throws Exception {
@@ -55,103 +100,108 @@ public class SearchFiltersTest {
 
     @Test
     public void testBusinessKeyWordList() throws Exception{
-        String[] result = BusinessApartmentFilters.getKeyWordsList(mPoSingle.getInformationFrom());
+        List<LineSearch> lineSearchList = getLineSearchList(NO_CHECK_POINT);
+        String[] result = BusinessApartmentFilters.getKeyWordsList(lineSearchList.get(9).getInformationFrom());
         assertEquals(2, result.length);
     }
 
     /**
-     *  TEST
+     *  TEST APARTMENT SELECTOR
      */
-
-    @Before
-    public void createApartmentList() throws Exception{
-        mApartmentList = new ArrayList<>();
-        mApartmentList.add(mApartmentOne);
-        mApartmentList.add(mApartmentTwo);
-        mApartmentList.add(mApartmentThree);
-        mApartmentSelector = new ApartmentSelector("$", "sq ft");
-        mLineSearchList = new ArrayList<>();
-        mLineSearchList.add(mType);
-        mLineSearchList.add(mPrice);
-        mLineSearchList.add(mSquare);
-        mLineSearchList.add(mRoomm);
-        mLineSearchList.add(mTitleAdress);
-        mLineSearchList.add(mStreet);
-        mLineSearchList.add(mPostal);
-        mLineSearchList.add(mTown);
-        mLineSearchList.add(mPOTitle);
-        mLineSearchList.add(mPoSingle);
-        mLineSearchList.add(mPicTitle);
-        mLineSearchList.add(mPicture);
-    }
 
     @Test
     public void testDateInscriptionInterval() throws Exception{
-        mLineSearchSold.setChecked(false);
-        mLineSearchInscription.setInformationFrom("01/02/2018");
-        mLineSearchInscription.setInformationTo("04/09/2018");
-        List<Apartment> result;
-        result = mApartmentSelector.getSelectedApartments(mApartmentList,mLineSearchList, mLineSearchInscription, mLineSearchSold);
-        assertEquals(2, result.size());
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(NO_CHECK_POINT));
+        LineSearch lineSearchInscription = getLineSearchInscription(true);
+        LineSearch lineSearchSold = getLineSearchSold(false);
+        ApartmentSelector apartmentSelector = getApartmentSelector();
+
+        List<Apartment> result = apartmentSelector.getSelectedApartments(apartmentList, lineSearchList, lineSearchInscription, lineSearchSold);
+        assertEquals(1, result.size());
         assertEquals("DUPLEX", result.get(0).getType());
     }
 
     @Test
     public void testDateSoldInterval() throws Exception{
-        mLineSearchInscription.setChecked(false);
-        List<Apartment> result;
-        result = mApartmentSelector.getSelectedApartments(mApartmentList,mLineSearchList, mLineSearchInscription, mLineSearchSold);
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(NO_CHECK_POINT));
+        LineSearch lineSearchInscription = getLineSearchInscription(false);
+        LineSearch lineSearchSold = getLineSearchSold(true);
+        ApartmentSelector apartmentSelector = getApartmentSelector();
+
+        List<Apartment> result = apartmentSelector.getSelectedApartments(apartmentList, lineSearchList, lineSearchInscription, lineSearchSold);
         assertEquals(1, result.size());
         assertEquals("HOUSE", result.get(0).getType());
     }
 
     @Test
     public void testDateInscriptionAndSoldInterval() throws Exception{
-        mLineSearchSold.setInformationFrom("01/04/2018");
-        List<Apartment> result;
-        result = mApartmentSelector.getSelectedApartments(mApartmentList,mLineSearchList, mLineSearchInscription, mLineSearchSold);
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(NO_CHECK_POINT));
+        LineSearch lineSearchInscription = getLineSearchInscription(true);
+        LineSearch lineSearchSold = getLineSearchSold(true);
+        ApartmentSelector apartmentSelector = getApartmentSelector();
+
+        List<Apartment> result = apartmentSelector.getSelectedApartments(apartmentList, lineSearchList, lineSearchInscription, lineSearchSold);
         assertEquals(0, result.size());
     }
 
     @Test
     public void testPriceFilter() throws Exception{
-        mLineSearchList.get(1).setChecked(true);
-        List<Apartment> result;
-        result = mApartmentSelector.getSelectedApartments(mApartmentList,mLineSearchList, mLineSearchInscription, mLineSearchSold);
-        assertEquals(1, result.size());
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(1));
+        LineSearch lineSearchInscription = getLineSearchInscription(false);
+        LineSearch lineSearchSold = getLineSearchSold(false);
+        ApartmentSelector apartmentSelector = getApartmentSelector();
+
+        List<Apartment> result = apartmentSelector.getSelectedApartments(apartmentList, lineSearchList, lineSearchInscription, lineSearchSold);
+        assertEquals(2, result.size());
         assertEquals("DUPLEX", result.get(0).getType());
     }
 
     @Test
     public void testTypeFilter() throws Exception{
-        mLineSearchList.get(0).setChecked(true);
-        mLineSearchList.get(0).setInformationFrom("DUP");
-        List<Apartment> result;
-        result = mApartmentSelector.getSelectedApartments(mApartmentList,mLineSearchList, mLineSearchInscription, mLineSearchSold);
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(0));
+        lineSearchList.get(0).setInformationFrom("DUP");
+        LineSearch lineSearchInscription = getLineSearchInscription(false);
+        LineSearch lineSearchSold = getLineSearchSold(false);
+        ApartmentSelector apartmentSelector = getApartmentSelector();
+
+        List<Apartment> result = apartmentSelector.getSelectedApartments(apartmentList, lineSearchList, lineSearchInscription, lineSearchSold);
         assertEquals(1, result.size());
         assertEquals("DUPLEX", result.get(0).getType());
     }
 
     @Test
     public void testTownFilter() throws Exception{
-        mLineSearchList.get(7).setChecked(true);
-        List<Apartment> result;
-        result = mApartmentSelector.getSelectedApartments(mApartmentList,mLineSearchList, mLineSearchInscription, mLineSearchSold);
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(7));
+        LineSearch lineSearchInscription = getLineSearchInscription(false);
+        LineSearch lineSearchSold = getLineSearchSold(false);
+        ApartmentSelector apartmentSelector = getApartmentSelector();
+
+        List<Apartment> result = apartmentSelector.getSelectedApartments(apartmentList, lineSearchList, lineSearchInscription, lineSearchSold);
         assertEquals(1, result.size());
         assertEquals("LOFT", result.get(0).getType());
     }
 
     @Test
     public void testpointOfInterest() throws Exception{
-        mApartmentList.get(0).setPoInterest("école");
-        mApartmentList.get(1).setPoInterest("marché");
-        mLineSearchList.get(9).setChecked(true);
-        List<Apartment> result;
-        result = mApartmentSelector.getSelectedApartments(mApartmentList,mLineSearchList, mLineSearchInscription, mLineSearchSold);
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        apartmentList.get(0).setPoInterest("école");
+        apartmentList.get(1).setPoInterest("marché");
+        List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(9));
+        LineSearch lineSearchInscription = getLineSearchInscription(false);
+        LineSearch lineSearchSold = getLineSearchSold(false);
+        ApartmentSelector apartmentSelector = getApartmentSelector();
+
+        List<Apartment> result = apartmentSelector.getSelectedApartments(apartmentList, lineSearchList, lineSearchInscription, lineSearchSold);
         assertEquals(2, result.size());
 
-        mApartmentList.get(0).setPoInterest("écol");
-        result = mApartmentSelector.getSelectedApartments(mApartmentList,mLineSearchList, mLineSearchInscription, mLineSearchSold);
+        apartmentList.get(0).setPoInterest("écol");
+        result = apartmentSelector.getSelectedApartments(apartmentList, lineSearchList, lineSearchInscription, lineSearchSold);
         assertEquals(1, result.size());
     }
 

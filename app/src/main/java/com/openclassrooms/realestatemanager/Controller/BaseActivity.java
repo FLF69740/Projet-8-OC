@@ -100,7 +100,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         this.configureViewModel();
         this.getApartments(mUserId);
         this.getUsers();
-        this.configureFragment();
+        this.configureFragment(savedInstanceState);
         this.configureToolbar();
     }
 
@@ -225,14 +225,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
 
     // configure fragment with fragment manager
-    protected void configureFragment(){
-        getSupportFragmentManager().beginTransaction()
-                .add(getFragmentLayout(), getFirstFragment())
-                .commit();
-        if ((getFirstFragment() instanceof MainFragment || getFirstFragment() instanceof ProfileManagerFragment)&& findViewById(getSecondFragmentLayout())!= null){
+    protected void configureFragment(Bundle state){
+        if (state == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(getSecondFragmentLayout(), getSecondFragment())
+                    .add(getFragmentLayout(), getFirstFragment())
                     .commit();
+            if ((getFirstFragment() instanceof MainFragment || getFirstFragment() instanceof ProfileManagerFragment) && findViewById(getSecondFragmentLayout()) != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(getSecondFragmentLayout(), getSecondFragment())
+                        .commit();
+            }
         }
     }
 

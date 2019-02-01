@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .build();
-        notificationManagerCompat.notify(100, notification);
+        notificationManagerCompat.notify(1001, notification);
     }
 
     /**

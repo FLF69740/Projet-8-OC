@@ -3,21 +3,34 @@ package com.openclassrooms.realestatemanager.apartmentdetail;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.apartmentmodifier.TransformerApartmentItems;
 import com.openclassrooms.realestatemanager.models.User;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,10 +57,13 @@ public class SecondFragment extends Fragment {
     @BindView(R.id.dateSold)TextView mTextViewDateSold;
     @BindView(R.id.photo_number_indicator)TextView mPhotoNumberIndicator;
     @BindView(R.id.layout_second_price)TextView mTextViewSecondLayoutPrice;
+    @BindView(R.id.map_picture)ImageView mMap;
 
     private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     public static final String BUNDLE_KEY_LIST_PHOTO = "BUNDLE_KEY_LIST_PHOTO";
+    private String apiKey;
+    private final String staticMapUri = "https://maps.googleapis.com/maps/api/staticmap?center=1+rue+Pasteur+LYON&zoom=16&size=400x200&format=jpg&markers=size:mid%7Ccolor:red%7Clabel:C%7C";
 
     private Apartment mApartment;
     private User mUser;
@@ -114,6 +130,13 @@ public class SecondFragment extends Fragment {
                 mTextViewDateSold.setText(mApartment.getDateSold());
             } else {
                 mTextViewDateSold.setText("-");
+            }
+            if (Utils.isNetworkAvailable(getContext())){
+                apiKey = getString(R.string.api_key);
+                Glide.with(mView)
+                        .load(staticMapUri + "1+rue+Pasteur+LYON&" + apiKey)
+                        .apply(RequestOptions.centerCropTransform())
+                        .into(mMap);
             }
         }else {
             this.mPhotoPresentation.setImageResource(R.drawable.image_realestate);
