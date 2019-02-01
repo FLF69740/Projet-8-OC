@@ -63,7 +63,8 @@ public class SecondFragment extends Fragment {
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     public static final String BUNDLE_KEY_LIST_PHOTO = "BUNDLE_KEY_LIST_PHOTO";
     private String apiKey;
-    private final String staticMapUri = "https://maps.googleapis.com/maps/api/staticmap?center=1+rue+Pasteur+LYON&zoom=16&size=400x200&format=jpg&markers=size:mid%7Ccolor:red%7Clabel:C%7C";
+    private final String staticMapUristart = "https://maps.googleapis.com/maps/api/staticmap?center=";
+    private final String staticMapUriEnd = "&zoom=16&size=400x200&format=jpg&markers=size:mid%7Ccolor:red%7Clabel:C%7C";
 
     private Apartment mApartment;
     private User mUser;
@@ -133,8 +134,9 @@ public class SecondFragment extends Fragment {
             }
             if (Utils.isNetworkAvailable(getContext())){
                 apiKey = getString(R.string.api_key);
+                String adress = BusinessSecondFragment.getGoogleAdressCode(mApartment.getAdress(), mApartment.getTown()) + "&";
                 Glide.with(mView)
-                        .load(staticMapUri + "1+rue+Pasteur+LYON&" + apiKey)
+                        .load(staticMapUristart + adress + staticMapUriEnd + adress + apiKey)
                         .apply(RequestOptions.centerCropTransform())
                         .into(mMap);
             }
