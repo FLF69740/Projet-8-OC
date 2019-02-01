@@ -113,9 +113,9 @@ public class BusinessApartmentFilters {
     public static DateTime getDateMemory(String date){
         DateTime calendar = new DateTime();
         if (!date.equals(LineSearch.EMPTY_CASE)) {
-            calendar = calendar.dayOfMonth().setCopy(Utils.getDayOfMonth(date));
-            calendar = calendar.monthOfYear().setCopy(Utils.getMonth(date));
             calendar = calendar.year().setCopy(Utils.getYear(date));
+            calendar = calendar.monthOfYear().setCopy(Utils.getMonth(date));
+            calendar = calendar.dayOfMonth().setCopy(Utils.getDayOfMonth(date));
         }
         return calendar;
     }

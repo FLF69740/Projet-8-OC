@@ -41,6 +41,9 @@ public class ProfileManagerChangeFragment extends Fragment {
     private View mView;
     private User mUser;
     private String mPhotoName = User.EMPTY_CASE;
+    private boolean mIsPhotoSelected;
+
+    private static final String BUNDLE_PHOTO_RESTORE = "BUNDLE_PHOTO_RESTORE";
 
     @BindView(R.id.manager_change_photo_user)ImageView mImageViewChangePhotoUser;
     @BindView(R.id.manager_change_name_user)EditText mEditTextChangeNameUser;
@@ -62,10 +65,17 @@ public class ProfileManagerChangeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_profile_manager_change, container, false);
         ButterKnife.bind(this, mView);
-
+        mIsPhotoSelected = false;
         if (getArguments() != null) {
             if (getArguments().getParcelable(BUNDLE_KEY_USER) != null && getArguments().getLong(BUNDLE_USER_ID) != 0) {
                 configureFragment(getArguments().getParcelable(BUNDLE_KEY_USER), getArguments().getLong(BUNDLE_USER_ID));
+            }
+        }
+        if (savedInstanceState != null){
+            if (savedInstanceState.containsKey(BUNDLE_PHOTO_RESTORE)){
+                mIsPhotoSelected = true;
+                mPhotoName = savedInstanceState.getString(BUNDLE_PHOTO_RESTORE);
+                this.mImageViewChangePhotoUser.setImageBitmap(BitmapStorage.loadImage(getContext(), mPhotoName));
             }
         }
 
@@ -76,6 +86,9 @@ public class ProfileManagerChangeFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(BUNDLE_KEY_USER, mUser);
+        if (mIsPhotoSelected){
+            outState.putString(BUNDLE_PHOTO_RESTORE, mPhotoName);
+        }
     }
 
     // set elements of View
@@ -115,6 +128,7 @@ public class ProfileManagerChangeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_PHOTO_USER_UPLOAD){
             if (resultCode == RESULT_OK){
+                mIsPhotoSelected = true;
                 mPhotoName = data.getStringExtra(PhotoModifierActivity.BUNDLE_NAME_UPDATE);
                 this.mImageViewChangePhotoUser.setImageBitmap(BitmapStorage.loadImage(getContext(), mPhotoName));
             }

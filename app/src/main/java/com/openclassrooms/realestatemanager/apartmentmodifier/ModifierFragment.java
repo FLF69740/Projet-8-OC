@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.photomanager.PhotoModifierActivity;
 import com.openclassrooms.realestatemanager.R;
@@ -29,6 +29,7 @@ import com.openclassrooms.realestatemanager.appartmentlist.RecyclerViewClickSupp
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.Item;
 import com.openclassrooms.realestatemanager.models.User;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,6 +48,12 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     public static final String BUNDLE_ITEM_LIST = "BUNDLE_ITEM_LIST";
     public static final String BUNDLE_APARTMENT_ID = "BUNDLE_APARTMENT_ID";
+    private static final String BUNDLE_RECYCLER_RESTORE = "BUNDLE_RECYCLER_RESTORE";
+    private static final String BUNDLE_SOLD_RESTORE = "BUNDLE_SOLD_RESTORE";
+    private static final String BUNDLE_YEAR_RESTORE = "BUNDLE_YEAR_RESTORE";
+    private static final String BUNDLE_MONTH_RESTORE = "BUNDLE_MONTH_RESTORE";
+    private static final String BUNDLE_DAY_RESTORE = "BUNDLE_DAY_RESTORE";
+    private static final String BUNDLE_MANAGER_RESTORE = "BUNDLE_MANAGER_RESTORE";
     private static final int RC_PHOTO_UPLOAD = 10;
     private static final int RC_MANAGER_UPLOAD = 20;
 
@@ -96,10 +103,15 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         mLaunchCalendarAutoriation = false;
         mApartment = getArguments().getParcelable(BUNDLE_KEY_APARTMENT);
         mUser = getArguments().getParcelable(BUNDLE_KEY_USER);
-        mTextViewNameManager.setText(mUser.getUsername());
         mDateInscription = mApartment.getDateInscription();
-        mIsSold = mApartment.getSold();
-        this.configureRecyclerView();
+        if (savedInstanceState != null){
+            mIsSold = savedInstanceState.getBoolean(BUNDLE_SOLD_RESTORE);
+            mTextViewNameManager.setText(savedInstanceState.getString(BUNDLE_MANAGER_RESTORE));
+        }else {
+            mIsSold = mApartment.getSold();
+            mTextViewNameManager.setText(mUser.getUsername());
+        }
+        this.configureRecyclerView(savedInstanceState);
         this.configureOnClickRecyclerView();
         this.editCalendar();
         mRadioGroupButton.setOnCheckedChangeListener(this);
@@ -107,9 +119,15 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         if (mIsSold) {
             mRadioButtonSold.setChecked(true);
             showDateSoldTextView(true);
-            mCalendar.set(Calendar.DAY_OF_MONTH, Utils.getDayOfMonth(mApartment.getDateSold()));
-            mCalendar.set(Calendar.MONTH, Utils.getMonth(mApartment.getDateSold())-1);
-            mCalendar.set(Calendar.YEAR, Utils.getYear(mApartment.getDateSold()));
+            if (savedInstanceState != null){
+                mCalendar.set(Calendar.DAY_OF_MONTH, savedInstanceState.getInt(BUNDLE_DAY_RESTORE));
+                mCalendar.set(Calendar.MONTH, savedInstanceState.getInt(BUNDLE_MONTH_RESTORE));
+                mCalendar.set(Calendar.YEAR, savedInstanceState.getInt(BUNDLE_YEAR_RESTORE));
+            }else {
+                mCalendar.set(Calendar.DAY_OF_MONTH, Utils.getDayOfMonth(mApartment.getDateSold()));
+                mCalendar.set(Calendar.MONTH, Utils.getMonth(mApartment.getDateSold()) - 1);
+                mCalendar.set(Calendar.YEAR, Utils.getYear(mApartment.getDateSold()));
+            }
         } else {
             mCalendar = Calendar.getInstance();
         }
@@ -120,15 +138,30 @@ public class ModifierFragment extends Fragment implements RadioGroup.OnCheckedCh
         return mView;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(BUNDLE_RECYCLER_RESTORE, (Serializable) mItemList);
+        outState.putBoolean(BUNDLE_SOLD_RESTORE, mIsSold);
+        outState.putInt(BUNDLE_YEAR_RESTORE,mCalendar.get(Calendar.YEAR));
+        outState.putInt(BUNDLE_MONTH_RESTORE, mCalendar.get(Calendar.MONTH));
+        outState.putInt(BUNDLE_DAY_RESTORE, mCalendar.get(Calendar.DAY_OF_MONTH));
+        outState.putString(BUNDLE_MANAGER_RESTORE, mTextViewNameManager.getText().toString());
+    }
+
     /**
      *  RECYCLERVIEW
      */
 
-    private void configureRecyclerView(){
+    private void configureRecyclerView(Bundle state){
         TransformerApartmentItems transformerApartmentItems = new TransformerApartmentItems();
         transformerApartmentItems.createItemList(mApartment, mView.getContext());
-        mItemList = new ArrayList<>(transformerApartmentItems.getListItems());
-        this.mAdapter = new ItemsAdapter(transformerApartmentItems.getListItems());
+        if (state == null) {
+            mItemList = new ArrayList<>(transformerApartmentItems.getListItems());
+        } else {
+            mItemList = (List<Item>) state.getSerializable(BUNDLE_RECYCLER_RESTORE);
+        }
+        this.mAdapter = new ItemsAdapter(mItemList);
         this.mRecyclerView.setAdapter(mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

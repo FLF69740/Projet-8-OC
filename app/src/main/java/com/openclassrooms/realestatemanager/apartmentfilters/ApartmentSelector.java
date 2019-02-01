@@ -40,15 +40,23 @@ public class ApartmentSelector {
 
     // remove apartments outside inscription or sold tolerances
     private void inscriptionOrSoldValidation(List<Apartment> apartmentList, LineSearch lineSearchDelta, int position){
+        DateTime target = new DateTime();
         DateTime inf = DateTime.parse(lineSearchDelta.getInformationFrom(), DateTimeFormat.forPattern("dd/MM/yyyy"));
         DateTime sup = DateTime.parse(lineSearchDelta.getInformationTo(), DateTimeFormat.forPattern("dd/MM/yyyy"));
         for (int i = apartmentList.size()-1 ; i >= 0 ; i-- ){
-            DateTime target = DateTime.parse(apartmentList.get(i).getDateInscription(), DateTimeFormat.forPattern("dd/MM/yyyy"));
-            if (position == 2) {
-                target = DateTime.parse(apartmentList.get(i).getDateSold(), DateTimeFormat.forPattern("dd/MM/yyyy"));
-            }
-            if (target.isBefore(inf) || sup.isBefore(target)){
+            if ((apartmentList.get(i).getDateInscription().equals(Apartment.EMPTY_CASE) && position == 1) ||
+                    (apartmentList.get(i).getDateSold().equals(Apartment.EMPTY_CASE) && position == 2)){
                 apartmentList.remove(i);
+            }else {
+                if (position == 1) {
+                    target = DateTime.parse(apartmentList.get(i).getDateInscription(), DateTimeFormat.forPattern("dd/MM/yyyy"));
+                }
+                if (position == 2) {
+                    target = DateTime.parse(apartmentList.get(i).getDateSold(), DateTimeFormat.forPattern("dd/MM/yyyy"));
+                }
+                if (target.isBefore(inf) || sup.isBefore(target)) {
+                    apartmentList.remove(i);
+                }
             }
         }
     }

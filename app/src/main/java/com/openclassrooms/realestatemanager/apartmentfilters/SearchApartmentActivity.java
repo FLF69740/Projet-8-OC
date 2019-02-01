@@ -64,7 +64,9 @@ public class SearchApartmentActivity extends BaseActivity implements SearchApart
         mApartmentList = (List<Apartment>) getIntent().getSerializableExtra(BaseActivity.BUNDLE_APARTMENTLIST_TO_SEARCH_ACTIVITY);
         mLineSearchList = new ArrayList<>();
         this.configureViewModelSearch();
-        this.readSearchFilterDB();
+        if (savedInstanceState == null) {
+            this.readSearchFilterDB();
+        }
     }
 
     // load the search rules book

@@ -35,7 +35,7 @@
 
         <ImageView
             android:id="@+id/manager_change_photo_user"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -43,6 +43,7 @@
             android:layout_marginBottom="8dp"
             android:clickable="true"
             android:focusable="true"
+            android:scaleType="centerInside"
             android:src="@drawable/bk_photo"
             app:layout_constraintBottom_toTopOf="@+id/manager_change_name_user"
             app:layout_constraintEnd_toEndOf="@+id/horizontal_line_border"

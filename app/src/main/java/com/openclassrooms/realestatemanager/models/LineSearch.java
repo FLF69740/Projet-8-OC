@@ -2,9 +2,11 @@ package com.openclassrooms.realestatemanager.models;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 @Entity
-public class LineSearch {
+public class LineSearch implements Parcelable {
 
     public static final String EMPTY_CASE = "EMPTY_CASE";
     public static final String BLANK = "_____";
@@ -81,4 +83,41 @@ public class LineSearch {
     public void setChecked(boolean checked) {
         isChecked = checked;
     }
+
+    protected LineSearch(Parcel in) {
+        mSectionName = in.readString();
+        mInformationFrom = in.readString();
+        mInformationTo = in.readString();
+        mIsInformationTo = in.readByte() != 0x00;
+        isATitle = in.readByte() != 0x00;
+        isChecked = in.readByte() != 0x00;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mSectionName);
+        dest.writeString(mInformationFrom);
+        dest.writeString(mInformationTo);
+        dest.writeByte((byte) (mIsInformationTo ? 0x01 : 0x00));
+        dest.writeByte((byte) (isATitle ? 0x01 : 0x00));
+        dest.writeByte((byte) (isChecked ? 0x01 : 0x00));
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<LineSearch> CREATOR = new Parcelable.Creator<LineSearch>() {
+        @Override
+        public LineSearch createFromParcel(Parcel in) {
+            return new LineSearch(in);
+        }
+
+        @Override
+        public LineSearch[] newArray(int size) {
+            return new LineSearch[size];
+        }
+    };
 }

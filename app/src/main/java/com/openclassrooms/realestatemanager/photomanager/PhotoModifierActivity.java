@@ -12,16 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.BitmapStorage;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.apartmentmodifier.ModifierFragment;
 import com.openclassrooms.realestatemanager.apartmentmodifier.TransformerApartmentItems;
-
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,10 +40,12 @@ public class PhotoModifierActivity extends AppCompatActivity {
 
     public static final String BUNDLE_PHOTO_UPDATE = "BUNDLE_PHOTO_UPDATE";
     public static final String BUNDLE_NAME_UPDATE = "BUNDLE_NAME_UPDATE";
+    private static final String BUNDLE_PHOTO_RESTORE = "BUNDLE_PHOTO_RESTORE";
+    private static final String BUNDLE_NAME_RESTORE = "BUNDLE_NAME_RESTORE";
 
     private Uri mUriPicture;
     private List<String> mItemListString;
-    private Boolean mIsPhotoSelected;
+    private boolean mIsPhotoSelected;
     private long mId;
 
     @Override
@@ -58,6 +57,23 @@ public class PhotoModifierActivity extends AppCompatActivity {
         mId = intent.getLongExtra(ModifierFragment.BUNDLE_APARTMENT_ID,0);
         mIsPhotoSelected = false;
         ButterKnife.bind(this);
+        if (savedInstanceState != null){
+            if (savedInstanceState.containsKey(BUNDLE_PHOTO_RESTORE)){
+                mIsPhotoSelected = true;
+                mUriPicture = Uri.parse(savedInstanceState.getString(BUNDLE_PHOTO_RESTORE));
+                Glide.with(this).load(mUriPicture).apply(RequestOptions.centerInsideTransform()).into(mImageViewPhoto);
+            }
+            mPhotoName.setText(savedInstanceState.getString(BUNDLE_NAME_RESTORE));
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(BUNDLE_NAME_RESTORE, mPhotoName.getText().toString());
+        if (mIsPhotoSelected) {
+            outState.putString(BUNDLE_PHOTO_RESTORE, mUriPicture.toString());
+        }
     }
 
     //PERMISSION
@@ -133,7 +149,7 @@ public class PhotoModifierActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK){
                 this.mUriPicture = data.getData();
                 mIsPhotoSelected = true;
-                Glide.with(this).load(this.mUriPicture).apply(RequestOptions.centerCropTransform()).into(mImageViewPhoto);
+                Glide.with(this).load(this.mUriPicture).apply(RequestOptions.centerInsideTransform()).into(mImageViewPhoto);
             }
         } else if (requestCode == RC_CAMERA_CAPTURE){
             if (resultCode == RESULT_OK){
@@ -141,7 +157,7 @@ public class PhotoModifierActivity extends AppCompatActivity {
                 Bitmap bitmap = (Bitmap) extra.get("data");
                 mUriPicture = BitmapStorage.getImageUri(this, bitmap);
                 mIsPhotoSelected = true;
-                Glide.with(this).load(mUriPicture).apply(RequestOptions.centerCropTransform()).into(mImageViewPhoto);
+                Glide.with(this).load(mUriPicture).apply(RequestOptions.centerInsideTransform()).into(mImageViewPhoto);
             }
         }
     }

@@ -36,11 +36,11 @@ public class PhotoProfileActivity extends AppCompatActivity {
     private static final int RC_CHOOSE_PHOTO = 102;
     private static final int RC_CAMERA_CAPTURE = 103;
 
-    public static final String BUNDLE_PHOTO_UPDATE = "BUNDLE_PHOTO_UPDATE";
     public static final String BUNDLE_NAME_UPDATE = "BUNDLE_NAME_UPDATE";
+    private static final String BUNDLE_PHOTO_RESTORE = "BUNDLE_PHOTO_RESTORE";
 
     private Uri mUriPicture;
-    private Boolean mIsPhotoSelected;
+    private boolean mIsPhotoSelected;
     private long mId;
 
     @Override
@@ -50,6 +50,19 @@ public class PhotoProfileActivity extends AppCompatActivity {
         mId = getIntent().getLongExtra(ProfileManagerDetailFragment.BUNDLE_USER_ID, 0);
         mIsPhotoSelected = false;
         ButterKnife.bind(this);
+        if (savedInstanceState != null){
+            mIsPhotoSelected = true;
+            mUriPicture = Uri.parse(savedInstanceState.getString(BUNDLE_PHOTO_RESTORE));
+            Glide.with(this).load(mUriPicture).apply(RequestOptions.centerInsideTransform()).into(mImageViewUserPhoto);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mIsPhotoSelected) {
+            outState.putString(BUNDLE_PHOTO_RESTORE, mUriPicture.toString());
+        }
     }
 
 
@@ -114,7 +127,7 @@ public class PhotoProfileActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK){
                 this.mUriPicture = data.getData();
                 mIsPhotoSelected = true;
-                Glide.with(this).load(this.mUriPicture).apply(RequestOptions.centerCropTransform()).into(mImageViewUserPhoto);
+                Glide.with(this).load(this.mUriPicture).apply(RequestOptions.centerInsideTransform()).into(mImageViewUserPhoto);
             }
         } else if (requestCode == RC_CAMERA_CAPTURE){
             if (resultCode == RESULT_OK){
@@ -122,7 +135,7 @@ public class PhotoProfileActivity extends AppCompatActivity {
                 Bitmap bitmap = (Bitmap) extra.get("data");
                 mUriPicture = BitmapStorage.getImageUri(this, bitmap);
                 mIsPhotoSelected = true;
-                Glide.with(this).load(mUriPicture).apply(RequestOptions.centerCropTransform()).into(mImageViewUserPhoto);
+                Glide.with(this).load(mUriPicture).apply(RequestOptions.centerInsideTransform()).into(mImageViewUserPhoto);
             }
         }
     }

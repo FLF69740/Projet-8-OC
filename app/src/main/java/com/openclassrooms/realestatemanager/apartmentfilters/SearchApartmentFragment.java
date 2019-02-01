@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,8 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.appartmentlist.RecyclerViewClickSupport;
 import com.openclassrooms.realestatemanager.models.LineSearch;
 import org.joda.time.DateTime;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -66,16 +70,45 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
     private DateTime mCalendarSoldTo = new DateTime();
     private String mStringInscriptionFrom = "", mStringInscriptionTo = "", mStringSoldFrom = "", mStringSoldTo = "";
 
+    private static final String BUNDLE_LS_INSCRIPTION_RESTORE = "BUNDLE_LS_INSCRIPTION_RESTORE";
+    private static final String BUNDLE_LS_SOLD_RESTORE = "BUNDLE_LS_SOLD_RESTORE";
+    private static final String BUNDLE_LS_LIST_RESTORE = "BUNDLE_LS_LIST_RESTORE";
+    private static final String BUNDLE_DATE_INSCRIPTION_FROM_RESTORE = "BUNDLE_DATE_INSCRIPTION_FROM_RESTORE";
+    private static final String BUNDLE_DATE_INSCRIPTION_TO_RESTORE = "BUNDLE_DATE_INSCRIPTION_TO_RESTORE";
+    private static final String BUNDLE_DATE_SOLD_FROM_RESTORE = "BUNDLE_DATE_SOLD_FROM_RESTORE";
+    private static final String BUNDLE_DATE_SOLD_TO_RESTORE = "BUNDLE_DATE_SOLD_TO_RESTORE";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_search_apartment, container, false);
         ButterKnife.bind(this, mView);
-        mRadioGroup.setOnCheckedChangeListener(this);
         this.showSoldPanel(false);
-        this.configureOnClickRecyclerView();
         this.panelChoiceVisibility(true);
+        if (savedInstanceState != null){
+            mLineSearchSold = savedInstanceState.getParcelable(BUNDLE_LS_SOLD_RESTORE);
+            mLineSearchInscription = savedInstanceState.getParcelable(BUNDLE_LS_INSCRIPTION_RESTORE);
+            mLineSearchList = (List<LineSearch>) savedInstanceState.getSerializable(BUNDLE_LS_LIST_RESTORE);
+            mCalendarInscriptionFrom = new DateTime(savedInstanceState.getString(BUNDLE_DATE_INSCRIPTION_FROM_RESTORE));
+            mCalendarInscriptionTo = new DateTime(savedInstanceState.getString(BUNDLE_DATE_INSCRIPTION_TO_RESTORE));
+            mCalendarSoldFrom = new DateTime(savedInstanceState.getString(BUNDLE_DATE_SOLD_FROM_RESTORE));
+            mCalendarSoldTo = new DateTime(savedInstanceState.getString(BUNDLE_DATE_SOLD_TO_RESTORE));
+            interfaceBuilder();
+        }
+        mRadioGroup.setOnCheckedChangeListener(this);
+        this.configureOnClickRecyclerView();
         return mView;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(BUNDLE_LS_SOLD_RESTORE, mLineSearchSold);
+        outState.putParcelable(BUNDLE_LS_INSCRIPTION_RESTORE, mLineSearchInscription);
+        outState.putSerializable(BUNDLE_LS_LIST_RESTORE, (Serializable) mLineSearchList);
+        outState.putString(BUNDLE_DATE_INSCRIPTION_FROM_RESTORE, mCalendarInscriptionFrom.toString());
+        outState.putString(BUNDLE_DATE_INSCRIPTION_TO_RESTORE, mCalendarInscriptionTo.toString());
+        outState.putString(BUNDLE_DATE_SOLD_FROM_RESTORE, mCalendarSoldFrom.toString());
+        outState.putString(BUNDLE_DATE_SOLD_TO_RESTORE, mCalendarSoldTo.toString());
     }
 
     // get LineSearch List and configure RecyclerView
@@ -83,6 +116,11 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
         mLineSearchList = new ArrayList<>(lineSearchList);
         mLineSearchInscription = lineSearchInscription;
         mLineSearchSold = lineSearchSold;
+        interfaceBuilder();
+    }
+
+    // launch IHM builder
+    private void interfaceBuilder(){
         if (mLineSearchInscription.isChecked()){
             mCheckBoxSearchInscriptionDate.setChecked(true);
         }
@@ -187,9 +225,9 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
 
     DatePickerDialog.OnDateSetListener datePickerInscriptionFrom = (view, year, month, dayOfMonth) -> {
         DateTime calendar = new DateTime();
-        calendar = calendar.dayOfMonth().setCopy(dayOfMonth);
-        calendar = calendar.monthOfYear().setCopy(month+1);
         calendar = calendar.year().setCopy(year);
+        calendar = calendar.monthOfYear().setCopy(month+1);
+        calendar = calendar.dayOfMonth().setCopy(dayOfMonth);
         setDateString(calendar,0);
         if (getComparationDates(calendar, mCalendarInscriptionTo)){
             updateLabel(0);
@@ -201,9 +239,9 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
 
     DatePickerDialog.OnDateSetListener datePickerInscriptionTo = (view, year, month, dayOfMonth) -> {
         DateTime calendar = new DateTime();
-        calendar = calendar.dayOfMonth().setCopy(dayOfMonth);
-        calendar = calendar.monthOfYear().setCopy(month+1);
         calendar = calendar.year().setCopy(year);
+        calendar = calendar.monthOfYear().setCopy(month+1);
+        calendar = calendar.dayOfMonth().setCopy(dayOfMonth);
         setDateString(calendar,1);
         if (getComparationDates(mCalendarInscriptionFrom, calendar)){
             updateLabel(1);
@@ -215,9 +253,9 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
 
     DatePickerDialog.OnDateSetListener datePickerSoldFrom = (view, year, month, dayOfMonth) -> {
         DateTime calendar = new DateTime();
-        calendar = calendar.dayOfMonth().setCopy(dayOfMonth);
-        calendar = calendar.monthOfYear().setCopy(month+1);
         calendar = calendar.year().setCopy(year);
+        calendar = calendar.monthOfYear().setCopy(month+1);
+        calendar = calendar.dayOfMonth().setCopy(dayOfMonth);
         setDateString(calendar,2);
         if (getComparationDates(calendar, mCalendarSoldTo)){
             updateLabel(2);
@@ -229,9 +267,9 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
 
     DatePickerDialog.OnDateSetListener datePickerSoldTo = (view, year, month, dayOfMonth) -> {
         DateTime calendar = new DateTime();
-        calendar = calendar.dayOfMonth().setCopy(dayOfMonth);
-        calendar = calendar.monthOfYear().setCopy(month+1);
         calendar = calendar.year().setCopy(year);
+        calendar = calendar.monthOfYear().setCopy(month+1);
+        calendar = calendar.dayOfMonth().setCopy(dayOfMonth);
         setDateString(calendar,3);
         if (getComparationDates(mCalendarSoldFrom, calendar)){
             updateLabel(3);
@@ -354,18 +392,28 @@ public class SearchApartmentFragment extends Fragment implements RadioGroup.OnCh
     private void validationClick(List<LineSearch> lineSearchList, int position){
         mImageViewValidationLine.setOnClickListener(v -> {
                 if (!mEditTextInformationFrom.getText().toString().equals("")) {
+                    // POSTAL CODE MANAGEMENT
                     if (lineSearchList.get(position).getSectionName().equals(Objects.requireNonNull(getContext()).getString(R.string.apartment_title_postal_code)) && mEditTextInformationFrom.getText().length() != 5) {
                         Toast.makeText(getContext(), getString(R.string.activity_user_modifier_postal_code_advertising), Toast.LENGTH_LONG).show();
                     }else {
-                        if (mEditTextInformationTo.getText().toString().equals("")) {
+                        // BLANK MANAGEMENT ABOUT mEditTextInformationTo
+                        if (mEditTextInformationTo.getText().toString().equals("") && lineSearchList.get(position).isInformationTo()) {
                             mEditTextInformationTo.setText(mEditTextInformationFrom.getText().toString());
                         }
-                        if (BusinessApartmentFilters.isTolOk(Integer.valueOf(mEditTextInformationFrom.getText().toString()), Integer.valueOf(mEditTextInformationTo.getText().toString()))) {
+                        // NUMBER TOLERANCES MANAGEMENT
+                        if (lineSearchList.get(position).isInformationTo()) {
+                            if (BusinessApartmentFilters.isTolOk(Integer.valueOf(mEditTextInformationFrom.getText().toString()), Integer.valueOf(mEditTextInformationTo.getText().toString()))) {
+                                lineSearchList.get(position).setChecked(mCheckBoxBottom.isChecked());
+                                lineSearchList.get(position).setInformationFrom(mEditTextInformationFrom.getText().toString());
+                                lineSearchList.get(position).setInformationTo(mEditTextInformationTo.getText().toString());
+                            } else {
+                                Toast.makeText(getContext(), getString(R.string.search_apartment_tolerances_inverse_warning), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        // OTHER LINE SEARCH MANAGEMENT
+                        else {
                             lineSearchList.get(position).setChecked(mCheckBoxBottom.isChecked());
                             lineSearchList.get(position).setInformationFrom(mEditTextInformationFrom.getText().toString());
-                            lineSearchList.get(position).setInformationTo(mEditTextInformationTo.getText().toString());
-                        } else {
-                            Toast.makeText(getContext(), getString(R.string.search_apartment_tolerances_inverse_warning), Toast.LENGTH_LONG).show();
                         }
                     }
                 } else {

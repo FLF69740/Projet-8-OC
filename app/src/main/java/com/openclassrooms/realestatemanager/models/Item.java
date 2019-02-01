@@ -1,6 +1,9 @@
 package com.openclassrooms.realestatemanager.models;
 
-public class Item {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Item implements Parcelable {
 
     private String mInformation;
     private String mTitle;
@@ -55,4 +58,39 @@ public class Item {
     public void setAPicture(Boolean APicture) {
         isAPicture = APicture;
     }
+
+    protected Item(Parcel in) {
+        mInformation = in.readString();
+        mTitle = in.readString();
+        mUrlPicture = in.readString();
+        isATitle = in.readByte() != 0x00;
+        isAPicture = in.readByte() != 0x00;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mInformation);
+        dest.writeString(mTitle);
+        dest.writeString(mUrlPicture);
+        dest.writeByte((byte) (isATitle ? 0x01 : 0x00));
+        dest.writeByte((byte) (isAPicture ? 0x01 : 0x00));
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
 }
