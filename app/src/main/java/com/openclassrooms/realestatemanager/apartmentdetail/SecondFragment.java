@@ -139,6 +139,8 @@ public class SecondFragment extends Fragment {
                         .load(staticMapUristart + adress + staticMapUriEnd + adress + apiKey)
                         .apply(RequestOptions.centerCropTransform())
                         .into(mMap);
+            } else {
+                mMap.setImageResource(R.drawable.world);
             }
         }else {
             this.mPhotoPresentation.setImageResource(R.drawable.image_realestate);
