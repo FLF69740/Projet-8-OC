@@ -7,10 +7,15 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"
+        />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -23,14 +28,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+
+        <activity android:name=".apartmentmap.MapActivity"></activity>
         <!-- ABOUT ACTIVITY -->
         <activity
             android:name=".About.AboutActivity"
             android:label="@string/nav_drawer_item_about"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <!-- UNITS ACTIVITY -->
-        <activity android:name=".units.UnitsActivity" />
-        <!-- MAIN ACTIVITY -->
+            android:theme="@style/Theme.AppCompat.Light.Dialog" /> <!-- UNITS ACTIVITY -->
+        <activity android:name=".units.UnitsActivity" /> <!-- MAIN ACTIVITY -->
         <activity
             android:name=".apartmentfilters.SearchApartmentActivity"
             android:label="@string/search_apartment_fragment_title"
@@ -47,8 +54,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- SECOND ACTIVITY -->
+        </activity> <!-- SECOND ACTIVITY -->
         <activity
             android:name=".apartmentdetail.SecondActivity"
             android:label="@string/toolbar_appartment_description"
@@ -58,8 +64,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
         </activity>
-        <activity android:name=".apartmentdetail.ViewPagerPhotoActivity" />
-        <!-- CREATION ACTIVITY -->
+        <activity android:name=".apartmentdetail.ViewPagerPhotoActivity" /> <!-- CREATION ACTIVITY -->
         <activity
             android:name=".apartmentcreator.CreateActivity"
             android:label="@string/toolbar_apartment_creation"
@@ -80,8 +85,7 @@
             android:name=".apartmentmodifier.ModifierUserActivity"
             android:label="@string/activity_user_modifier_title"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity android:name=".photomanager.PhotoModifierActivity" />
-        <!-- PROFILE MANAGER ACTIVITIES -->
+        <activity android:name=".photomanager.PhotoModifierActivity" /> <!-- PROFILE MANAGER ACTIVITIES -->
         <activity
             android:name=".profilemanager.ProfileManagerActivity"
             android:label="@string/activity_user_modifier_title">
@@ -109,11 +113,16 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
-        </activity>
-        <!-- LOAN SIMULATION -->
+        </activity> <!-- LOAN SIMULATION -->
         <activity
             android:name=".loansimulator.LoanSimulationActivity"
             android:label="@string/nav_drawer_item_loan" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/api_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

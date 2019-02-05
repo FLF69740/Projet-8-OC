@@ -78,4 +78,7 @@
     <string name="fragment_creation_notification_content_title">Nouvel appartement créé !</string>
     <string name="fragment_creation_notification_content_body_first">"Votre appartement : "</string>
     <string name="fragment_creation_notification_content_body_second">est créé.</string>
+    <string name="nav_drawer_item_map">Carte</string>
+    <string name="map_text_no_connection">Vous devez être connecté</string>
+    <string name="map_reload_btn_text">CHARGEMENT</string>
 </resources>

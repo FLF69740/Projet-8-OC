@@ -3,20 +3,15 @@ package com.openclassrooms.realestatemanager.apartmentdetail;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.BitmapStorage;
@@ -25,22 +20,14 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.apartmentmodifier.TransformerApartmentItems;
 import com.openclassrooms.realestatemanager.models.User;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import static com.openclassrooms.realestatemanager.Controller.BaseActivity.BUNDLE_KEY_ACTIVE_DIMENSION;
 import static com.openclassrooms.realestatemanager.Controller.BaseActivity.BUNDLE_KEY_ACTIVE_MONEY;
 import static com.openclassrooms.realestatemanager.Controller.BaseActivity.SHARED_DIMENSION;
 import static com.openclassrooms.realestatemanager.Controller.BaseActivity.SHARED_MONEY;
-
 
 public class SecondFragment extends Fragment {
 
@@ -62,9 +49,6 @@ public class SecondFragment extends Fragment {
     private static final String BUNDLE_KEY_USER = "BUNDLE_KEY_USER";
     private static final String BUNDLE_KEY_APARTMENT = "BUNDLE_KEY_APARTMENT";
     public static final String BUNDLE_KEY_LIST_PHOTO = "BUNDLE_KEY_LIST_PHOTO";
-    private String apiKey;
-    private final String staticMapUristart = "https://maps.googleapis.com/maps/api/staticmap?center=";
-    private final String staticMapUriEnd = "&zoom=16&size=400x200&format=jpg&markers=size:mid%7Ccolor:red%7Clabel:C%7C";
 
     private Apartment mApartment;
     private User mUser;
@@ -79,7 +63,6 @@ public class SecondFragment extends Fragment {
         args.putParcelable(BUNDLE_KEY_APARTMENT,apartment);
         args.putParcelable(BUNDLE_KEY_USER, user);
         secondFragment.setArguments(args);
-
         return secondFragment;
     }
 
@@ -115,7 +98,6 @@ public class SecondFragment extends Fragment {
                 this.mPhotoPresentation.setImageResource(R.drawable.image_realestate);
                 this.mPhotoNumberIndicator.setVisibility(View.INVISIBLE);
             }
-
             mTextViewSecondLayoutPrice.setText(getFinalPrice(mApartment.getPrice()));
             mTextViewDateInscription.setText(mApartment.getDateInscription());
             mDescriptionBody.setText(mApartment.getDescription());
@@ -133,10 +115,8 @@ public class SecondFragment extends Fragment {
                 mTextViewDateSold.setText("-");
             }
             if (Utils.isNetworkAvailable(getContext())){
-                apiKey = getString(R.string.api_key);
-                String adress = BusinessSecondFragment.getGoogleAdressCode(mApartment.getAdress(), mApartment.getTown()) + "&";
                 Glide.with(mView)
-                        .load(staticMapUristart + adress + staticMapUriEnd + adress + apiKey)
+                        .load(BusinessSecondFragment.getGoogleAdressCode(mApartment.getAdress(), mApartment.getTown(), getContext()))
                         .apply(RequestOptions.centerCropTransform())
                         .into(mMap);
             } else {

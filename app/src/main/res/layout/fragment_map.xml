@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    tools:context=".apartmentmap.MapFragment"
+    android:background="@drawable/information_panel_style">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.google.android.gms.maps.MapView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            map:cameraZoom="16"
+            android:id="@+id/map"
+            android:visibility="invisible"/>
+
+        <ProgressBar
+            android:id="@+id/map_progressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:indeterminate="true"
+            android:max="100"
+            android:progress="40"
+            android:theme="@style/progressbar_color"
+            android:visibility="invisible"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintTop_toTopOf="parent" />
+<!--
+        <ImageView
+            android:id="@+id/map_logo_no_connection"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/world"
+            map:layout_constraintBottom_toTopOf="@+id/map_text_no_connection"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/map_text_no_connection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="@string/map_text_no_connection"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            map:layout_constraintBottom_toTopOf="@+id/map_reload_btn"
+            map:layout_constraintTop_toBottomOf="@+id/map_logo_no_connection"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <Button
+            android:id="@+id/map_reload_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_button_style"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/map_reload_btn_text"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toBottomOf="@+id/map_text_no_connection" />
+-->
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

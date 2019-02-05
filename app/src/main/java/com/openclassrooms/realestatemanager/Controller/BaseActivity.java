@@ -24,6 +24,8 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
 import com.openclassrooms.realestatemanager.apartmentdetail.SecondFragment;
 import com.openclassrooms.realestatemanager.apartmentfilters.SearchApartmentActivity;
+import com.openclassrooms.realestatemanager.apartmentmap.MapActivity;
+import com.openclassrooms.realestatemanager.apartmentmap.MapFragment;
 import com.openclassrooms.realestatemanager.apartmentmodifier.ModifierActivity;
 import com.openclassrooms.realestatemanager.appartmentlist.MainActivity;
 import com.openclassrooms.realestatemanager.appartmentlist.MainFragment;
@@ -50,8 +52,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected static final String BUNDLE_KEY_OUTSTATE_INT_USER = "BUNDLE_KEY_OUTSTATE_INT_USER";
     public static final String BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY = "BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY";
     public static final String BUNDLE_APARTMENTLIST_TO_SEARCH_ACTIVITY = "BUNDLE_APARTMENTLIST_TO_SEARCH_ACTIVITY";
+    public static final String BUNDLE_APARTMENTLIST_TO_MAP_ACTIVITY = "BUNDLE_APARTMENTLIST_TO_MAP_ACTIVITY";
     protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
     protected static final int SEARCH_ACTIVITY_REQUEST_CODE = 20;
+    protected static final int MAP_ACTIVITY_REQUEST_CODE = 41;
     protected static final int CREATE_USER_REQUEST_CODE = 30;
 
     //Shared Preferences
@@ -166,6 +170,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             case R.id.drawer_item_about:
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
+            case R.id.drawer_item_map:
+                Intent intentMap = new Intent(this, MapActivity.class);
+                startActivityForResult(intentMap, MAP_ACTIVITY_REQUEST_CODE);
+                break;
         }
 
         this.mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -250,6 +258,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         // ProfileFragment UPDATE
         if (getFirstFragment() instanceof ProfileManagerFragment && mUserList != null) {
             ((ProfileManagerFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mUserList.get((int) mUserId-1), mUserList, mUserId);
+        }
+        if (getFirstFragment() instanceof MapFragment && mApartmentList != null) {
+            ((MapFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mApartmentList);
         }
         // SECOND FRAGMENT LAYOUT UPDATE
         if ((getFirstFragment() instanceof MainFragment || getFirstFragment() instanceof  ProfileManagerFragment)&& findViewById(getSecondFragmentLayout()) != null){

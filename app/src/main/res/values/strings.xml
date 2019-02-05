@@ -4,6 +4,10 @@
     <string name="animation_second_fragment_to_viewpager" translatable="false">AnimationSecondToViewpager</string>
 
     <!-- SEARCH APARTMENT -->
+    <string name="map_text_no_connection">You must be connected</string>
+    <string name="map_reload_btn_text">RELOAD</string>
+
+    <!-- SEARCH APARTMENT -->
     <string name="search_apartment_fragment_title">Search Apartment</string>
     <string name="search_apartment_date_to">to</string>
     <string name="search_apartment_load_button">LOAD</string>
@@ -55,6 +59,7 @@
     <string name="nav_drawer_item_apartment">Apartment manager</string>
     <string name="nav_drawer_item_help">Help</string>
     <string name="nav_drawer_item_about">About</string>
+    <string name="nav_drawer_item_map">Map</string>
 
     <!-- toolbar titles -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>

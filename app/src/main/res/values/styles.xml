@@ -18,4 +18,9 @@
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
+    <!-- STYLE FOR PROGRESSBAR -->
+    <style name="progressbar_color">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
 </resources>

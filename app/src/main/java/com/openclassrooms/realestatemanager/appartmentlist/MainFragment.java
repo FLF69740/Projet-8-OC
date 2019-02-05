@@ -38,7 +38,6 @@ public class MainFragment extends Fragment {
         args.putSerializable(BUNDLE_KEY_APARTMENT_LIST, (Serializable) apartmentList);
         args.putString(BUNDLE_KEY_ADAPTER_POSITION, position);
         mainFragment.setArguments(args);
-
         return mainFragment;
     }
 
