@@ -10,11 +10,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,21 +26,25 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Apartment;
+import com.openclassrooms.realestatemanager.models.httprequest.LocationRx;
+import com.openclassrooms.realestatemanager.models.httprequest.LocationStreams;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String BUNDLE_KEY_APARTMENT_LIST = "BUNDLE_KEY_APARTMENT_LIST";
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, View.OnClickListener {
 
+    private Disposable mDisposable;
     private List<Apartment> mApartmentList = new ArrayList<>();
     private MapView mMapView;
     private View mView;
@@ -44,6 +52,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private Location mLocation;
     private double mLatitude, mLongitude;
     private ProgressBar mProgressBar;
+    private ImageView mLogoMapNoConnection;
+    private TextView mTextNoConnection;
+    private Button mButtonReload;
+    private boolean mNoCycle;
 
     public MapFragment() {}
 
@@ -54,19 +66,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mNoCycle = false;
     }
 
     public void refresh(List<Apartment> apartmentList) {
         mApartmentList = apartmentList;
-        if (mApartmentList != null){
-            Toast.makeText(getContext(), "size : " + mApartmentList.size(), Toast.LENGTH_SHORT).show();
+        if (mApartmentList != null & Utils.isNetworkAvailable(mView.getContext())){
+            this.executeGeocodeLocationRequest();
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_map, container, false);
-        
+        mLogoMapNoConnection = mView.findViewById(R.id.map_logo_no_connection);
+        mTextNoConnection = mView.findViewById(R.id.map_text_no_connection);
+        mButtonReload = mView.findViewById(R.id.map_reload_btn);
+        mProgressBar = mView.findViewById(R.id.map_progressbar);
+        mMapView = mView.findViewById(R.id.map);
+        mButtonReload.setOnClickListener(this);
         return mView;
     }
 
@@ -87,33 +105,101 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         rlp.setMargins(0, 0, 10, 30);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mLatitude, mLongitude)));
-        mCallback.executePlacesCallback(this.mView,String.valueOf(mLatitude)+","+String.valueOf(mLongitude));
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mProgressBar = mView.findViewById(R.id.map_progressbar);
-        GPSTracker GPSTracker = new GPSTracker();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) mLocation = GPSTracker.getLocation(this.getContext());
-        if (mLocation != null) {
-            mLatitude = mLocation.getLatitude();
-            mLongitude = mLocation.getLongitude();
-        }
-        mMapView = mView.findViewById(R.id.map);
-        if (mMapView != null) {
+        mapBuilder(Utils.isInternetAvailable(view.getContext()));
+    }
+
+    private void mapBuilder(boolean buid){
+        if (buid) {
+            mLogoMapNoConnection.setVisibility(View.INVISIBLE);
+            mTextNoConnection.setVisibility(View.INVISIBLE);
+            mButtonReload.setVisibility(View.INVISIBLE);
+
+            GPSTracker GPSTracker = new GPSTracker();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                mLocation = GPSTracker.getLocation(this.getContext());
+            if (mLocation != null) {
+                mLatitude = mLocation.getLatitude();
+                mLongitude = mLocation.getLongitude();
+            }
+            if (mMapView != null) {
+                mProgressBar.setVisibility(View.VISIBLE);
+                mMapView.setVisibility(View.INVISIBLE);
+                mMapView.onCreate(null);
+                mMapView.onResume();
+                mMapView.getMapAsync(this);
+            }
+        } else {
+            mLogoMapNoConnection.setVisibility(View.VISIBLE);
+            mTextNoConnection.setVisibility(View.VISIBLE);
+            mButtonReload.setVisibility(View.VISIBLE);
             mProgressBar.setVisibility(View.INVISIBLE);
-            mMapView.setVisibility(View.VISIBLE);
-            mMapView.onCreate(null);
-            mMapView.onResume();
-            mMapView.getMapAsync(this);
+            mMapView.setVisibility(View.INVISIBLE);
         }
     }
+
+    /**
+     *  RxJava
+     */
+
+    private void executeGeocodeLocationRequest(){
+        if (! mNoCycle) {
+            List<String> addresses = new ArrayList<>();
+            for (int i = 0; i < mApartmentList.size(); i++) {
+                addresses.add(mApartmentList.get(i).getAdress() + " " + mApartmentList.get(0).getTown());
+                Log.i("TAGP", addresses.get(i));
+            }
+            this.mDisposable = LocationStreams.streamsLocations(addresses, getString(R.string.api_key))
+                    .subscribeWith(new DisposableObserver<List<LocationRx>>() {
+                        @Override
+                        public void onNext(List<LocationRx> locationRxes) {
+                            markersCreation(locationRxes);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onComplete() {
+                        }
+                    });
+            mNoCycle = true;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
+    }
+
 
 
     /**
      *  MARKER
      */
+
+    // Create Marker from Observable
+    private void markersCreation(List<LocationRx> locationRxList){
+        Marker[] listMarker = new Marker[locationRxList.size()];
+        mMap.clear();
+        for (int i = 0 ; i < locationRxList.size() ; i++){
+
+            listMarker[i] = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(locationRxList.get(i).getResults().get(0).getGeometry().getLocation().getLat(),
+                            locationRxList.get(i).getResults().get(0).getGeometry().getLocation().getLng()))
+                    .title(locationRxList.get(i).getResults().get(0).getFormattedAddress()));
+            listMarker[i].setTag(i);
+        }
+        mMap.setOnMarkerClickListener(this);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mMapView.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
@@ -126,9 +212,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private OnClickedResultMarker mCallback;
 
+    @Override
+    public void onClick(View v) {
+        mapBuilder(Utils.isInternetAvailable(v.getContext()));
+        mCallback.executeReloadCallback();
+    }
+
     public interface OnClickedResultMarker{
         void onResultMarkerTransmission(View view, String title);
-        void executePlacesCallback(View view, String coordinates);
+        void executeReloadCallback();
     }
 
     //Parent activity will automatically subscribe to callback

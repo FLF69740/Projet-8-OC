@@ -9,13 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.view.View;
-
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.models.Apartment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MapActivity extends BaseActivity  implements MapFragment.OnClickedResultMarker{
@@ -58,9 +53,6 @@ public class MapActivity extends BaseActivity  implements MapFragment.OnClickedR
         this.askLocationPermission();
     }
 
-
-
-
     // getting location permissions
     private void askLocationPermission() {
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -83,14 +75,15 @@ public class MapActivity extends BaseActivity  implements MapFragment.OnClickedR
             }}
     }
 
+    @Override
+    public void executeReloadCallback() {
+        this.updateFragment();
+    }
 
     @Override
     public void onResultMarkerTransmission(View view, String title) {
 
     }
 
-    @Override
-    public void executePlacesCallback(View view, String coordinates) {
 
-    }
 }
