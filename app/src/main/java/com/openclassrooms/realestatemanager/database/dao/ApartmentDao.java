@@ -5,6 +5,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
+import android.database.Cursor;
 
 import com.openclassrooms.realestatemanager.models.Apartment;
 
@@ -15,6 +16,9 @@ public interface ApartmentDao {
 
     @Query("SELECT * FROM Apartment WHERE mUserId = :userId")
     LiveData<List<Apartment>> getApartments(long userId);
+
+    @Query("SELECT * FROM Apartment WHERE mUserId = :userId")
+    Cursor getApartmentWithCursor(long userId);
 
     @Insert long insertApartment(Apartment apartment);
 

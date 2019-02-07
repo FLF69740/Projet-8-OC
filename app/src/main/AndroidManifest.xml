@@ -33,12 +33,11 @@
 
         <activity android:name=".apartmentmap.MapActivity"
             android:parentActivityName=".apartmentmap.MapActivity"/>
-        <!-- ABOUT ACTIVITY -->
         <activity
             android:name=".About.AboutActivity"
             android:label="@string/nav_drawer_item_about"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" /> <!-- UNITS ACTIVITY -->
-        <activity android:name=".units.UnitsActivity" /> <!-- MAIN ACTIVITY -->
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".units.UnitsActivity" />
         <activity
             android:name=".apartmentfilters.SearchApartmentActivity"
             android:label="@string/search_apartment_fragment_title"
@@ -55,7 +54,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- SECOND ACTIVITY -->
+        </activity>
         <activity
             android:name=".apartmentdetail.SecondActivity"
             android:label="@string/toolbar_appartment_description"
@@ -65,7 +64,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
         </activity>
-        <activity android:name=".apartmentdetail.ViewPagerPhotoActivity" /> <!-- CREATION ACTIVITY -->
+        <activity android:name=".apartmentdetail.ViewPagerPhotoActivity" />
         <activity
             android:name=".apartmentcreator.CreateActivity"
             android:label="@string/toolbar_apartment_creation"
@@ -73,7 +72,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".appartmentlist.MainActivity" />
-        </activity> <!-- MODIFIER ACTIVITY -->
+        </activity>
         <activity
             android:name=".apartmentmodifier.ModifierActivity"
             android:label="@string/toolbar_apartment_modification"
@@ -86,7 +85,7 @@
             android:name=".apartmentmodifier.ModifierUserActivity"
             android:label="@string/activity_user_modifier_title"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity android:name=".photomanager.PhotoModifierActivity" /> <!-- PROFILE MANAGER ACTIVITIES -->
+        <activity android:name=".photomanager.PhotoModifierActivity" />
         <activity
             android:name=".profilemanager.ProfileManagerActivity"
             android:label="@string/activity_user_modifier_title">
@@ -124,6 +123,10 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <provider
+            android:authorities="com.openclassrooms.realestatemanager.provider"
+            android:name=".provider.ApartmentContentProvider"
+            android:exported="true"/>
     </application>
 
 </manifest>

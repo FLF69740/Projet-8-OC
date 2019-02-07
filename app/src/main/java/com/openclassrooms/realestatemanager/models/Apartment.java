@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.models;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -28,6 +29,8 @@ public class Apartment implements Parcelable {
     private String mDateInscription;
     private String mDateSold;
     private long mUserId;
+
+    public Apartment(){}
 
     public Apartment(String type, int price, String adress, int postalCode, String town, String dateInscription, long userId) {
         this.mType = type;
@@ -117,121 +120,114 @@ public class Apartment implements Parcelable {
     public long getId() {
         return mId;
     }
-
-    public void setId(long id) {
-        mId = id;
-    }
-
     public String getType() {
         return mType;
     }
-
-    public void setType(String type) {
-        mType = type;
-    }
-
     public int getPrice() {
         return mPrice;
     }
-
-    public void setPrice(int price) {
-        mPrice = price;
-    }
-
     public int getDimension() {
         return mDimension;
     }
-
-    public void setDimension(int dimension) {
-        mDimension = dimension;
-    }
-
     public int getRoomNumber() {
         return mRoomNumber;
     }
-
-    public void setRoomNumber(int roomNumber) {
-        mRoomNumber = roomNumber;
-    }
-
     public String getDescription() {
         return mDescription;
     }
-
-    public void setDescription(String description) {
-        mDescription = description;
-    }
-
     public String getUrlPicture() {
         return mUrlPicture;
     }
-
-    public void setUrlPicture(String urlPicture) {
-        mUrlPicture = urlPicture;
-    }
-
     public String getAdress() {
         return mAdress;
     }
-
-    public void setAdress(String adress) {
-        mAdress = adress;
-    }
-
     public String getTown() {
         return mTown;
     }
-
-    public void setTown(String town) {
-        mTown = town;
-    }
-
     public int getPostalCode() {
         return mPostalCode;
     }
-
-    public void setPostalCode(int postalCode) {
-        mPostalCode = postalCode;
-    }
-
     public String getPoInterest() {
         return mPoInterest;
     }
-
-    public void setPoInterest(String poInterest) {
-        mPoInterest = poInterest;
-    }
-
     public Boolean getSold() {
         return mSold;
     }
-
-    public void setSold(Boolean sold) {
-        mSold = sold;
-    }
-
     public String getDateInscription() {
         return mDateInscription;
     }
-
-    public void setDateInscription(String dateInscription) {
-        mDateInscription = dateInscription;
-    }
-
     public String getDateSold() {
         return mDateSold;
     }
-
-    public void setDateSold(String dateSold) {
-        mDateSold = dateSold;
-    }
-
     public long getUserId() {
         return mUserId;
     }
 
+
+    public void setId(long id) {
+        mId = id;
+    }
+    public void setType(String type) {
+        mType = type;
+    }
+    public void setPrice(int price) {
+        mPrice = price;
+    }
+    public void setDimension(int dimension) {
+        mDimension = dimension;
+    }
+    public void setRoomNumber(int roomNumber) {
+        mRoomNumber = roomNumber;
+    }
+    public void setDescription(String description) {
+        mDescription = description;
+    }
+    public void setUrlPicture(String urlPicture) {
+        mUrlPicture = urlPicture;
+    }
+    public void setAdress(String adress) {
+        mAdress = adress;
+    }
+    public void setTown(String town) {
+        mTown = town;
+    }
+    public void setPostalCode(int postalCode) {
+        mPostalCode = postalCode;
+    }
+    public void setPoInterest(String poInterest) {
+        mPoInterest = poInterest;
+    }
+    public void setSold(Boolean sold) {
+        mSold = sold;
+    }
+    public void setDateInscription(String dateInscription) {
+        mDateInscription = dateInscription;
+    }
+    public void setDateSold(String dateSold) {
+        mDateSold = dateSold;
+    }
     public void setUserId(long userId) {
         mUserId = userId;
+    }
+
+    // PROVIDER
+    public static Apartment fromContentValues(ContentValues values){
+        final Apartment apartment = new Apartment();
+        if (values.containsKey("mType")) apartment.setType(values.getAsString("mType"));
+        if (values.containsKey("mPrice")) apartment.setPrice(values.getAsInteger("mPrice"));
+        if (values.containsKey("mDimension")) apartment.setDimension(values.getAsInteger("mDimension"));
+        if (values.containsKey("mRoomNumber")) apartment.setRoomNumber(values.getAsInteger("mRoomNumber"));
+        if (values.containsKey("mDescription")) apartment.setDescription(values.getAsString("mDescription"));
+        if (values.containsKey("mUrlPicture")) apartment.setUrlPicture(values.getAsString("mUrlPicture"));
+        if (values.containsKey("mAdress")) apartment.setAdress(values.getAsString("mAdress"));
+        if (values.containsKey("mTown")) apartment.setTown(values.getAsString("mTown"));
+        if (values.containsKey("mPostalCode")) apartment.setPostalCode(values.getAsInteger("mPostalCode"));
+        if (values.containsKey("mPoInterest")) apartment.setPoInterest(values.getAsString("mPoInterest"));
+        if (values.containsKey("mSold")) apartment.setSold(values.getAsBoolean("mSold"));
+        if (values.containsKey("mDateInscription")) apartment.setDateInscription(values.getAsString("mDateInscription"));
+        if (values.containsKey("mDateSold")) apartment.setDateSold(values.getAsString("mDateSold"));
+        if (values.containsKey("mUserId")) apartment.setUserId(values.getAsLong("mUserId"));
+        return apartment;
     }
 
     @Override
