@@ -39,7 +39,7 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/roboto_bold"
             android:text="@string/apartment_inscription"
-            android:textSize="16sp"
+            android:textSize="@dimen/size_middle"
             app:layout_constraintBottom_toBottomOf="@+id/search_inscription_from"
             app:layout_constraintStart_toEndOf="@+id/search_checkBox_inscription_date"
             app:layout_constraintTop_toTopOf="@+id/search_inscription_from" />
@@ -54,7 +54,7 @@
             android:fontFamily="@font/roboto_bold"
             android:text="jj/MM/AAA"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_little"
             app:layout_constraintStart_toEndOf="@+id/search_textView_date_inscription"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,7 +65,7 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/roboto_light"
             android:text="@string/search_apartment_date_to"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_little"
             app:layout_constraintBottom_toBottomOf="@+id/search_inscription_from"
             app:layout_constraintStart_toEndOf="@+id/search_inscription_from"
             app:layout_constraintTop_toTopOf="@+id/search_inscription_from" />
@@ -79,7 +79,7 @@
             android:fontFamily="@font/roboto_bold"
             android:text="jj/MM/AAA"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_little"
             app:layout_constraintBottom_toBottomOf="@+id/search_inscription_from"
             app:layout_constraintStart_toEndOf="@+id/textView18"
             app:layout_constraintTop_toTopOf="@+id/search_inscription_from" />
@@ -117,7 +117,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/roboto_bold"
             android:text="@string/apartment_title_date_sold"
-            android:textSize="16sp"
+            android:textSize="@dimen/size_middle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_inscription_from" />
 
@@ -131,7 +131,7 @@
             android:fontFamily="@font/roboto_bold"
             android:text="jj/MM/AAA"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_little"
             app:layout_constraintStart_toEndOf="@+id/search_textView_date_inscription"
             app:layout_constraintTop_toBottomOf="@+id/search_fragment_modifier_title_dateSold" />
 
@@ -142,7 +142,7 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/roboto_light"
             android:text="@string/search_apartment_date_to"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_little"
             app:layout_constraintBottom_toBottomOf="@+id/search_sold_from"
             app:layout_constraintStart_toEndOf="@+id/search_sold_from"
             app:layout_constraintTop_toTopOf="@+id/search_sold_from" />
@@ -156,7 +156,7 @@
             android:fontFamily="@font/roboto_bold"
             android:text="jj/MM/AAA"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_little"
             app:layout_constraintBottom_toBottomOf="@+id/search_sold_from"
             app:layout_constraintStart_toEndOf="@+id/search_textView_to"
             app:layout_constraintTop_toTopOf="@+id/search_sold_from" />
@@ -226,7 +226,7 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/roboto_bold"
             android:text="TITLE"
-            android:textSize="16sp"
+            android:textSize="@dimen/size_middle"
             app:layout_constraintBottom_toBottomOf="@+id/search_bottom_background"
             app:layout_constraintStart_toEndOf="@+id/checkbox_search_bottom"
             app:layout_constraintTop_toTopOf="@+id/search_bottom_background" />
@@ -240,7 +240,7 @@
             android:fontFamily="@font/roboto_light"
             android:text="information"
             android:textColor="@android:color/black"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_little"
             app:layout_constraintBottom_toBottomOf="@+id/textView_title_search"
             app:layout_constraintEnd_toStartOf="@+id/textView_search_to"
             app:layout_constraintStart_toEndOf="@+id/textView_title_search"
@@ -254,7 +254,7 @@
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto_light"
             android:text="@string/search_apartment_date_to"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_little"
             app:layout_constraintBottom_toBottomOf="@+id/search_bottom_background"
             app:layout_constraintEnd_toStartOf="@+id/button_validation_search"
             app:layout_constraintStart_toEndOf="@+id/textView_title_search"
@@ -269,7 +269,7 @@
             android:fontFamily="@font/roboto_light"
             android:text="information"
             android:textColor="@android:color/black"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_little"
             app:layout_constraintBottom_toBottomOf="@+id/textView_title_search"
             app:layout_constraintEnd_toStartOf="@+id/button_validation_search"
             app:layout_constraintStart_toEndOf="@+id/textView_search_to"

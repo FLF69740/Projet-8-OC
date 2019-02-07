@@ -1,0 +1,8 @@
+<resources>
+    <!-- TextViews -->
+    <dimen name="size_very_high">18sp</dimen>
+    <dimen name="size_high">15sp</dimen>
+    <dimen name="size_middle">13sp</dimen>
+    <dimen name="size_little">11sp</dimen>
+    <dimen name="size_very_little">8sp</dimen>
+</resources>

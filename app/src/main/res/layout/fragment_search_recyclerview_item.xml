@@ -43,7 +43,7 @@
         android:paddingTop="25dp"
         android:paddingBottom="25dp"
         android:text="TITLE"
-        android:textSize="16sp"
+        android:textSize="@dimen/size_middle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/search_picture_validation"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +57,7 @@
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/roboto_light"
         android:text="Information"
-        android:textSize="14sp"
+        android:textSize="@dimen/size_little"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/search_textView_title"
         app:layout_constraintTop_toTopOf="parent" />
@@ -69,7 +69,7 @@
         android:layout_marginStart="8dp"
         android:fontFamily="@font/roboto_light"
         android:text="@string/search_apartment_date_to"
-        android:textSize="14sp"
+        android:textSize="@dimen/size_little"
         app:layout_constraintBottom_toBottomOf="@+id/search_editText_information_from"
         app:layout_constraintStart_toEndOf="@+id/search_editText_information_from"
         app:layout_constraintTop_toTopOf="@+id/search_editText_information_from" />
@@ -83,7 +83,7 @@
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/roboto_light"
         android:text="Information"
-        android:textSize="14sp"
+        android:textSize="@dimen/size_little"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/search_textView_to"
         app:layout_constraintTop_toTopOf="parent" />

@@ -28,7 +28,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/roboto_bold"
             android:text="@string/fragment_modification_manager_title"
-            android:textSize="16sp"
+            android:textSize="@dimen/size_middle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,6 +41,7 @@
             android:layout_marginEnd="8dp"
             android:clickable="true"
             android:focusable="true"
+            android:textSize="@dimen/size_middle"
             app:layout_constraintEnd_toStartOf="@+id/radioGroup"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent" />
@@ -76,7 +77,7 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/roboto_bold"
             android:text="@string/apartment_title_date_sold"
-            android:textSize="16sp"
+            android:textSize="@dimen/size_middle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
@@ -87,7 +88,7 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/roboto_light"
             android:text="@string/apartment_date_sold"
-            android:textSize="16sp"
+            android:textSize="@dimen/size_middle"
             android:clickable="true"
             android:focusable="true"
             app:layout_constraintBottom_toBottomOf="@+id/fragment_modifier_title_dateSold"
@@ -121,6 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fragment_modification_button_title"
+            android:textSize="@dimen/size_middle"
             android:fontFamily="@font/roboto_bold"
             android:textColor="@android:color/white"
             android:background="@drawable/rounded_button_style"
@@ -161,7 +163,7 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/roboto_bold"
             android:text="TITLE"
-            android:textSize="16sp"
+            android:textSize="@dimen/size_middle"
             app:layout_constraintBottom_toBottomOf="@+id/photo_button_modify"
             app:layout_constraintStart_toEndOf="@+id/photo_button_modify"
             app:layout_constraintTop_toTopOf="@+id/photo_button_modify" />
@@ -174,7 +176,7 @@
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto_light"
             android:text="information"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_little"
             android:textColor="@android:color/black"
             app:layout_constraintBottom_toBottomOf="@+id/textView_title_modify"
             app:layout_constraintEnd_toStartOf="@+id/button_validation_modify"
