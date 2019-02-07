@@ -52,7 +52,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected static final String BUNDLE_KEY_OUTSTATE_INT_USER = "BUNDLE_KEY_OUTSTATE_INT_USER";
     public static final String BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY = "BUNDLE_USERLIST_TO_PROFILEMANAGER_ACTIVITY";
     public static final String BUNDLE_APARTMENTLIST_TO_SEARCH_ACTIVITY = "BUNDLE_APARTMENTLIST_TO_SEARCH_ACTIVITY";
-    public static final String BUNDLE_APARTMENTLIST_TO_MAP_ACTIVITY = "BUNDLE_APARTMENTLIST_TO_MAP_ACTIVITY";
     protected static final int CREATE_ACTIVITY_REQUEST_CODE = 10;
     protected static final int SEARCH_ACTIVITY_REQUEST_CODE = 20;
     protected static final int MAP_ACTIVITY_REQUEST_CODE = 41;

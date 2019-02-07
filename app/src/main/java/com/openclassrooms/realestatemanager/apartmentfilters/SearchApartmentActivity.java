@@ -23,6 +23,8 @@ import java.util.List;
 
 public class SearchApartmentActivity extends BaseActivity implements SearchApartmentFragment.LineSearchModifierClickedListener {
 
+    public static final String BUNDLE_APARTMENT_LIST_SEARCH = "BUNDLE_APARTMENT_LIST_SEARCH";
+
     private SearchFilterViewModel mSearchFilterViewModel;
     private List<LineSearch> mLineSearchList;
     private String mMoney;
@@ -110,8 +112,6 @@ public class SearchApartmentActivity extends BaseActivity implements SearchApart
         this.mSearchFilterViewModel.createLineSearch(lineSearch);
         mLineSearchList.add(lineSearch);
     }
-
-    public static final String BUNDLE_APARTMENT_LIST_SEARCH = "BUNDLE_APARTMENT_LIST_SEARCH";
 
     @Override
     public void itemClicked(View view, List<LineSearch> lineSearchList, LineSearch lineSearchInscription, LineSearch lineSearchSold) {

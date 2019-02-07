@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +18,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,10 +31,8 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Apartment;
 import com.openclassrooms.realestatemanager.models.httprequest.LocationRx;
 import com.openclassrooms.realestatemanager.models.httprequest.LocationStreams;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
@@ -147,11 +141,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
      */
 
     private void executeGeocodeLocationRequest(){
-        if (! mNoCycle) {
+        if (!mNoCycle) {
             List<String> addresses = new ArrayList<>();
             for (int i = 0; i < mApartmentList.size(); i++) {
                 addresses.add(mApartmentList.get(i).getAdress() + " " + mApartmentList.get(0).getTown());
-                Log.i("TAGP", addresses.get(i));
             }
             this.mDisposable = LocationStreams.streamsLocations(addresses, getString(R.string.api_key))
                     .subscribeWith(new DisposableObserver<List<LocationRx>>() {
@@ -159,14 +152,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         public void onNext(List<LocationRx> locationRxes) {
                             markersCreation(locationRxes);
                         }
-
                         @Override
-                        public void onError(Throwable e) {
-                        }
-
+                        public void onError(Throwable e) {}
                         @Override
-                        public void onComplete() {
-                        }
+                        public void onComplete() {}
                     });
             mNoCycle = true;
         }
@@ -177,8 +166,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         super.onDestroy();
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
-
-
 
     /**
      *  MARKER
@@ -203,6 +190,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        Integer markerTag = (Integer) marker.getTag();
+        if (markerTag != null) mCallback.onResultMarkerTransmission(this.mView, mApartmentList.get(markerTag));
         return false;
     }
 
@@ -219,7 +208,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
     public interface OnClickedResultMarker{
-        void onResultMarkerTransmission(View view, String title);
+        void onResultMarkerTransmission(View view, Apartment apartment);
         void executeReloadCallback();
     }
 

@@ -1,7 +1,9 @@
 package com.openclassrooms.realestatemanager.apartmentmap;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -9,8 +11,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import com.openclassrooms.realestatemanager.Controller.BaseActivity;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.Apartment;
+
+import java.io.Serializable;
 
 
 public class MapActivity extends BaseActivity  implements MapFragment.OnClickedResultMarker{
@@ -80,9 +87,14 @@ public class MapActivity extends BaseActivity  implements MapFragment.OnClickedR
         this.updateFragment();
     }
 
-    @Override
-    public void onResultMarkerTransmission(View view, String title) {
+    public static final String BUNDLE_APARTMENT_MAP = "BUNDLE_APARTMENT_MAP";
 
+    @Override
+    public void onResultMarkerTransmission(View view, Apartment apartment) {
+        Intent intent = new Intent();
+        intent.putExtra(BUNDLE_APARTMENT_MAP, apartment);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 

@@ -81,7 +81,7 @@ public class MainFragment extends Fragment {
                 });
     }
 
-    private void setAdapterLocation(int position){
+    public void setAdapterLocation(int position){
         mSelectedApartment = position;
         mAdapter.setSelectedApartment(mSelectedApartment);
         mAdapter.notifyDataSetChanged();

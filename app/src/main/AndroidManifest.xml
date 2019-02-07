@@ -31,7 +31,8 @@
 
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
 
-        <activity android:name=".apartmentmap.MapActivity"></activity>
+        <activity android:name=".apartmentmap.MapActivity"
+            android:parentActivityName=".apartmentmap.MapActivity"/>
         <!-- ABOUT ACTIVITY -->
         <activity
             android:name=".About.AboutActivity"

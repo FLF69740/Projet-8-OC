@@ -16,6 +16,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.apartmentcreator.CreateActivity;
 import com.openclassrooms.realestatemanager.apartmentfilters.SearchApartmentActivity;
+import com.openclassrooms.realestatemanager.apartmentmap.MapActivity;
 import com.openclassrooms.realestatemanager.models.Apartment;
 
 import java.util.List;
@@ -80,6 +81,10 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
             mApartmentList = (List<Apartment>) data.getSerializableExtra(SearchApartmentActivity.BUNDLE_APARTMENT_LIST_SEARCH);
             updateFragmentWithSearchFilter(mApartmentList);
         }
+        if (MAP_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode){
+            Apartment apartment = data.getParcelableExtra(MapActivity.BUNDLE_APARTMENT_MAP);
+            this.itemMap(apartment, String.valueOf(apartment.getId()));
+        }
     }
 
     // send a notification
@@ -94,6 +99,22 @@ public class MainActivity extends BaseActivity implements MainFragment.ItemClick
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .build();
         notificationManagerCompat.notify(1001, notification);
+    }
+
+    // initialisation of fragment(s) after map callback
+    private void itemMap(Apartment apartment, String adapterPosition) {
+        mApartment = apartment;
+        mAdapterPosition = adapterPosition;
+        SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager().findFragmentById(getSecondFragmentLayout());
+        if (secondFragment != null && secondFragment.isVisible()){
+            secondFragment.updateFragmentScreen(mApartment, mUser);
+            ((MainFragment) getSupportFragmentManager().findFragmentById(getFragmentLayout())).refresh(mApartmentList, mApartment.getId());
+        } else {
+            Intent intent = new Intent(this, SecondActivity.class);
+            intent.putExtra(BUNDLE_KEY_APARTMENT, apartment);
+            intent.putExtra(BUNDLE_KEY_USER, mUser);
+            startActivity(intent);
+        }
     }
 
     /**
