@@ -29,6 +29,7 @@ import com.openclassrooms.realestatemanager.apartmentmap.MapFragment;
 import com.openclassrooms.realestatemanager.apartmentmodifier.ModifierActivity;
 import com.openclassrooms.realestatemanager.appartmentlist.MainActivity;
 import com.openclassrooms.realestatemanager.appartmentlist.MainFragment;
+import com.openclassrooms.realestatemanager.help.HelpActivity;
 import com.openclassrooms.realestatemanager.injections.Injection;
 import com.openclassrooms.realestatemanager.injections.ViewModelFactory;
 import com.openclassrooms.realestatemanager.loansimulator.LoanSimulationActivity;
@@ -172,6 +173,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             case R.id.drawer_item_map:
                 Intent intentMap = new Intent(this, MapActivity.class);
                 startActivityForResult(intentMap, MAP_ACTIVITY_REQUEST_CODE);
+                break;
+            case R.id.drawer_item_help:
+                startActivity(new Intent(this, HelpActivity.class));
                 break;
         }
 

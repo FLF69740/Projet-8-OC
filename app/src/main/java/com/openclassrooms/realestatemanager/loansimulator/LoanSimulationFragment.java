@@ -71,7 +71,7 @@ public class LoanSimulationFragment extends Fragment implements View.OnClickList
         if (mEditTextRate.getText().toString().isEmpty()){
             result = false;
         }
-        if (mEditTextYear.getText().toString().isEmpty()){
+        if (mEditTextYear.getText().toString().isEmpty() || Integer.valueOf(mEditTextYear.getText().toString()) == 0){
             result = false;
         }
         if (mEditTextContribution.getText().toString().isEmpty()){
