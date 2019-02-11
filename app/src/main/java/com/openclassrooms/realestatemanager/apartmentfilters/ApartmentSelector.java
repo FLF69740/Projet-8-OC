@@ -41,11 +41,20 @@ public class ApartmentSelector {
     // remove apartments outside inscription or sold tolerances
     private void inscriptionOrSoldValidation(List<Apartment> apartmentList, LineSearch lineSearchDelta, int position){
         DateTime target = new DateTime();
-        DateTime inf = DateTime.parse(lineSearchDelta.getInformationFrom(), DateTimeFormat.forPattern("dd/MM/yyyy"));
-        DateTime sup = DateTime.parse(lineSearchDelta.getInformationTo(), DateTimeFormat.forPattern("dd/MM/yyyy"));
+        DateTime inf = new DateTime();
+        DateTime sup = new DateTime();
+        if (lineSearchDelta.getInformationFrom().equals(LineSearch.EMPTY_CASE)){
+            lineSearchDelta.setInformationFrom(inf.toString("dd/MM/yyyy"));
+        }
+        if (lineSearchDelta.getInformationTo().equals(LineSearch.EMPTY_CASE)) {
+            lineSearchDelta.setInformationTo(sup.toString("dd/MM/yyyy"));
+        }
+        inf = DateTime.parse(lineSearchDelta.getInformationFrom(), DateTimeFormat.forPattern("dd/MM/yyyy"));
+        sup = DateTime.parse(lineSearchDelta.getInformationTo(), DateTimeFormat.forPattern("dd/MM/yyyy"));
+
         for (int i = apartmentList.size()-1 ; i >= 0 ; i-- ){
-            if ((apartmentList.get(i).getDateInscription().equals(Apartment.EMPTY_CASE) && position == 1) ||
-                    (apartmentList.get(i).getDateSold().equals(Apartment.EMPTY_CASE) && position == 2)){
+            if ((apartmentList.get(i).getDateInscription().equals(LineSearch.EMPTY_CASE) && position == 1) ||
+                    (apartmentList.get(i).getDateSold().equals(LineSearch.EMPTY_CASE) && position == 2)){
                 apartmentList.remove(i);
             }else {
                 if (position == 1) {
