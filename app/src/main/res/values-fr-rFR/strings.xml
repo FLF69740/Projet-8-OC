@@ -70,7 +70,7 @@
     <string name="search_apartment_fragment_title">Recherche appartement</string>
     <string name="search_apartment_date_to">à</string>
     <string name="search_apartment_load_button">CHARGER</string>
-    <string name="search_apartment_number_of_picture">nombre de photos (max) :</string>
+    <string name="search_apartment_number_of_picture">nombre de photos (min) :</string>
     <string name="activity_user_modifier_postal_code_advertising">CINQ NUMEROS POUR UN CODE POSTAL</string>
     <string name="search_apartment_tolerances_inverse_warning">"tolérance inf toujours plus petit que tolérance sup "</string>
     <string name="fragment_creation_notification_title">Avertissement de création d\'appartement</string>

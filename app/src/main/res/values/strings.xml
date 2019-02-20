@@ -11,7 +11,7 @@
     <string name="search_apartment_fragment_title">Search Apartment</string>
     <string name="search_apartment_date_to">to</string>
     <string name="search_apartment_load_button">LOAD</string>
-    <string name="search_apartment_number_of_picture">Number of picture (max) :</string>
+    <string name="search_apartment_number_of_picture">Number of picture (min) :</string>
     <string name="search_apartment_tolerances_inverse_warning">tolerance inf always smaller than tolerance sup</string>
 
     <!-- ABOUT -->

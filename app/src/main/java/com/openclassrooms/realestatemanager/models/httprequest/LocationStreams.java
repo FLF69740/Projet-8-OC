@@ -24,12 +24,7 @@ public class LocationStreams {
 
     public static Observable<List<LocationRx>> streamsLocations(List<String> addresses, String apiKey){
         return Observable.fromIterable(addresses)
-                .concatMap(new Function<String, ObservableSource<LocationRx>>() {
-                    @Override
-                    public ObservableSource<LocationRx> apply(String s) throws Exception {
-                        return streamLocation(s, apiKey);
-                    }
-                })
+                .concatMap((Function<String, ObservableSource<LocationRx>>) s -> streamLocation(s, apiKey))
                 .toList()
                 .toObservable();
     }

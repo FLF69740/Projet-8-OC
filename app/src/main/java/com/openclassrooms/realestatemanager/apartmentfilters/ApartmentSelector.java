@@ -61,9 +61,13 @@ public class ApartmentSelector {
                     target = DateTime.parse(apartmentList.get(i).getDateInscription(), DateTimeFormat.forPattern("dd/MM/yyyy"));
                 }
                 if (position == 2) {
-                    target = DateTime.parse(apartmentList.get(i).getDateSold(), DateTimeFormat.forPattern("dd/MM/yyyy"));
+                    if (apartmentList.get(i).getDateSold().equals(Apartment.EMPTY_CASE)){
+                        target = DateTime.parse("01/01/1901", DateTimeFormat.forPattern("dd/MM/yyyy"));
+                    }else {
+                        target = DateTime.parse(apartmentList.get(i).getDateSold(), DateTimeFormat.forPattern("dd/MM/yyyy"));
+                    }
                 }
-                if (target.isBefore(inf) || sup.isBefore(target)) {
+                if (target.isBefore(inf) || sup.isBefore(target) || target.year().getAsText().equals("1901")) {
                     apartmentList.remove(i);
                 }
             }
