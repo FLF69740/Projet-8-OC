@@ -31,6 +31,8 @@ public class ApartmentSelector {
         }
         if (lineSearchSold.isChecked()){
             inscriptionOrSoldValidation(apartmentList, lineSearchSold, 2);
+        }else {
+            inscriptionOrSoldValidation(apartmentList, lineSearchSold, 3);
         }
         for (int i = 0 ; i < lineSearchList.size() ; i++){
             apartmentsAfterFilters(apartmentList, lineSearchList.get(i), i);
@@ -67,8 +69,14 @@ public class ApartmentSelector {
                         target = DateTime.parse(apartmentList.get(i).getDateSold(), DateTimeFormat.forPattern("dd/MM/yyyy"));
                     }
                 }
-                if (target.isBefore(inf) || sup.isBefore(target) || target.year().getAsText().equals("1901")) {
-                    apartmentList.remove(i);
+                if (position == 3){
+                    if (!apartmentList.get(i).getDateSold().equals(Apartment.EMPTY_CASE)){
+                        apartmentList.remove(i);
+                    }
+                }else {
+                    if (target.isBefore(inf) || sup.isBefore(target) || target.year().getAsText().equals("1901")) {
+                        apartmentList.remove(i);
+                    }
                 }
             }
         }
