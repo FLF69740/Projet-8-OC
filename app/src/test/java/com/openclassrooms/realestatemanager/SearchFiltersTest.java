@@ -19,29 +19,32 @@ public class SearchFiltersTest {
      *  OBJECT INITIALISATION
      */
 
-    private Apartment getApartmentOne(){
+    private Apartment getApartmentOne(boolean dateSoldTest){
         Apartment apartment = new Apartment("LOFT", 250000, "1, Rue de la liberté", 69001, "LYON", "10/01/2018",1);
-        apartment.setDateSold("01/01/2013");
+        if (dateSoldTest) apartment.setDateSold("01/01/2013");
+        else apartment.setDateSold(Apartment.EMPTY_CASE);
         return apartment;
     }
 
-    private Apartment getApartmentTwo(){
+    private Apartment getApartmentTwo(boolean dateSoldTest){
         Apartment apartment = new Apartment("DUPLEX", 345000, "50, Avenue Général De Gaulle", 75000, "Paris", "15/03/2018", 1);
-        apartment.setDateSold("01/01/2013");
+        if (dateSoldTest) apartment.setDateSold("01/01/2013");
+        else apartment.setDateSold(Apartment.EMPTY_CASE);
         return apartment;
     }
 
-    private Apartment getApartmentThree(){
+    private Apartment getApartmentThree(boolean dateSoldTest){
         Apartment apartment = new Apartment("HOUSE", 545000, "3, Avenue Général De Gaulle", 75000, "Paris", "07/05/2018", 1);
-        apartment.setDateSold("01/03/2018");
+        if (dateSoldTest) apartment.setDateSold("01/03/2018");
+        else apartment.setDateSold(Apartment.EMPTY_CASE);
         return apartment;
     }
 
-    private List<Apartment> getApartmentList(){
+    private List<Apartment> getApartmentList(boolean dateSoldTest){
         List<Apartment> apartmentList = new ArrayList<>();
-        apartmentList.add(getApartmentOne());
-        apartmentList.add(getApartmentTwo());
-        apartmentList.add(getApartmentThree());
+        apartmentList.add(getApartmentOne(dateSoldTest));
+        apartmentList.add(getApartmentTwo(dateSoldTest));
+        apartmentList.add(getApartmentThree(dateSoldTest));
         return apartmentList;
     }
 
@@ -66,7 +69,7 @@ public class SearchFiltersTest {
     }
 
     private LineSearch getLineSearchInscription(boolean check){
-        return new LineSearch("incription :", "01/03/2018", "22/04/2018", true, false, check);
+        return new LineSearch("inscription :", "01/03/2018", "22/04/2018", true, false, check);
     }
 
     private LineSearch getLineSearchSold(boolean check){
@@ -111,7 +114,7 @@ public class SearchFiltersTest {
 
     @Test
     public void testDateInscriptionInterval() throws Exception{
-        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList(false));
         List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(NO_CHECK_POINT));
         LineSearch lineSearchInscription = getLineSearchInscription(true);
         LineSearch lineSearchSold = getLineSearchSold(false);
@@ -124,7 +127,7 @@ public class SearchFiltersTest {
 
     @Test
     public void testDateSoldInterval() throws Exception{
-        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList(true));
         List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(NO_CHECK_POINT));
         LineSearch lineSearchInscription = getLineSearchInscription(false);
         LineSearch lineSearchSold = getLineSearchSold(true);
@@ -137,7 +140,7 @@ public class SearchFiltersTest {
 
     @Test
     public void testDateInscriptionAndSoldInterval() throws Exception{
-        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList(false));
         List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(NO_CHECK_POINT));
         LineSearch lineSearchInscription = getLineSearchInscription(true);
         LineSearch lineSearchSold = getLineSearchSold(true);
@@ -149,7 +152,7 @@ public class SearchFiltersTest {
 
     @Test
     public void testPriceFilter() throws Exception{
-        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList(false));
         List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(1));
         LineSearch lineSearchInscription = getLineSearchInscription(false);
         LineSearch lineSearchSold = getLineSearchSold(false);
@@ -162,7 +165,7 @@ public class SearchFiltersTest {
 
     @Test
     public void testTypeFilter() throws Exception{
-        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList(false));
         List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(0));
         lineSearchList.get(0).setInformationFrom("DUP");
         LineSearch lineSearchInscription = getLineSearchInscription(false);
@@ -176,7 +179,7 @@ public class SearchFiltersTest {
 
     @Test
     public void testTownFilter() throws Exception{
-        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList(false));
         List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(7));
         LineSearch lineSearchInscription = getLineSearchInscription(false);
         LineSearch lineSearchSold = getLineSearchSold(false);
@@ -189,7 +192,7 @@ public class SearchFiltersTest {
 
     @Test
     public void testpointOfInterest() throws Exception{
-        List<Apartment> apartmentList = new ArrayList<>(getApartmentList());
+        List<Apartment> apartmentList = new ArrayList<>(getApartmentList(false));
         apartmentList.get(0).setPoInterest("école");
         apartmentList.get(1).setPoInterest("marché");
         List<LineSearch> lineSearchList = new ArrayList<>(getLineSearchList(9));
